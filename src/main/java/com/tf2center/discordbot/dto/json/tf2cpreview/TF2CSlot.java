@@ -7,9 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 public class TF2CSlot {
     private String tf2Class;
-
     private TF2CAvailableSlot[] availableSlots;
-
     @JsonIgnore
     private Object[] availableReservedSlots;
 
