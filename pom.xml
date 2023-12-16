@@ -11,7 +11,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
-	<groupId>org.tf2center</groupId>
+    <groupId>com.tf2center</groupId>
 	<artifactId>discord-bot</artifactId>
 	<version>0.0.1</version>
 	<name>discord-bot</name>
