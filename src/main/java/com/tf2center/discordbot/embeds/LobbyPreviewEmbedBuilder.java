@@ -9,7 +9,6 @@ import discord4j.rest.util.Color;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class LobbyPreviewEmbedBuilder {
@@ -81,87 +80,152 @@ public class LobbyPreviewEmbedBuilder {
 
     private EmbedCreateFields.Field[] composeTeams(TF2CSlot[] slots) {
         //Try Flux later
-        //Not using array form the start cos its easier to operate with collections and then transform it to an array
         byte teamSize = (byte) slots.length;
 
-        Team teamsize = switch (teamSize) {
-            case 9 -> new Hightlander();
-            case 7 -> new Prolander();
-            case 6 -> new Sixes();
+        Team teamType = switch (teamSize) {
+            case 9 -> new Highlander(slots);
+            case 7 -> new Prolander(slots);
+            case 6 -> new Sixes(slots);
             case 4 -> {
                 boolean demomanPresent = Arrays.stream(slots)
                         .anyMatch(slot -> slot.getTf2Class().contains("demo"));
+
                 if (demomanPresent) {
-                    yield new FourVFour();
-                } else {
-                    yield new Bbal();
+                    yield new FourVFour(slots);
                 }
+
+                yield new Bbal(slots);
             }
-            case 3 -> new ThreeVThree();
-            case 2 -> new Ultiduo();
+            case 3 -> new ThreeVThree(slots);
+            case 2 -> new Ultiduo(slots);
             default -> throw new IllegalStateException("Could not define team type: " + teamSize);
         };
 
-
-        EmbedCreateFields.Field[] fields = {new EmbedCreateFields.Field() {
-            @Override
-            public String name() {
-                return "null";
-            }
-
-            @Override
-            public String value() {
-                return "null";
-            }
-
-            @Override
-            public boolean inline() {
-                return false;
-            }
-        }};
-
-        return fields;
+        return teamType.assignPlayers();
     }
 
     private interface Team {
+        EmbedCreateFields.Field[] assignPlayers();
+
+        void determineSlotState();
     }
 
-    private class FieldComposer {
+    private class TeamFields {
+        private TF2CSlot[] slots;
 
-        private TF2CLobbyPreview lobby;
-
-        //private EmbedCreateFields.Field teamsHeader;
-
-        private FieldComposer(TF2CLobbyPreview jsonDto) {
-            this.lobby = jsonDto;
-        }
-
-        private List<EmbedCreateFields.Field> build() {
-            return List.of(
-
-            );
+        public TF2CSlot[] getSlots() {
+            return slots;
         }
     }
 
-    private class Hightlander implements Team {
+    private class Highlander extends TeamFields implements Team {
+
+        public Highlander(TF2CSlot[] slots) {
+            super.slots = slots;
+        }
+
+        @Override
+        public EmbedCreateFields.Field[] assignPlayers() {
+            //EmbedCreateFields.Field voiceHeader = EmbedCreateFields.Field.of("test", "test", false);
+            EmbedCreateFields.Field[] fields = Arrays.stream(super.getSlots())
+                    .map(slot -> EmbedCreateFields.Field.of("RED TEAM", "", false))
+                    .;
+
+
+            return new EmbedCreateFields.Field[]{
+                    EmbedCreateFields.Field.of("RED TEAM", "", false),
+                    EmbedCreateFields.Field.of("Scout", "", true),
+                    EmbedCreateFields.Field.of("Scout", "", true),
+                    EmbedCreateFields.Field.of("Roamer soldier", "", true),
+                    EmbedCreateFields.Field.of("Poket soldier", "", true),
+                    EmbedCreateFields.Field.of("Demoman", "", true),
+                    EmbedCreateFields.Field.of("Medic", "", true),
+                    EmbedCreateFields.Field.of("\u200B", "", false),
+                    EmbedCreateFields.Field.of("BLUE TEAM", "", false),
+                    EmbedCreateFields.Field.of("Scout", "", true),
+                    EmbedCreateFields.Field.of("Scout", "", true),
+                    EmbedCreateFields.Field.of("Roamer soldier", "", true),
+                    EmbedCreateFields.Field.of("Poket soldier", "", true),
+                    EmbedCreateFields.Field.of("Demoman", "", true),
+                    EmbedCreateFields.Field.of("Medic", "", true),
+                    EmbedCreateFields.Field.of("\u200B", "", false),
+            };
+        }
+
+        @Override
+        public void determineSlotState() {
+
+        }
+
+        public void determineSlotClass(String className) {
+
+        }
     }
 
     private class Prolander implements Team {
+
+        TF2CSlot[] slots;
+
+        public Prolander(TF2CSlot[] slots) {
+            this.slots = slots;
+        }
+
+        @Override
+        public EmbedCreateFields.Field[] assignPlayers() {
+            return new EmbedCreateFields.Field[0];
+        }
+
+        @Override
+        public void determineSlotState() {
+
+        }
     }
 
     private class Sixes implements Team {
+
+        TF2CSlot[] slots;
+
+        public Sixes(TF2CSlot[] slots) {
+            this.slots = slots;
+        }
+
+        @Override
+        public EmbedCreateFields.Field[] assignPlayers() {
+            return new EmbedCreateFields.Field[0];
+        }
+
+        @Override
+        public void determineSlotState() {
+
+        }
     }
 
     private class FourVFour implements Team {
+        @Override
+        public EmbedCreateFields.Field[] assignPlayers() {
+            return new EmbedCreateFields.Field[0];
+        }
     }
 
     private class Bbal implements Team {
+        @Override
+        public EmbedCreateFields.Field[] assignPlayers() {
+            return new EmbedCreateFields.Field[0];
+        }
     }
 
     private class ThreeVThree implements Team {
+        @Override
+        public EmbedCreateFields.Field[] assignPlayers() {
+            return new EmbedCreateFields.Field[0];
+        }
     }
 
     private class Ultiduo implements Team {
+        @Override
+        public EmbedCreateFields.Field[] assignPlayers() {
+            return new EmbedCreateFields.Field[0];
+        }
     }
 
 
