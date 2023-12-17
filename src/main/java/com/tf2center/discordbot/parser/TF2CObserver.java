@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -66,23 +67,25 @@ public final class TF2CObserver {
         if (lobbies.isEmpty()) {
             return Collections.emptySet();
         }
-
+        //These iterations extract info from within the lobby
         lobbies.forEach(preview -> {
             //TODO Redo with reactive streams
-            Elements playersHtml;
+            Document tf2cWebSiteLocal;
             ArrayList<TF2CPlayerSlot> players;
                     try {
-                        playersHtml = Jsoup.connect(TF2C_URL + "/" + preview.getLobbyId())
+                        tf2cWebSiteLocal = Jsoup.connect(TF2C_URL + "/" + preview.getLobbyId())
                                 .userAgent("Mozilla")
                                 .timeout(5000)
-                                .get()
-                                .getElementsByClass("lobbySlot");
-
+                                .get();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-            players = extractPlayers(playersHtml);
+            players = extractPlayers(tf2cWebSiteLocal.getElementsByClass("lobbySlot"));
             preview.setPlayerSlotList(players);
+
+            List<String> headers = extractLobbyHeaders(tf2cWebSiteLocal.getElementsByClass("lobbyHeaderOptions"));
+            preview.setOffclassingAllowed(offclassingIsAllowed);
+
             //TODO map to new separate DTO
                 }
         );
@@ -149,6 +152,11 @@ public final class TF2CObserver {
             }
         });
         return result;
+    }
+
+    private static List<String> extractLobbyHeaders(Elements playerSlots) {
+        System.out.println();
+        return List.of();
     }
 
 }

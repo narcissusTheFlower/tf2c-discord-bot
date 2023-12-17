@@ -29,6 +29,20 @@ public final class TF2CLobbyPreview {
     private TF2CSlot[] slots;
     @JsonIgnore
     private List<TF2CPlayerSlot> playerSlotList;
+    @JsonIgnore
+    private boolean offclassingAllowed;
+    @JsonIgnore
+    private String config;
+    @JsonIgnore
+    private String server;
+
+    public boolean isOffclassingAllowed() {
+        return offclassingAllowed;
+    }
+
+    public void setOffclassingAllowed(boolean offclassingAllowed) {
+        this.offclassingAllowed = offclassingAllowed;
+    }
 
     public List<TF2CPlayerSlot> getPlayerSlotList() {
         return playerSlotList;
