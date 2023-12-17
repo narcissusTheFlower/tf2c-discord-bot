@@ -2,7 +2,9 @@ package com.tf2center.discordbot.dto.json.tf2cpreview;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tf2center.discordbot.dto.teams.TF2CTeam;
+import com.tf2center.discordbot.dto.teams.TF2CPlayerSlot;
+
+import java.util.List;
 
 
 public final class TF2CLobbyPreview {
@@ -26,14 +28,14 @@ public final class TF2CLobbyPreview {
     private boolean advanced;
     private TF2CSlot[] slots;
     @JsonIgnore
-    private TF2CTeam teams = new TF2CTeam();
+    private List<TF2CPlayerSlot> playerSlotList;
 
-    public TF2CTeam getTeams() {
-        return teams;
+    public List<TF2CPlayerSlot> getPlayerSlotList() {
+        return playerSlotList;
     }
 
-    public void setTeams(TF2CTeam teams) {
-        this.teams = teams;
+    public void setPlayerSlotList(List<TF2CPlayerSlot> playerSlotList) {
+        this.playerSlotList = playerSlotList;
     }
 
     public int getLobbyId() {

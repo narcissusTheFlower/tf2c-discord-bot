@@ -45,7 +45,6 @@ public final class TF2CObserver {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
         TF2CWebSite.update(getPlayerCount(), getLobbyPreview(), getSubstituteSlots());
     }
 
@@ -69,33 +68,24 @@ public final class TF2CObserver {
         }
 
         lobbies.forEach(preview -> {
+            //TODO Redo with reactive streams
+            Elements playersHtml;
+            ArrayList<TF2CPlayerSlot> players;
                     try {
-                        Elements playersHtml = Jsoup.connect(TF2C_URL + "/" + preview.getLobbyId())
+                        playersHtml = Jsoup.connect(TF2C_URL + "/" + preview.getLobbyId())
                                 .userAgent("Mozilla")
                                 .timeout(5000)
                                 .get()
                                 .getElementsByClass("lobbySlot");
 
-                        ArrayList<TF2CPlayerSlot> players = extractPlayers(playersHtml);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-
-                    String teamType = switch (preview.getGameType()) {
-                        case "Highlander" -> "";
-                        case "6v6" -> "";
-
-//                        case "2" -> "";
-//                        case "3" -> "";
-//                        case "4" -> "";
-//                        case "5" -> "";
-
-                        default -> throw new IllegalStateException("Could not define team type.");
-                    };
-                    //preview.setTeams();
+            players = extractPlayers(playersHtml);
+            preview.setPlayerSlotList(players);
+            //TODO map to new separate DTO
                 }
         );
-
         return lobbies;
     }
 
@@ -112,7 +102,6 @@ public final class TF2CObserver {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        //System.out.println();
         if (!substituteSpots.getSubstitutionSlot().isEmpty()) {
             return substituteSpots.getSubstitutionSlot();
         }
@@ -151,17 +140,15 @@ public final class TF2CObserver {
     private static ArrayList<TF2CPlayerSlot> extractPlayers(Elements playerSlots) {
         ArrayList<TF2CPlayerSlot> result = new ArrayList<>();
         playerSlots.forEach(element -> {
-
-            if (element.toString().contains("filled")) {
+            if (element.attributes().toString().contains("filled")) {
                 String playerName = element.children().get(1).children().get(0).text();
-                String steamId = element.children().get(1).children().get(0).attributes().get("href");
-
+                String steamIdProfile = element.children().get(1).children().get(0).attributes().get("href");
+                result.add(new TF2CPlayerSlot(playerName, steamIdProfile, "filled"));
+            } else {
+                result.add(new TF2CPlayerSlot("empty", "empty", "empty"));
             }
         });
-
-        System.out.println();
-
-        return null;
+        return result;
     }
 
 }
