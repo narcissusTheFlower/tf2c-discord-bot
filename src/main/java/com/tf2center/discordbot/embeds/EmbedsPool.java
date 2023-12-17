@@ -27,7 +27,7 @@ public class EmbedsPool {
     public static void updatePool() {
         try {
             buildPreviews(TF2CWebSite.getPreviews());
-            buildSubstituteSlots(TF2CWebSite.getSubstitutionSpots());
+            //buildSubstituteSlots(TF2CWebSite.getSubstitutionSpots());
         } catch (RuntimeException e) {
             throw new TF2CUpdateException("Failed to update embeds pool.", e);
         }

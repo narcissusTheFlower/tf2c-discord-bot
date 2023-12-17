@@ -62,7 +62,7 @@ public class PreviewLobbiesCommand implements SlashCommand {
                     "Balancing: "+test+" ")
             .thumbnail("https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/800px-Flag_of_Europe.svg.png")
 
-            .addField("\u200B", "\u200B", false)
+            //.addField("\u200B", "\u200B", false)
             .addField("RED TEAM", "", false)
             .addField("Roamer scout", "[Join](https://tf2center.com/lobbies)", true)
             .addField("Poket scout", "clockwork", true)
@@ -71,15 +71,15 @@ public class PreviewLobbiesCommand implements SlashCommand {
             .addField("Demoman", "kaidus", true)
             .addField("Medic", "LOLGUY", true)
             //-----------------------------------------------------
-            .addField("\u200B", "\u200B", false)
+            //.addField("\u200B", "\u200B", false)
             .addField("BLU TEAM", "", false)
-            .addField("Roamer scout", "arek", true)
-            .addField("Poket scout", "sandblast", true)
-            .addField("Roamer soldier ", "marmaloo", true)
-            .addField("Poket soldier ", "b4nny", true)
+            .addField("Roamer scout", "Taken", true)
+            .addField("Poket scout", "Taken", true)
+            .addField("Roamer soldier ", "Taken", true)
+            .addField("Poket soldier ", "Taken", true)
             .addField("Demoman", "[Join](https://tf2center.com/lobbies)", true)
-            .addField("Medic", "skeez", true)
-            .addField("\u200B", "\u200B", false)
+            .addField("Medic", "Taken", true)
+            //.addField("\u200B", "\u200B", false)
             .addField("Spectators", "specNam1, specNam2, specNam3...", false)
             //-----------------------------------------------------
             .image("https://wiki.teamfortress.com/w/images/8/82/Cp_process_middle_point.jpeg")
@@ -122,6 +122,6 @@ public class PreviewLobbiesCommand implements SlashCommand {
                 )
 
                 .withContent("test")
-                .withEphemeral(true);
+                .withEphemeral(false);
     }
 }

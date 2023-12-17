@@ -9,11 +9,13 @@ import discord4j.rest.util.Color;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class LobbyPreviewEmbedBuilder {
 
     private final Set<TF2CLobbyPreview> jsonParsedPreviews;
+    private long lobbyId;
 
     private LobbyPreviewEmbedBuilder(Set<TF2CLobbyPreview> jsonParsedPreviews) {
         this.jsonParsedPreviews = jsonParsedPreviews;
@@ -28,6 +30,7 @@ public class LobbyPreviewEmbedBuilder {
         HashSet<EmbedCreateSpec> result = new HashSet<>();
 
         jsonParsedPreviews.forEach(json -> {
+            lobbyId = json.getLobbyId();
             EmbedCreateSpec lobby = EmbedCreateSpec.builder()
                     .color(Color.GREEN)
                     .title("Lobby #" + json.getLobbyId())
@@ -79,25 +82,24 @@ public class LobbyPreviewEmbedBuilder {
     }
 
     private EmbedCreateFields.Field[] composeTeams(TF2CSlot[] slots) {
-        //Try Flux later
+        //Using byte cos it's the smallest Java type
         byte teamSize = (byte) slots.length;
 
         Team teamType = switch (teamSize) {
             case 9 -> new Highlander(slots);
             case 7 -> new Prolander(slots);
             case 6 -> new Sixes(slots);
-            case 4 -> {
-                boolean demomanPresent = Arrays.stream(slots)
-                        .anyMatch(slot -> slot.getTf2Class().contains("demo"));
-
-                if (demomanPresent) {
-                    yield new FourVFour(slots);
+            case 4 -> new FourVFour(slots);
+            case 3 -> new ThreeVThree(slots);
+            case 2 -> {
+                boolean medicPresent = Arrays.stream(slots)
+                        .anyMatch(slot -> slot.getTf2Class().contains("medic"));
+                if (medicPresent) {
+                    yield new Ultiduo(slots);
                 }
 
                 yield new Bbal(slots);
             }
-            case 3 -> new ThreeVThree(slots);
-            case 2 -> new Ultiduo(slots);
             default -> throw new IllegalStateException("Could not define team type: " + teamSize);
         };
 
@@ -107,7 +109,9 @@ public class LobbyPreviewEmbedBuilder {
     private interface Team {
         EmbedCreateFields.Field[] assignPlayers();
 
-        void determineSlotState();
+        String determineSlotState(TF2CSlot slot, String team);
+
+        String determineSlotClass(TF2CSlot slot);
     }
 
     private class TeamFields {
@@ -118,18 +122,24 @@ public class LobbyPreviewEmbedBuilder {
         }
     }
 
-    private class Highlander extends TeamFields implements Team {
+    private class Sixes extends TeamFields implements Team {
 
-        public Highlander(TF2CSlot[] slots) {
+        public Sixes(TF2CSlot[] slots) {
             super.slots = slots;
         }
 
         @Override
         public EmbedCreateFields.Field[] assignPlayers() {
+            final String red = "red";
+            final String blu = "blue";
             //EmbedCreateFields.Field voiceHeader = EmbedCreateFields.Field.of("test", "test", false);
-            EmbedCreateFields.Field[] fields = Arrays.stream(super.getSlots())
-                    .map(slot -> EmbedCreateFields.Field.of("RED TEAM", "", false))
-                    .;
+            List<EmbedCreateFields.Field> fieldsREDTeam = Arrays.stream(super.getSlots())
+                    .map(slot -> EmbedCreateFields.Field.of(determineSlotClass(slot), determineSlotState(slot, red), false))
+                    .toList();
+
+            List<EmbedCreateFields.Field> fieldsBLUTeam = Arrays.stream(super.getSlots())
+                    .map(slot -> EmbedCreateFields.Field.of(determineSlotClass(slot), determineSlotState(slot, blu), false))
+                    .toList();
 
 
             return new EmbedCreateFields.Field[]{
@@ -153,21 +163,52 @@ public class LobbyPreviewEmbedBuilder {
         }
 
         @Override
-        public void determineSlotState() {
-
+        public String determineSlotState(TF2CSlot slot, String team) {
+            boolean slotIsFree = Arrays.stream(slot.getAvailableSlots())
+                    .anyMatch(tf2CAvailableSlot -> tf2CAvailableSlot.getTeam().equals(team));
+            if (slotIsFree) {
+                return "[Join](https://tf2center.com/lobbies/" + lobbyId + ")";
+            }
+            return "Slot if full";
         }
 
-        public void determineSlotClass(String className) {
-
+        @Override
+        public String determineSlotClass(TF2CSlot slot) {
+            //Just determine the class name ie scout = Scout
+            return null;
         }
+
+
     }
 
-    private class Prolander implements Team {
-
-        TF2CSlot[] slots;
+    private class Prolander extends TeamFields implements Team {
 
         public Prolander(TF2CSlot[] slots) {
-            this.slots = slots;
+            super.slots = slots;
+        }
+
+
+        @Override
+        public EmbedCreateFields.Field[] assignPlayers() {
+            return new EmbedCreateFields.Field[0];
+        }
+
+        @Override
+        public String determineSlotState(TF2CSlot slot, String team) {
+            return null;
+        }
+
+
+        @Override
+        public String determineSlotClass(TF2CSlot slot) {
+            return null;
+        }
+    }
+
+    private class Highlander extends TeamFields implements Team {
+
+        public Highlander(TF2CSlot[] slots) {
+            super.slots = slots;
         }
 
         @Override
@@ -176,59 +217,97 @@ public class LobbyPreviewEmbedBuilder {
         }
 
         @Override
-        public void determineSlotState() {
+        public String determineSlotState(TF2CSlot slot, String team) {
+            return null;
+        }
 
+        @Override
+        public String determineSlotClass(TF2CSlot slot) {
+            return null;
         }
     }
 
-    private class Sixes implements Team {
+    private class FourVFour extends TeamFields implements Team {
 
-        TF2CSlot[] slots;
-
-        public Sixes(TF2CSlot[] slots) {
-            this.slots = slots;
+        public FourVFour(TF2CSlot[] slots) {
+            super.slots = slots;
         }
-
         @Override
         public EmbedCreateFields.Field[] assignPlayers() {
             return new EmbedCreateFields.Field[0];
         }
 
         @Override
-        public void determineSlotState() {
+        public String determineSlotState(TF2CSlot slot, String team) {
+            return null;
+        }
 
+        @Override
+        public String determineSlotClass(TF2CSlot slot) {
+            return null;
         }
     }
 
-    private class FourVFour implements Team {
+    private class Bbal extends TeamFields implements Team {
+
+        public Bbal(TF2CSlot[] slots) {
+            super.slots = slots;
+        }
         @Override
         public EmbedCreateFields.Field[] assignPlayers() {
             return new EmbedCreateFields.Field[0];
         }
+
+        @Override
+        public String determineSlotState(TF2CSlot slot, String team) {
+            return null;
+        }
+
+        @Override
+        public String determineSlotClass(TF2CSlot slot) {
+            return null;
+        }
     }
 
-    private class Bbal implements Team {
+    private class ThreeVThree extends TeamFields implements Team {
+
+        public ThreeVThree(TF2CSlot[] slots) {
+            super.slots = slots;
+        }
         @Override
         public EmbedCreateFields.Field[] assignPlayers() {
             return new EmbedCreateFields.Field[0];
         }
+
+        @Override
+        public String determineSlotState(TF2CSlot slot, String team) {
+            return null;
+        }
+
+        @Override
+        public String determineSlotClass(TF2CSlot slot) {
+            return null;
+        }
     }
 
-    private class ThreeVThree implements Team {
+    private class Ultiduo extends TeamFields implements Team {
+
+        public Ultiduo(TF2CSlot[] slots) {
+            super.slots = slots;
+        }
         @Override
         public EmbedCreateFields.Field[] assignPlayers() {
             return new EmbedCreateFields.Field[0];
         }
-    }
 
-    private class Ultiduo implements Team {
         @Override
-        public EmbedCreateFields.Field[] assignPlayers() {
-            return new EmbedCreateFields.Field[0];
+        public String determineSlotState(TF2CSlot slot, String team) {
+            return null;
+        }
+
+        @Override
+        public String determineSlotClass(TF2CSlot slot) {
+            return null;
         }
     }
-
-
-
-
 }
