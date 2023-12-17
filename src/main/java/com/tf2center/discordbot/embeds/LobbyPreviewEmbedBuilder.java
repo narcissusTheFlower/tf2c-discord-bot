@@ -2,6 +2,7 @@ package com.tf2center.discordbot.embeds;
 
 import com.tf2center.discordbot.dto.json.tf2cpreview.TF2CLobbyPreview;
 import com.tf2center.discordbot.dto.json.tf2cpreview.TF2CSlot;
+import com.tf2center.discordbot.utils.TF2CStringUtils;
 import discord4j.core.spec.EmbedCreateFields;
 import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.rest.util.Color;
@@ -13,6 +14,12 @@ import java.util.List;
 import java.util.Set;
 
 public class LobbyPreviewEmbedBuilder {
+
+//    private TF2CLobbyPreview preview = new TF2CLobbyPreview();
+//    {
+//        preview.set
+//
+//    }
 
     private final Set<TF2CLobbyPreview> jsonParsedPreviews;
     private long lobbyId;
@@ -57,7 +64,6 @@ public class LobbyPreviewEmbedBuilder {
             result.add(lobby);
         });
 
-
         return result;
     }
 
@@ -88,7 +94,8 @@ public class LobbyPreviewEmbedBuilder {
         Team teamType = switch (teamSize) {
             case 9 -> new Highlander(slots);
             case 7 -> new Prolander(slots);
-            case 6 -> new Sixes(slots);
+            //It's 5 and not 6 because scout is just 1 class
+            case 5 -> new Sixes(slots);
             case 4 -> new FourVFour(slots);
             case 3 -> new ThreeVThree(slots);
             case 2 -> {
@@ -134,13 +141,18 @@ public class LobbyPreviewEmbedBuilder {
             final String blu = "blue";
             //EmbedCreateFields.Field voiceHeader = EmbedCreateFields.Field.of("test", "test", false);
             List<EmbedCreateFields.Field> fieldsREDTeam = Arrays.stream(super.getSlots())
-                    .map(slot -> EmbedCreateFields.Field.of(determineSlotClass(slot), determineSlotState(slot, red), false))
+                    .map(slot -> EmbedCreateFields.Field.of(
+                            TF2CStringUtils.capitaliseFirstLetter(slot.getTf2Class()),
+                            determineSlotState(slot, red),
+                            false))
                     .toList();
 
             List<EmbedCreateFields.Field> fieldsBLUTeam = Arrays.stream(super.getSlots())
-                    .map(slot -> EmbedCreateFields.Field.of(determineSlotClass(slot), determineSlotState(slot, blu), false))
+                    .map(slot -> EmbedCreateFields.Field.of(
+                            TF2CStringUtils.capitaliseFirstLetter(slot.getTf2Class()),
+                            determineSlotState(slot, blu),
+                            false))
                     .toList();
-
 
             return new EmbedCreateFields.Field[]{
                     EmbedCreateFields.Field.of("RED TEAM", "", false),

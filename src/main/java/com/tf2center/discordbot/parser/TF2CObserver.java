@@ -9,7 +9,7 @@ import com.tf2center.discordbot.dto.json.TF2CSubstituteSlot;
 import com.tf2center.discordbot.dto.json.TF2CSubstituteSlotContainer;
 import com.tf2center.discordbot.dto.json.tf2cpreview.TF2CLobbyPreview;
 import com.tf2center.discordbot.dto.json.tf2lobby.TF2CLobby;
-import com.tf2center.discordbot.utils.CollectionsUtils;
+import com.tf2center.discordbot.utils.TF2CCollectionsUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -64,7 +64,7 @@ public final class TF2CObserver {
 
     private static Set<TF2CLobbyPreview> getLobbyPreview() {
         //We cut away unnecessary characters and leave pure JSON
-        String parsedJson = new CollectionsUtils().getLastFromList(tf2cWebSite.getElementsByTag("script"))
+        String parsedJson = new TF2CCollectionsUtils().getLastFromList(tf2cWebSite.getElementsByTag("script"))
                 .toString().substring(49);
         parsedJson = parsedJson.substring(0, parsedJson.length() - 11);
 

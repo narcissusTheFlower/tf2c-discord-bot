@@ -5,7 +5,7 @@ import org.springframework.lang.NonNull;
 
 import java.util.List;
 
-public class CollectionsUtils<T extends List> {
+public class TF2CCollectionsUtils<T extends List> {
 
     public Object getLastFromList(@NonNull T collection) {
         if (collection.isEmpty()) {
