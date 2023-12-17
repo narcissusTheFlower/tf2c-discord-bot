@@ -8,10 +8,7 @@ import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.rest.util.Color;
 
 import java.time.Instant;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class LobbyPreviewEmbedBuilder {
 
@@ -129,7 +126,22 @@ public class LobbyPreviewEmbedBuilder {
         }
     }
 
-    private class Sixes extends TeamFields implements Team {
+    public class Sixes extends TeamFields implements Team {
+
+        Map<String, String> redTeam =
+                Map.of("Scout1", "[Join](https://tf2center.com/lobbies/" + lobbyId + ")",
+                        "Scout2", "[Join](https://tf2center.com/lobbies/" + lobbyId + ")",
+                        "Roamer", "[Join](https://tf2center.com/lobbies/" + lobbyId + ")",
+                        "Pocket", "[Join](https://tf2center.com/lobbies/" + lobbyId + ")",
+                        "Demo", "[Join](https://tf2center.com/lobbies/" + lobbyId + ")",
+                        "Medic", "[Join](https://tf2center.com/lobbies/" + lobbyId + ")");
+        Map<String, String> bluTeam =
+                Map.of("Scout1", "[Join](https://tf2center.com/lobbies/" + lobbyId + ")",
+                        "Scout2", "[Join](https://tf2center.com/lobbies/" + lobbyId + ")",
+                        "Roamer", "[Join](https://tf2center.com/lobbies/" + lobbyId + ")",
+                        "Pocket", "[Join](https://tf2center.com/lobbies/" + lobbyId + ")",
+                        "Demo", "[Join](https://tf2center.com/lobbies/" + lobbyId + ")",
+                        "Medic", "[Join](https://tf2center.com/lobbies/" + lobbyId + ")");
 
         public Sixes(TF2CSlot[] slots) {
             super.slots = slots;
@@ -244,6 +256,7 @@ public class LobbyPreviewEmbedBuilder {
         public FourVFour(TF2CSlot[] slots) {
             super.slots = slots;
         }
+
         @Override
         public EmbedCreateFields.Field[] assignPlayers() {
             return new EmbedCreateFields.Field[0];
@@ -265,6 +278,7 @@ public class LobbyPreviewEmbedBuilder {
         public Bbal(TF2CSlot[] slots) {
             super.slots = slots;
         }
+
         @Override
         public EmbedCreateFields.Field[] assignPlayers() {
             return new EmbedCreateFields.Field[0];
@@ -286,6 +300,7 @@ public class LobbyPreviewEmbedBuilder {
         public ThreeVThree(TF2CSlot[] slots) {
             super.slots = slots;
         }
+
         @Override
         public EmbedCreateFields.Field[] assignPlayers() {
             return new EmbedCreateFields.Field[0];
@@ -307,6 +322,7 @@ public class LobbyPreviewEmbedBuilder {
         public Ultiduo(TF2CSlot[] slots) {
             super.slots = slots;
         }
+
         @Override
         public EmbedCreateFields.Field[] assignPlayers() {
             return new EmbedCreateFields.Field[0];

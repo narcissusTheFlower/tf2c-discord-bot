@@ -1,6 +1,8 @@
 package com.tf2center.discordbot.dto.json.tf2cpreview;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tf2center.discordbot.dto.teams.TF2CTeam;
 
 
 public final class TF2CLobbyPreview {
@@ -23,6 +25,16 @@ public final class TF2CLobbyPreview {
     private boolean balancedLobby;
     private boolean advanced;
     private TF2CSlot[] slots;
+    @JsonIgnore
+    private TF2CTeam teams = new TF2CTeam();
+
+    public TF2CTeam getTeams() {
+        return teams;
+    }
+
+    public void setTeams(TF2CTeam teams) {
+        this.teams = teams;
+    }
 
     public int getLobbyId() {
         return lobbyId;

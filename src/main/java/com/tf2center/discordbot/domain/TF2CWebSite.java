@@ -3,7 +3,6 @@ package com.tf2center.discordbot.domain;
 import com.tf2center.discordbot.dto.TF2CPlayerCount;
 import com.tf2center.discordbot.dto.json.TF2CSubstituteSlot;
 import com.tf2center.discordbot.dto.json.tf2cpreview.TF2CLobbyPreview;
-import com.tf2center.discordbot.dto.json.tf2lobby.TF2CLobby;
 import com.tf2center.discordbot.exceptions.TF2CUpdateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,12 +23,10 @@ public final class TF2CWebSite {
     private static AtomicInteger playersNA;
     private static AtomicInteger playersOther;
     private static Instant lastUpdate = Instant.now();
-    private static final Set<TF2CLobby> lobbies = Collections.synchronizedSet(new LinkedHashSet<>());
     private static final Set<TF2CLobbyPreview> previews = Collections.synchronizedSet(new LinkedHashSet<>());
     private static final Set<TF2CSubstituteSlot> substitutionSpots = Collections.synchronizedSet(new LinkedHashSet<>());
 
     public static void update(@NonNull TF2CPlayerCount playerCount,
-                              @NonNull Set<TF2CLobby> lobbies,
                               @NonNull Set<TF2CLobbyPreview> previews,
                               @NonNull Set<TF2CSubstituteSlot> substitutionSpots) {
         try {
@@ -37,7 +34,6 @@ public final class TF2CWebSite {
             playersEU = playerCount.getPlayersEU();
             playersNA = playerCount.getPlayersNA();
             playersOther = playerCount.getPlayersOther();
-            updateLobbies(lobbies);
             updatePreviews(previews);
             updateSubstitutionSlots(substitutionSpots);
             lastUpdate = Instant.now();
@@ -45,13 +41,6 @@ public final class TF2CWebSite {
                     .formatted(previews.size(), playersCountTotal.get(), substitutionSpots.size()));
         } catch (RuntimeException exception) {
             throw new TF2CUpdateException("Failed to run update methods.", exception);
-        }
-    }
-
-    private static void updateLobbies(Set<TF2CLobby> incomingLobbies) {
-        if (!incomingLobbies.isEmpty()) {
-            lobbies.clear();
-            lobbies.addAll(incomingLobbies);
         }
     }
 
@@ -67,10 +56,6 @@ public final class TF2CWebSite {
             substitutionSpots.clear();
             substitutionSpots.addAll(incomingSubstitutionSlots);
         }
-    }
-
-    public static Set<TF2CLobby> getLobbies() {
-        return Set.copyOf(lobbies);
     }
 
     public static Set<TF2CLobbyPreview> getPreviews() {
