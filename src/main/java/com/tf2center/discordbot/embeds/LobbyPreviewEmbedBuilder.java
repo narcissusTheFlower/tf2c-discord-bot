@@ -7,10 +7,7 @@ import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.rest.util.Color;
 
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class LobbyPreviewEmbedBuilder {
 
@@ -66,7 +63,7 @@ public class LobbyPreviewEmbedBuilder {
     private String buildDescription(boolean isVoiceRequired, boolean isRegionLocked, boolean isBalanced, boolean offclassingAllowed) {
         String blueX = "\uD83c\uDDFD";
         String greenCheck = "✅";
-
+        //TODO change this to stringBuilder as it is faster and less memory consuming
         String voice = "Mumble required: " + (isVoiceRequired ? blueX : greenCheck) + "\n";
         String region = "Region lock: " + (isRegionLocked ? blueX : greenCheck) + "\n";
         String offclassing = "Offclassing allowed: " + (offclassingAllowed ? blueX : greenCheck) + "\n";
@@ -83,29 +80,40 @@ public class LobbyPreviewEmbedBuilder {
         }
     }
 
+
     private EmbedCreateFields.Field[] composeTeams(List<TF2CPlayerSlot> slots) {
         EmbedCreateFields.Field emptySpace = EmbedCreateFields.Field.of("\u200B", "\u200B", false);
-        EmbedCreateFields.Field[] lobbyFields = new EmbedCreateFields.Field[0];
+        EmbedCreateFields.Field[] lobbyFields = new EmbedCreateFields.Field[25];
         byte teamSize = (byte) slots.size();
-
 
         List<TF2CPlayerSlot> blu = assignClasses(slots.subList(0, teamSize / 2)); //First half of the list
         List<TF2CPlayerSlot> red = assignClasses(slots.subList(teamSize / 2, teamSize)); //Second half of the list
 
-        //Но перед этим надо распределить классы
-        for (int i = 0; i < slots.size(); i++) {
-            //if (первая часть команды){
-            //  lobbyFields[i] =  EmbedCreateFields.Field.of(slots.get(i).getClass(), slots.get(i).getPayerName() , false);
-            // } else { //вторая часть команды
-            //  lobbyFields[i] =  EmbedCreateFields.Field.of(slots.get(i).getClass(), slots.get(i).getPayerName() , false);
+        for (int i = 0; i < blu.size() + 1; i++) {
+            if (i == 0) {
+                lobbyFields[i] = EmbedCreateFields.Field.of("BLU TEAM", "", false);
+                continue;
+            }
+            lobbyFields[i] = EmbedCreateFields.Field.of(blu.get(i).getTf2Class(), slots.get(i).getPlayerName(), false);
+
+            //if (i ==  blu.size()){
+            //lobbyFields[i+1] = EmbedCreateFields.Field.of("\u200B", "\u200B", false);
             // }
         }
-        return lobbyFields;
+
+        for (int i = 0; i < red.size() + 1; i++) {
+            if (i == 0) {
+                lobbyFields[i] = EmbedCreateFields.Field.of("RED TEAM", "", false);
+                continue;
+            }
+            lobbyFields[i] = EmbedCreateFields.Field.of(red.get(i).getTf2Class(), slots.get(i).getPlayerName(), false);
+        }
+        return Arrays.copyOf(lobbyFields, 25);
     }
 
     private List<TF2CPlayerSlot> assignClasses(List<TF2CPlayerSlot> singleTeam) {
         return switch (teamType) {
-            case "Hightlander" -> {
+            case "Highlander" -> {
 
                 Iterator<TF2CPlayerSlot> iterator = singleTeam.iterator();
                 Highlander highlander = new Highlander();
@@ -117,10 +125,6 @@ public class LobbyPreviewEmbedBuilder {
                     }
                 }
                 yield List.copyOf(singleTeam);
-//                yield singleTeam.stream().map(player -> {
-//
-//                    return player;
-//                }).toList();
             }
             case "6v6" -> {
                 Iterator<TF2CPlayerSlot> iterator = singleTeam.iterator();
@@ -135,17 +139,17 @@ public class LobbyPreviewEmbedBuilder {
                 yield List.copyOf(singleTeam);
             }
             case "4v4" -> {
-
+                //TODO
 
                 yield null;
             }
             case "Ultiduo" -> {
-
+                //TODO
 
                 yield null;
             }
             case "Bbal" -> {
-
+                //TODO
 
                 yield null;
             }
@@ -153,37 +157,16 @@ public class LobbyPreviewEmbedBuilder {
         };
     }
 
-    private interface TeamType {
-        String assignClass();
-    }
+    private abstract class TeamType {
+        public List<String> classes;
+        Iterator<String> iterator;
 
-    private class Highlander implements TeamType {
+        public void configure(List<String> classes) {
+            this.classes = classes;
+            this.iterator = classes.iterator();
+        }
 
-        List<String> classes = List.of(
-                "Scout",
-                "Soldier",
-                "Pyro",
-                "Demo",
-                "Engineer",
-                "Heavy",
-                "Medic",
-                "Sniper",
-                "Spy"
-        );
-        Iterator<String> iterator = classes.listIterator();
-
-//        private final String scout = "Scout";
-//        private final String soldier = "Soldier";
-//        private final String pyro = "Pyro";
-//        private final String demo = "Demo";
-//        private final String engi = "Engineer";
-//        private final String heavy= "Heavy";
-//        private final String medic = "Medic";
-//        private final String sniper = "Sniper";
-//        private final String spy = "Spy";
-
-        @Override
-        public String assignClass() {
+        String assignClass() {
             if (iterator.hasNext()) {
                 return iterator.next();
             }
@@ -191,129 +174,63 @@ public class LobbyPreviewEmbedBuilder {
         }
     }
 
-    private class Sixes implements TeamType {
-
-        List<String> classes = List.of(
-                "Scout",
-                "Scout",
-                "Roamer",
-                "Pocket",
-                "Demo",
-                "Medic"
-        );
-        Iterator<String> iterator = classes.listIterator();
-
-//        private final String scout = "Scout";
-//        private final String soldier = "Soldier";
-//        private final String pyro = "Pyro";
-//        private final String demo = "Demo";
-//        private final String engi = "Engineer";
-//        private final String heavy= "Heavy";
-//        private final String medic = "Medic";
-//        private final String sniper = "Sniper";
-//        private final String spy = "Spy";
-
-        @Override
-        public String assignClass() {
-            if (iterator.hasNext()) {
-                return iterator.next();
-            }
-            return "eof";
+    private class Highlander extends TeamType {
+        public Highlander() {
+            super.configure(List.of(
+                    "Scout",
+                    "Soldier",
+                    "Pyro",
+                    "Demo",
+                    "Engineer",
+                    "Heavy",
+                    "Medic",
+                    "Sniper",
+                    "Spy"
+            ));
         }
     }
-//    private interface Team {
-//        EmbedCreateFields.Field[] assignPlayers();
-//
-//        String determineSlotState(TF2CSlot slot, String team);
-//
-//        String determineSlotClass(TF2CSlot slot);
-//    }
-//
-//    private class TeamFields {
-//        private TF2CSlot[] slots;
-//
-//        public TF2CSlot[] getSlots() {
-//            return slots;
-//        }
-//    }
-//
-//    public class Sixes extends TeamFields implements Team {
-//
-//        Map<String, String> redTeam =
-//                Map.of("Scout1", "[Join](https://tf2center.com/lobbies/" + lobbyId + ")",
-//                        "Scout2", "[Join](https://tf2center.com/lobbies/" + lobbyId + ")",
-//                        "Roamer", "[Join](https://tf2center.com/lobbies/" + lobbyId + ")",
-//                        "Pocket", "[Join](https://tf2center.com/lobbies/" + lobbyId + ")",
-//                        "Demo", "[Join](https://tf2center.com/lobbies/" + lobbyId + ")",
-//                        "Medic", "[Join](https://tf2center.com/lobbies/" + lobbyId + ")");
-//        Map<String, String> bluTeam =
-//                Map.of("Scout1", "[Join](https://tf2center.com/lobbies/" + lobbyId + ")",
-//                        "Scout2", "[Join](https://tf2center.com/lobbies/" + lobbyId + ")",
-//                        "Roamer", "[Join](https://tf2center.com/lobbies/" + lobbyId + ")",
-//                        "Pocket", "[Join](https://tf2center.com/lobbies/" + lobbyId + ")",
-//                        "Demo", "[Join](https://tf2center.com/lobbies/" + lobbyId + ")",
-//                        "Medic", "[Join](https://tf2center.com/lobbies/" + lobbyId + ")");
-//
-//        public Sixes(TF2CSlot[] slots) {
-//            super.slots = slots;
-//        }
-//
-//        @Override
-//        public EmbedCreateFields.Field[] assignPlayers() {
-//            final String red = "red";
-//            final String blu = "blue";
-//            //EmbedCreateFields.Field voiceHeader = EmbedCreateFields.Field.of("test", "test", false);
-//            List<EmbedCreateFields.Field> fieldsREDTeam = Arrays.stream(super.getSlots())
-//                    .map(slot -> EmbedCreateFields.Field.of(
-//                            TF2CStringUtils.capitaliseFirstLetter(slot.getTf2Class()),
-//                            determineSlotState(slot, red),
-//                            false))
-//                    .toList();
-//
-//            List<EmbedCreateFields.Field> fieldsBLUTeam = Arrays.stream(super.getSlots())
-//                    .map(slot -> EmbedCreateFields.Field.of(
-//                            TF2CStringUtils.capitaliseFirstLetter(slot.getTf2Class()),
-//                            determineSlotState(slot, blu),
-//                            false))
-//                    .toList();
-//
-//            return new EmbedCreateFields.Field[]{
-//                    EmbedCreateFields.Field.of("RED TEAM", "", false),
-//                    EmbedCreateFields.Field.of("Scout", "", true),
-//                    EmbedCreateFields.Field.of("Scout", "", true),
-//                    EmbedCreateFields.Field.of("Roamer soldier", "", true),
-//                    EmbedCreateFields.Field.of("Poket soldier", "", true),
-//                    EmbedCreateFields.Field.of("Demoman", "", true),
-//                    EmbedCreateFields.Field.of("Medic", "", true),
-//                    EmbedCreateFields.Field.of("\u200B", "", false),
-//                    EmbedCreateFields.Field.of("BLUE TEAM", "", false),
-//                    EmbedCreateFields.Field.of("Scout", "", true),
-//                    EmbedCreateFields.Field.of("Scout", "", true),
-//                    EmbedCreateFields.Field.of("Roamer soldier", "", true),
-//                    EmbedCreateFields.Field.of("Poket soldier", "", true),
-//                    EmbedCreateFields.Field.of("Demoman", "", true),
-//                    EmbedCreateFields.Field.of("Medic", "", true),
-//                    EmbedCreateFields.Field.of("\u200B", "", false),
-//            };
-//        }
-//
-//        @Override
-//        public String determineSlotState(TF2CSlot slot, String team) {
-//            boolean slotIsFree = Arrays.stream(slot.getAvailableSlots())
-//                    .anyMatch(tf2CAvailableSlot -> tf2CAvailableSlot.getTeam().equals(team));
-//            if (slotIsFree) {
-//                return "[Join](https://tf2center.com/lobbies/" + lobbyId + ")";
-//            }
-//            return "Slot if full";
-//        }
-//
-//        @Override
-//        public String determineSlotClass(TF2CSlot slot) {
-//            //Just determine the class name ie scout = Scout
-//            return null;
-//        }
-//
-//
-//    }
-//
+
+    private class Sixes extends TeamType {
+        public Sixes() {
+            super.configure(List.of(
+                    "Scout",
+                    "Scout",
+                    "Roamer",
+                    "Pocket",
+                    "Demo",
+                    "Medic"
+            ));
+        }
+    }
+
+    private class Fours extends TeamType {
+        public Fours() {
+            super.configure(List.of(
+                    "Scout",
+                    "Soldier",
+                    "Demo",
+                    "Medic"
+            ));
+        }
+    }
+
+    private class Ultiduo extends TeamType {
+        public Ultiduo() {
+            super.configure(List.of(
+                    "Soldier",
+                    "Medic"
+            ));
+        }
+    }
+
+    private class Bbal extends TeamType {
+        public Bbal() {
+            super.configure(List.of(
+                    "Soldier",
+                    "Soldier",
+                    "Soldier",
+                    "Soldier"
+            ));
+        }
+    }
 }

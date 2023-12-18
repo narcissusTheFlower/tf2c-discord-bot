@@ -1,7 +1,6 @@
 package com.tf2center.discordbot.embeds;
 
 import com.tf2center.discordbot.domain.TF2CWebSite;
-import com.tf2center.discordbot.dto.json.TF2CSubstituteSlot;
 import com.tf2center.discordbot.dto.json.tf2cpreview.TF2CLobbyPreview;
 import com.tf2center.discordbot.exceptions.TF2CUpdateException;
 import discord4j.core.spec.EmbedCreateSpec;
@@ -41,15 +40,15 @@ public class EmbedsPool {
         );
     }
 
-    public static Set<EmbedCreateSpec> getPreviews() {
-        return Set.copyOf(PREVIEWS);
-    }
-
-    private static void buildSubstituteSlots(Set<TF2CSubstituteSlot> substitutionSpots) {
-    }
-
-    public static Set<EmbedCreateSpec> getSubstitutionSlots() {
-        return null;
-    }
+//    public static Set<EmbedCreateSpec> getPreviews() {
+//        return Set.copyOf(PREVIEWS);
+//    }
+//
+//    private static void buildSubstituteSlots(Set<TF2CSubstituteSlot> substitutionSpots) {
+//    }
+//
+//    public static Set<EmbedCreateSpec> getSubstitutionSlots() {
+//        return null;
+//    }
 
 }
