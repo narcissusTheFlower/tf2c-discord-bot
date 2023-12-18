@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class LobbyPreviewEmbedBuilder {
+public class LobbyPreviewEmbedBuilder implements TF2CClassAssigner {
 
     private final Set<TF2CLobbyPreview> jsonParsedPreviews;
     private long lobbyId;
@@ -83,13 +83,75 @@ public class LobbyPreviewEmbedBuilder {
     }
 
     private EmbedCreateFields.Field[] composeTeams(List<TF2CPlayerSlot> slots, String teamType) {
+        EmbedCreateFields.Field emptySpace = EmbedCreateFields.Field.of("\u200B", "\u200B", false);
+        EmbedCreateFields.Field[] lobbyFields = new EmbedCreateFields.Field[0];
         byte teamSize = (byte) slots.size();
 
         List<TF2CPlayerSlot> blu = slots.subList(0, teamSize / 2);
         List<TF2CPlayerSlot> red = slots.subList(teamSize / 2, teamSize);
-        return null;
+
+
+        //Но перед этим надо распределить классы
+        for (int i = 0; i < slots.size(); i++) {
+            //if (первая часть команды){
+            //  lobbyFields[i] =  EmbedCreateFields.Field.of(slots.get(i).getClass(), slots.get(i).getPayerName() , false);
+            // } else { //вторая часть команды
+            //  lobbyFields[i] =  EmbedCreateFields.Field.of(slots.get(i).getClass(), slots.get(i).getPayerName() , false);
+            // }
+        }
+//        List<TF2CPlayerSlot> list = switch (teamType) {
+//            case "Hightlander" -> {
+//
+//                for (int i = 0; i < slots.size();i++){
+//                    if(){
+//
+//                    }
+//                }
+//
+//                yield null;
+//            }
+//            case "6v6" -> {
+//
+//
+//                yield null;
+//            }
+//            case "4v4" -> {
+//
+//
+//                yield null;
+//            }
+//            case "Ultiduo" -> {
+//
+//
+//                yield null;
+//            }
+//            case "Bbal" -> {
+//
+//
+//                yield null;
+//            }
+//            default -> throw new IllegalStateException("Failed to determine team type: " + teamType);
+//        };
+//
+//        return null;
     }
 
+    private void test(List<TF2CPlayerSlot> singleTeam) {
+
+    }
+
+
+    private class Highlander {
+        private String scout;
+        private String soldier;
+        private String pyro;
+        private String demo;
+        private String engi;
+        private String heavy;
+        private String medic;
+        private String sniper;
+        private String spy;
+    }
 //    private interface Team {
 //        EmbedCreateFields.Field[] assignPlayers();
 //
@@ -185,137 +247,4 @@ public class LobbyPreviewEmbedBuilder {
 //
 //    }
 //
-//    private class Prolander extends TeamFields implements Team {
-//
-//        public Prolander(TF2CSlot[] slots) {
-//            super.slots = slots;
-//        }
-//
-//
-//        @Override
-//        public EmbedCreateFields.Field[] assignPlayers() {
-//            return new EmbedCreateFields.Field[0];
-//        }
-//
-//        @Override
-//        public String determineSlotState(TF2CSlot slot, String team) {
-//            return null;
-//        }
-//
-//
-//        @Override
-//        public String determineSlotClass(TF2CSlot slot) {
-//            return null;
-//        }
-//    }
-//
-//    private class Highlander extends TeamFields implements Team {
-//
-//        public Highlander(TF2CSlot[] slots) {
-//            super.slots = slots;
-//        }
-//
-//        @Override
-//        public EmbedCreateFields.Field[] assignPlayers() {
-//            return new EmbedCreateFields.Field[0];
-//        }
-//
-//        @Override
-//        public String determineSlotState(TF2CSlot slot, String team) {
-//            return null;
-//        }
-//
-//        @Override
-//        public String determineSlotClass(TF2CSlot slot) {
-//            return null;
-//        }
-//    }
-//
-//    private class FourVFour extends TeamFields implements Team {
-//
-//        public FourVFour(TF2CSlot[] slots) {
-//            super.slots = slots;
-//        }
-//
-//        @Override
-//        public EmbedCreateFields.Field[] assignPlayers() {
-//            return new EmbedCreateFields.Field[0];
-//        }
-//
-//        @Override
-//        public String determineSlotState(TF2CSlot slot, String team) {
-//            return null;
-//        }
-//
-//        @Override
-//        public String determineSlotClass(TF2CSlot slot) {
-//            return null;
-//        }
-//    }
-//
-//    private class Bbal extends TeamFields implements Team {
-//
-//        public Bbal(TF2CSlot[] slots) {
-//            super.slots = slots;
-//        }
-//
-//        @Override
-//        public EmbedCreateFields.Field[] assignPlayers() {
-//            return new EmbedCreateFields.Field[0];
-//        }
-//
-//        @Override
-//        public String determineSlotState(TF2CSlot slot, String team) {
-//            return null;
-//        }
-//
-//        @Override
-//        public String determineSlotClass(TF2CSlot slot) {
-//            return null;
-//        }
-//    }
-//
-//    private class ThreeVThree extends TeamFields implements Team {
-//
-//        public ThreeVThree(TF2CSlot[] slots) {
-//            super.slots = slots;
-//        }
-//
-//        @Override
-//        public EmbedCreateFields.Field[] assignPlayers() {
-//            return new EmbedCreateFields.Field[0];
-//        }
-//
-//        @Override
-//        public String determineSlotState(TF2CSlot slot, String team) {
-//            return null;
-//        }
-//
-//        @Override
-//        public String determineSlotClass(TF2CSlot slot) {
-//            return null;
-//        }
-//    }
-//
-//    private class Ultiduo extends TeamFields implements Team {
-//
-//        public Ultiduo(TF2CSlot[] slots) {
-//            super.slots = slots;
-//        }
-//
-//        @Override
-//        public EmbedCreateFields.Field[] assignPlayers() {
-//            return new EmbedCreateFields.Field[0];
-//        }
-//
-//        @Override
-//        public String determineSlotState(TF2CSlot slot, String team) {
-//            return null;
-//        }
-//
-//        @Override
-//        public String determineSlotClass(TF2CSlot slot) {
-//            return null;
-//        }
-//    }
 }

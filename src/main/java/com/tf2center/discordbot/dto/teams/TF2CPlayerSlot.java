@@ -5,7 +5,7 @@ public class TF2CPlayerSlot {
     private String playerName;
     private String steamId;
     private String state;
-
+    private String tf2Class;
 
     public TF2CPlayerSlot(String playerName, String steamId, String state) {
         this.playerName = playerName;
@@ -35,5 +35,13 @@ public class TF2CPlayerSlot {
 
     public void setSteamId(String steamId) {
         this.steamId = steamId;
+    }
+
+    public String getTf2Class() {
+        return tf2Class;
+    }
+
+    public void setTf2Class(String tf2Class) {
+        this.tf2Class = tf2Class;
     }
 }
