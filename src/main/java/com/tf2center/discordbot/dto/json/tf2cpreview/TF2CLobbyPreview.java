@@ -44,6 +44,22 @@ public final class TF2CLobbyPreview {
         this.offclassingAllowed = offclassingAllowed;
     }
 
+    public String getConfig() {
+        return config;
+    }
+
+    public void setConfig(String config) {
+        this.config = config;
+    }
+
+    public String getServer() {
+        return server;
+    }
+
+    public void setServer(String server) {
+        this.server = server;
+    }
+
     public List<TF2CPlayerSlot> getPlayerSlotList() {
         return playerSlotList;
     }

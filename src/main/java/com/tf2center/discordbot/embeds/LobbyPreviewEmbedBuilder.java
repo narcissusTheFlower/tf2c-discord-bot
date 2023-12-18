@@ -15,6 +15,7 @@ public class LobbyPreviewEmbedBuilder {
 
     private final Set<TF2CLobbyPreview> jsonParsedPreviews;
     private long lobbyId;
+    private String teamType;
 
     private LobbyPreviewEmbedBuilder(Set<TF2CLobbyPreview> jsonParsedPreviews) {
         this.jsonParsedPreviews = jsonParsedPreviews;
@@ -30,6 +31,7 @@ public class LobbyPreviewEmbedBuilder {
 
         jsonParsedPreviews.forEach(json -> {
             lobbyId = json.getLobbyId();
+            teamType = json.getGameType();
             EmbedCreateSpec lobby = EmbedCreateSpec.builder()
                     .color(Color.GREEN)
                     .title("Lobby #" + json.getLobbyId())
@@ -38,13 +40,14 @@ public class LobbyPreviewEmbedBuilder {
                             buildDescription(
                                     json.isVoiceCommunicationRequired(),
                                     json.isRegionLocked(),
-                                    json.isBalancedLobby())
+                                    json.isBalancedLobby(),
+                                    json.isOffclassingAllowed())
                     )
                     .thumbnail(
                             buildThumbnail(json.getRegion())
                     )
                     .addFields(
-                            composeTeams(json.getPlayerSlotList())
+                            composeTeams(json.getPlayerSlotList(), teamType)
                     )
                     .image(
                             "https://tf2center.com" + json.getMap()
@@ -59,16 +62,16 @@ public class LobbyPreviewEmbedBuilder {
         return result;
     }
 
-    private String buildDescription(boolean isVoiceRequired, boolean isRegionLocked, boolean isBalanced) {
+    private String buildDescription(boolean isVoiceRequired, boolean isRegionLocked, boolean isBalanced, boolean offclassingAllowed) {
         String blueX = "\uD83c\uDDFD";
         String greenCheck = "✅";
 
         String voice = "Mumble required: " + (isVoiceRequired ? blueX : greenCheck) + "\n";
         String region = "Region lock: " + (isRegionLocked ? blueX : greenCheck) + "\n";
-        //String offclassing = "Offclassing allowed: " + (offclassingAllowed ? blueX : greenCheck) + "\n"; <- TODO
+        String offclassing = "Offclassing allowed: " + (offclassingAllowed ? blueX : greenCheck) + "\n";
         String balancing = "Balanced lobby: " + (isBalanced ? blueX : greenCheck);
-
-        return voice + region + balancing;
+        //String advancedLobby; TODO
+        return voice + region + offclassing + balancing;
     }
 
     private String buildThumbnail(String region) {
@@ -79,8 +82,11 @@ public class LobbyPreviewEmbedBuilder {
         }
     }
 
-    private EmbedCreateFields.Field[] composeTeams(List<TF2CPlayerSlot> slots) {
+    private EmbedCreateFields.Field[] composeTeams(List<TF2CPlayerSlot> slots, String teamType) {
+        byte teamSize = (byte) slots.size();
 
+        List<TF2CPlayerSlot> blu = slots.subList(0, teamSize / 2);
+        List<TF2CPlayerSlot> red = slots.subList(teamSize / 2, teamSize);
         return null;
     }
 

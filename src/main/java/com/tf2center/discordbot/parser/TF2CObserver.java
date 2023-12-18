@@ -83,8 +83,11 @@ public final class TF2CObserver {
             players = extractPlayers(tf2cWebSiteLocal.getElementsByClass("lobbySlot"));
             preview.setPlayerSlotList(players);
 
-            List<String> headers = extractLobbyHeaders(tf2cWebSiteLocal.getElementsByClass("lobbyHeaderOptions"));
-            preview.setOffclassingAllowed(offclassingIsAllowed);
+
+            List<?> headers = extractLobbyHeaders(tf2cWebSiteLocal.getElementsByClass("lobbyHeaderOptions"));
+            preview.setOffclassingAllowed((boolean) headers.get(0));
+            preview.setConfig((String) headers.get(1));
+            preview.setServer((String) headers.get(2));
 
             //TODO map to new separate DTO
                 }
@@ -154,9 +157,11 @@ public final class TF2CObserver {
         return result;
     }
 
-    private static List<String> extractLobbyHeaders(Elements playerSlots) {
-        System.out.println();
-        return List.of();
+    private static List<?> extractLobbyHeaders(Elements headers) {
+        boolean offclassingAllowed = headers.get(1).select("span").get(4).attributes().toString().contains("cross");
+        String config = headers.get(0).select("td").get(3).text();
+        String server = headers.get(0).select("tr").get(2).text().substring(7);
+        return List.of(offclassingAllowed, config, server);
     }
 
 }

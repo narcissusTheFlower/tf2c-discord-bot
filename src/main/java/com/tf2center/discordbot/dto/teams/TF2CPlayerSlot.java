@@ -6,6 +6,7 @@ public class TF2CPlayerSlot {
     private String steamId;
     private String state;
 
+
     public TF2CPlayerSlot(String playerName, String steamId, String state) {
         this.playerName = playerName;
         this.steamId = steamId;
