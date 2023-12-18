@@ -89,24 +89,29 @@ public class LobbyPreviewEmbedBuilder {
         List<TF2CPlayerSlot> blu = assignClasses(slots.subList(0, teamSize / 2)); //First half of the list
         List<TF2CPlayerSlot> red = assignClasses(slots.subList(teamSize / 2, teamSize)); //Second half of the list
 
-        for (int i = 0; i < blu.size() + 1; i++) {
-            if (i == 0) {
-                lobbyFields[i] = EmbedCreateFields.Field.of("BLU TEAM", "", false);
+
+        EmbedCreateFields.Field[] teamBlu = new EmbedCreateFields.Field[25];
+        short i = -1;
+        for (; i < blu.size(); i++) {
+            if (i == -1) {
+                teamBlu[i + 1] = EmbedCreateFields.Field.of("BLU TEAM", "", false);
                 continue;
             }
-            lobbyFields[i] = EmbedCreateFields.Field.of(blu.get(i).getTf2Class(), slots.get(i).getPlayerName(), false);
-
-            //if (i ==  blu.size()){
-            //lobbyFields[i+1] = EmbedCreateFields.Field.of("\u200B", "\u200B", false);
-            // }
+//            else if(i == blu.size()){
+//                lobbyFields[i] = emptySpace;
+//                break;
+//            }
+            teamBlu[i + 1] = EmbedCreateFields.Field.of(blu.get(i).getTf2Class(), blu.get(i).getPlayerName(), false);
         }
 
-        for (int i = 0; i < red.size() + 1; i++) {
-            if (i == 0) {
-                lobbyFields[i] = EmbedCreateFields.Field.of("RED TEAM", "", false);
+        EmbedCreateFields.Field[] teamRed = new EmbedCreateFields.Field[25];
+        short k = -1;
+        for (; k < red.size(); k++) {
+            if (k == -1) {
+                teamRed[k + 1] = EmbedCreateFields.Field.of("RED TEAM", "", false);
                 continue;
             }
-            lobbyFields[i] = EmbedCreateFields.Field.of(red.get(i).getTf2Class(), slots.get(i).getPlayerName(), false);
+            teamRed[k] = EmbedCreateFields.Field.of(red.get(k).getTf2Class(), red.get(k).getPlayerName(), false);
         }
         return Arrays.copyOf(lobbyFields, 25);
     }
@@ -124,6 +129,7 @@ public class LobbyPreviewEmbedBuilder {
                         );
                     }
                 }
+
                 yield List.copyOf(singleTeam);
             }
             case "6v6" -> {
