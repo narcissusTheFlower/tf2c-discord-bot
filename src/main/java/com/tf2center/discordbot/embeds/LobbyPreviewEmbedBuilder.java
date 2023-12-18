@@ -8,10 +8,11 @@ import discord4j.rest.util.Color;
 
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-public class LobbyPreviewEmbedBuilder implements TF2CClassAssigner {
+public class LobbyPreviewEmbedBuilder {
 
     private final Set<TF2CLobbyPreview> jsonParsedPreviews;
     private long lobbyId;
@@ -47,7 +48,7 @@ public class LobbyPreviewEmbedBuilder implements TF2CClassAssigner {
                             buildThumbnail(json.getRegion())
                     )
                     .addFields(
-                            composeTeams(json.getPlayerSlotList(), teamType)
+                            composeTeams(json.getPlayerSlotList())
                     )
                     .image(
                             "https://tf2center.com" + json.getMap()
@@ -82,14 +83,14 @@ public class LobbyPreviewEmbedBuilder implements TF2CClassAssigner {
         }
     }
 
-    private EmbedCreateFields.Field[] composeTeams(List<TF2CPlayerSlot> slots, String teamType) {
+    private EmbedCreateFields.Field[] composeTeams(List<TF2CPlayerSlot> slots) {
         EmbedCreateFields.Field emptySpace = EmbedCreateFields.Field.of("\u200B", "\u200B", false);
         EmbedCreateFields.Field[] lobbyFields = new EmbedCreateFields.Field[0];
         byte teamSize = (byte) slots.size();
 
-        List<TF2CPlayerSlot> blu = slots.subList(0, teamSize / 2);
-        List<TF2CPlayerSlot> red = slots.subList(teamSize / 2, teamSize);
 
+        List<TF2CPlayerSlot> blu = assignClasses(slots.subList(0, teamSize / 2)); //First half of the list
+        List<TF2CPlayerSlot> red = assignClasses(slots.subList(teamSize / 2, teamSize)); //Second half of the list
 
         //Но перед этим надо распределить классы
         for (int i = 0; i < slots.size(); i++) {
@@ -99,58 +100,126 @@ public class LobbyPreviewEmbedBuilder implements TF2CClassAssigner {
             //  lobbyFields[i] =  EmbedCreateFields.Field.of(slots.get(i).getClass(), slots.get(i).getPayerName() , false);
             // }
         }
-//        List<TF2CPlayerSlot> list = switch (teamType) {
-//            case "Hightlander" -> {
-//
-//                for (int i = 0; i < slots.size();i++){
-//                    if(){
-//
-//                    }
-//                }
-//
-//                yield null;
-//            }
-//            case "6v6" -> {
-//
-//
-//                yield null;
-//            }
-//            case "4v4" -> {
-//
-//
-//                yield null;
-//            }
-//            case "Ultiduo" -> {
-//
-//
-//                yield null;
-//            }
-//            case "Bbal" -> {
-//
-//
-//                yield null;
-//            }
-//            default -> throw new IllegalStateException("Failed to determine team type: " + teamType);
-//        };
-//
-//        return null;
+        return lobbyFields;
     }
 
-    private void test(List<TF2CPlayerSlot> singleTeam) {
+    private List<TF2CPlayerSlot> assignClasses(List<TF2CPlayerSlot> singleTeam) {
+        return switch (teamType) {
+            case "Hightlander" -> {
 
+                Iterator<TF2CPlayerSlot> iterator = singleTeam.iterator();
+                Highlander highlander = new Highlander();
+                for (int i = 0; i < singleTeam.size(); i++) {
+                    if (iterator.hasNext()) {
+                        singleTeam.get(i).setTf2Class(
+                                highlander.assignClass()
+                        );
+                    }
+                }
+                yield List.copyOf(singleTeam);
+//                yield singleTeam.stream().map(player -> {
+//
+//                    return player;
+//                }).toList();
+            }
+            case "6v6" -> {
+                Iterator<TF2CPlayerSlot> iterator = singleTeam.iterator();
+                Sixes sixes = new Sixes();
+                for (int i = 0; i < singleTeam.size(); i++) {
+                    if (iterator.hasNext()) {
+                        singleTeam.get(i).setTf2Class(
+                                sixes.assignClass()
+                        );
+                    }
+                }
+                yield List.copyOf(singleTeam);
+            }
+            case "4v4" -> {
+
+
+                yield null;
+            }
+            case "Ultiduo" -> {
+
+
+                yield null;
+            }
+            case "Bbal" -> {
+
+
+                yield null;
+            }
+            default -> throw new IllegalStateException("Failed to determine team type: " + teamType);
+        };
     }
 
+    private interface TeamType {
+        String assignClass();
+    }
 
-    private class Highlander {
-        private String scout;
-        private String soldier;
-        private String pyro;
-        private String demo;
-        private String engi;
-        private String heavy;
-        private String medic;
-        private String sniper;
-        private String spy;
+    private class Highlander implements TeamType {
+
+        List<String> classes = List.of(
+                "Scout",
+                "Soldier",
+                "Pyro",
+                "Demo",
+                "Engineer",
+                "Heavy",
+                "Medic",
+                "Sniper",
+                "Spy"
+        );
+        Iterator<String> iterator = classes.listIterator();
+
+//        private final String scout = "Scout";
+//        private final String soldier = "Soldier";
+//        private final String pyro = "Pyro";
+//        private final String demo = "Demo";
+//        private final String engi = "Engineer";
+//        private final String heavy= "Heavy";
+//        private final String medic = "Medic";
+//        private final String sniper = "Sniper";
+//        private final String spy = "Spy";
+
+        @Override
+        public String assignClass() {
+            if (iterator.hasNext()) {
+                return iterator.next();
+            }
+            return "eof";
+        }
+    }
+
+    private class Sixes implements TeamType {
+
+        List<String> classes = List.of(
+                "Scout",
+                "Scout",
+                "Roamer",
+                "Pocket",
+                "Demo",
+                "Medic"
+        );
+        Iterator<String> iterator = classes.listIterator();
+
+//        private final String scout = "Scout";
+//        private final String soldier = "Soldier";
+//        private final String pyro = "Pyro";
+//        private final String demo = "Demo";
+//        private final String engi = "Engineer";
+//        private final String heavy= "Heavy";
+//        private final String medic = "Medic";
+//        private final String sniper = "Sniper";
+//        private final String spy = "Spy";
+
+        @Override
+        public String assignClass() {
+            if (iterator.hasNext()) {
+                return iterator.next();
+            }
+            return "eof";
+        }
     }
 //    private interface Team {
 //        EmbedCreateFields.Field[] assignPlayers();
