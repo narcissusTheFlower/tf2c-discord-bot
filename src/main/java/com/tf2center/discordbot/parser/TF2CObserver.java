@@ -159,7 +159,7 @@ public final class TF2CObserver {
     }
 
     private static List<?> extractLobbyHeaders(Elements headers) {
-        boolean offclassingAllowed = headers.get(1).select("span").get(4).attributes().toString().contains("cross");
+        boolean offclassingAllowed = !headers.get(1).select("span").get(4).attributes().toString().contains("cross");
         String config = headers.get(0).select("td").get(3).text();
         String server;
         if (headers.get(0).select("tr").get(2).text().isBlank() || headers.get(0).select("tr").get(2).text().equals("Server")) {
