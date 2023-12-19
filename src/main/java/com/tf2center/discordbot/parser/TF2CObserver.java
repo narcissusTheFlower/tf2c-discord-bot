@@ -55,6 +55,7 @@ public final class TF2CObserver {
                 .toString().substring(49);
         parsedJson = parsedJson.substring(0, parsedJson.length() - 11);
 
+
         Set<TF2CLobbyPreview> lobbies = null;
 
         try {

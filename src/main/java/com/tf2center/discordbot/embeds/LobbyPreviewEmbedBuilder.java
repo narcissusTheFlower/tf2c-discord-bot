@@ -5,9 +5,13 @@ import com.tf2center.discordbot.dto.teams.TF2CPlayerSlot;
 import discord4j.core.spec.EmbedCreateFields;
 import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.rest.util.Color;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.time.Instant;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 public class LobbyPreviewEmbedBuilder {
 
@@ -83,37 +87,35 @@ public class LobbyPreviewEmbedBuilder {
 
     private EmbedCreateFields.Field[] composeTeams(List<TF2CPlayerSlot> slots) {
         EmbedCreateFields.Field emptySpace = EmbedCreateFields.Field.of("\u200B", "\u200B", false);
-        EmbedCreateFields.Field[] lobbyFields = new EmbedCreateFields.Field[25];
         byte teamSize = (byte) slots.size();
 
         List<TF2CPlayerSlot> blu = assignClasses(slots.subList(0, teamSize / 2)); //First half of the list
         List<TF2CPlayerSlot> red = assignClasses(slots.subList(teamSize / 2, teamSize)); //Second half of the list
 
+        EmbedCreateFields.Field[] teamBlu = new EmbedCreateFields.Field[(slots.size() / 2) + 2];
+        teamBlu[0] = EmbedCreateFields.Field.of("BLU TEAM", "", false);
+        for (int i = 1; i < teamBlu.length; i++) {
+            if (i == teamBlu.length - 1) {
+                teamBlu[i] = emptySpace;
+                break;
+            }
+            teamBlu[i] = EmbedCreateFields.Field.of(
+                    blu.get(i - 1).getTf2Class(),
+                    blu.get(i - 1).getPlayerName(),
+                    false);
+        }
 
-        EmbedCreateFields.Field[] teamBlu = new EmbedCreateFields.Field[25];
-        short i = -1;
-        for (; i < blu.size(); i++) {
+        EmbedCreateFields.Field[] teamRed = new EmbedCreateFields.Field[(slots.size() / 2) + 1];
+        teamRed[0] = EmbedCreateFields.Field.of("RED TEAM", "", false);
+        for (int i = 1; i < teamRed.length; i++) {
+            teamRed[i] = EmbedCreateFields.Field.of(red.get(i).getTf2Class(), red.get(i).getPlayerName(), false);
             if (i == -1) {
-                teamBlu[i + 1] = EmbedCreateFields.Field.of("BLU TEAM", "", false);
+                teamRed[i + 1] = EmbedCreateFields.Field.of("RED TEAM", "", false);
                 continue;
             }
-//            else if(i == blu.size()){
-//                lobbyFields[i] = emptySpace;
-//                break;
-//            }
-            teamBlu[i + 1] = EmbedCreateFields.Field.of(blu.get(i).getTf2Class(), blu.get(i).getPlayerName(), false);
-        }
 
-        EmbedCreateFields.Field[] teamRed = new EmbedCreateFields.Field[25];
-        short k = -1;
-        for (; k < red.size(); k++) {
-            if (k == -1) {
-                teamRed[k + 1] = EmbedCreateFields.Field.of("RED TEAM", "", false);
-                continue;
-            }
-            teamRed[k] = EmbedCreateFields.Field.of(red.get(k).getTf2Class(), red.get(k).getPlayerName(), false);
         }
-        return Arrays.copyOf(lobbyFields, 25);
+        return ArrayUtils.addAll(teamBlu, teamRed);
     }
 
     private List<TF2CPlayerSlot> assignClasses(List<TF2CPlayerSlot> singleTeam) {
@@ -129,7 +131,6 @@ public class LobbyPreviewEmbedBuilder {
                         );
                     }
                 }
-
                 yield List.copyOf(singleTeam);
             }
             case "6v6" -> {
