@@ -14,8 +14,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,24 +29,21 @@ import java.util.concurrent.atomic.AtomicInteger;
  * This class parses pure HTML from the website and transforms JSON into a POJO
  */
 @EnableScheduling
-@Component("htmlParser")
-public final class TF2CObserver {
-
-    private static final String TF2C_URL = "https://tf2center.com/lobbies";
-    private static Document tf2cWebSite;
+@Component("htmlParserFile")
+public final class TF2CObserverFromFile {
+    private static final File preview = new File("/home/user/test-case/preview");
+    private static final File inner = new File("/home/user/test-case/inner");
     private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static Document tf2cWebSite;
 
-    //@Scheduled(fixedRate = 10_000, initialDelay = 500)
-    private static void parseTF2C() {
+    @Scheduled(fixedRate = 10_000, initialDelay = 500)
+    private static void parseFromFileTest() {
         try {
-            tf2cWebSite = Jsoup.connect(TF2C_URL)
-                    .userAgent("Mozilla")
-                    .timeout(5000)
-                    .get();
-
+            tf2cWebSite = Jsoup.parse(preview, "UTF-8", "http://example.com/");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
         TF2CWebSite.update(getPlayerCount(), getLobbyPreview(), getSubstituteSlots());
     }
 
@@ -69,26 +68,23 @@ public final class TF2CObserver {
         }
         //These iterations extract info from within the lobby
         lobbies.forEach(preview -> {
-            //TODO Redo with reactive streams
-            Document tf2cWebSiteLocal;
-            ArrayList<TF2CPlayerSlot> players;
+                    //TODO Redo with reactive streams
+                    Document tf2cWebSiteLocal;
+                    ArrayList<TF2CPlayerSlot> players;
                     try {
-                        tf2cWebSiteLocal = Jsoup.connect(TF2C_URL + "/" + preview.getLobbyId())
-                                .userAgent("Mozilla")
-                                .timeout(5000)
-                                .get();
+                        tf2cWebSiteLocal = Jsoup.parse(inner, "UTF-8", "http://example.com/");
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-            players = extractPlayers(tf2cWebSiteLocal.getElementsByClass("lobbySlot"));
-            preview.setPlayerSlotList(players);
+                    players = extractPlayers(tf2cWebSiteLocal.getElementsByClass("lobbySlot"));
+                    preview.setPlayerSlotList(players);
 
-            List<?> headers = extractLobbyHeaders(tf2cWebSiteLocal.getElementsByClass("lobbyHeaderOptions"));
-            preview.setOffclassingAllowed((boolean) headers.get(0));
-            preview.setConfig((String) headers.get(1));
-            preview.setServer((String) headers.get(2));
+                    List<?> headers = extractLobbyHeaders(tf2cWebSiteLocal.getElementsByClass("lobbyHeaderOptions"));
+                    preview.setOffclassingAllowed((boolean) headers.get(0));
+                    preview.setConfig((String) headers.get(1));
+                    preview.setServer((String) headers.get(2));
 
-            //TODO map to new separate DTO
+                    //TODO map to new separate DTO
                 }
         );
         return lobbies;

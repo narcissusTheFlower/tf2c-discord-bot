@@ -37,13 +37,14 @@ public class LobbyPreviewEmbedBuilder {
             EmbedCreateSpec lobby = EmbedCreateSpec.builder()
                     .color(Color.GREEN)
                     .title("Lobby #" + json.getLobbyId())
-                    .url("https://tf2center.com/lobbies/" + json.getLobbyId())
+                    .url("https://tf2center.com/lobbies/" /*+ json.getLobbyId()*/)
                     .description(
                             buildDescription(
                                     json.isVoiceCommunicationRequired(),
                                     json.isRegionLocked(),
                                     json.isBalancedLobby(),
-                                    json.isOffclassingAllowed())
+                                    json.isOffclassingAllowed(),
+                                    teamType)
                     )
                     .thumbnail(
                             buildThumbnail(json.getRegion())
@@ -51,11 +52,11 @@ public class LobbyPreviewEmbedBuilder {
                     .addFields(
                             composeTeams(json.getPlayerSlotList())
                     )
-                    .image(
-                            "https://tf2center.com" + json.getMap()
-                    )
+//                    .image(
+//                            "https://tf2center.com" + json.getMap()
+//                    )
                     .timestamp(Instant.now())
-                    .footer("Lobby opened", "🕖")
+                    //.footer("Lobby opened", "🕖")
                     .build();
 
             result.add(lobby);
@@ -64,56 +65,57 @@ public class LobbyPreviewEmbedBuilder {
         return result;
     }
 
-    private String buildDescription(boolean isVoiceRequired, boolean isRegionLocked, boolean isBalanced, boolean offclassingAllowed) {
+    private String buildDescription(boolean isVoiceRequired, boolean isRegionLocked, boolean isBalanced, boolean offclassingAllowed, String teamType) {
         String blueX = "\uD83c\uDDFD";
         String greenCheck = "✅";
         //TODO change this to stringBuilder as it is faster and less memory consuming
-        String voice = "Mumble required: " + (isVoiceRequired ? blueX : greenCheck) + "\n";
-        String region = "Region lock: " + (isRegionLocked ? blueX : greenCheck) + "\n";
-        String offclassing = "Offclassing allowed: " + (offclassingAllowed ? blueX : greenCheck) + "\n";
-        String balancing = "Balanced lobby: " + (isBalanced ? blueX : greenCheck);
+        String voice = "Mumble required: " + (isVoiceRequired ? greenCheck : blueX) + "\n";
+        String region = "Region lock: " + (isRegionLocked ? greenCheck : blueX) + "\n";
+        String balancing = "Balanced lobby: " + (isBalanced ? greenCheck : blueX);
+        if (teamType.equals("6v6")) {
+            String offclassing = "Offclassing allowed: " + (offclassingAllowed ? greenCheck : blueX) + "\n";
+            return voice + region + offclassing + balancing;
+        }
         //String advancedLobby; TODO
-        return voice + region + offclassing + balancing;
+        return voice + region + balancing;
     }
 
     private String buildThumbnail(String region) {
+        //TODO change resource origins and fix their sizes to be the same dimensions
         if (region.equals("EU")) {
-            return "https://github.com/narcissusTheFlower/tf2c-discord-bot/blob/master/eu_flag.png";
+            return "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/1280px-Flag_of_Europe.svg.png";
         } else {
-            return "https://github.com/narcissusTheFlower/tf2c-discord-bot/blob/master/na_flag.png";
+            return "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Flag_of_the_United_States_%281877%E2%80%931890%29.svg/2560px-Flag_of_the_United_States_%281877%E2%80%931890%29.svg.png";
         }
     }
 
 
     private EmbedCreateFields.Field[] composeTeams(List<TF2CPlayerSlot> slots) {
-        EmbedCreateFields.Field emptySpace = EmbedCreateFields.Field.of("\u200B", "\u200B", false);
         byte teamSize = (byte) slots.size();
 
         List<TF2CPlayerSlot> blu = assignClasses(slots.subList(0, teamSize / 2)); //First half of the list
         List<TF2CPlayerSlot> red = assignClasses(slots.subList(teamSize / 2, teamSize)); //Second half of the list
 
-        EmbedCreateFields.Field[] teamBlu = new EmbedCreateFields.Field[(slots.size() / 2) + 2];
+        EmbedCreateFields.Field[] teamBlu = new EmbedCreateFields.Field[(teamSize / 2) + 2];
         teamBlu[0] = EmbedCreateFields.Field.of("BLU TEAM", "", false);
         for (int i = 1; i < teamBlu.length; i++) {
             if (i == teamBlu.length - 1) {
-                teamBlu[i] = emptySpace;
+                teamBlu[i] = EmbedCreateFields.Field.of("\u200B", "\u200B", false);
                 break;
             }
             teamBlu[i] = EmbedCreateFields.Field.of(
                     blu.get(i - 1).getTf2Class(),
                     blu.get(i - 1).getPlayerName(),
-                    false);
+                    true);
         }
 
-        EmbedCreateFields.Field[] teamRed = new EmbedCreateFields.Field[(slots.size() / 2) + 1];
+        EmbedCreateFields.Field[] teamRed = new EmbedCreateFields.Field[(teamSize / 2) + 1];
         teamRed[0] = EmbedCreateFields.Field.of("RED TEAM", "", false);
         for (int i = 1; i < teamRed.length; i++) {
-            teamRed[i] = EmbedCreateFields.Field.of(red.get(i).getTf2Class(), red.get(i).getPlayerName(), false);
-            if (i == -1) {
-                teamRed[i + 1] = EmbedCreateFields.Field.of("RED TEAM", "", false);
-                continue;
-            }
-
+            teamRed[i] = EmbedCreateFields.Field.of(
+                    red.get(i - 1).getTf2Class(),
+                    red.get(i - 1).getPlayerName(),
+                    true);
         }
         return ArrayUtils.addAll(teamBlu, teamRed);
     }
@@ -146,19 +148,40 @@ public class LobbyPreviewEmbedBuilder {
                 yield List.copyOf(singleTeam);
             }
             case "4v4" -> {
-                //TODO
-
-                yield null;
+                Iterator<TF2CPlayerSlot> iterator = singleTeam.iterator();
+                Fours fours = new Fours();
+                for (int i = 0; i < singleTeam.size(); i++) {
+                    if (iterator.hasNext()) {
+                        singleTeam.get(i).setTf2Class(
+                                fours.assignClass()
+                        );
+                    }
+                }
+                yield List.copyOf(singleTeam);
             }
             case "Ultiduo" -> {
-                //TODO
-
-                yield null;
+                Iterator<TF2CPlayerSlot> iterator = singleTeam.iterator();
+                Ultiduo ultiduo = new Ultiduo();
+                for (int i = 0; i < singleTeam.size(); i++) {
+                    if (iterator.hasNext()) {
+                        singleTeam.get(i).setTf2Class(
+                                ultiduo.assignClass()
+                        );
+                    }
+                }
+                yield List.copyOf(singleTeam);
             }
             case "Bbal" -> {
-                //TODO
-
-                yield null;
+                Iterator<TF2CPlayerSlot> iterator = singleTeam.iterator();
+                Bbal bbal = new Bbal();
+                for (int i = 0; i < singleTeam.size(); i++) {
+                    if (iterator.hasNext()) {
+                        singleTeam.get(i).setTf2Class(
+                                bbal.assignClass()
+                        );
+                    }
+                }
+                yield List.copyOf(singleTeam);
             }
             default -> throw new IllegalStateException("Failed to determine team type: " + teamType);
         };

@@ -30,19 +30,27 @@ public class EmbedsPool {
         } catch (RuntimeException e) {
             throw new TF2CUpdateException("Failed to update embeds pool.", e);
         }
+
         logger.info("EMBEDS POOL updated with {} preview(-s) X substitution slots", PREVIEWS.size());
     }
 
     private static void buildPreviews(Set<TF2CLobbyPreview> previews) {
         PREVIEWS.clear();
-        PREVIEWS.addAll(
-                LobbyPreviewEmbedBuilder.of(previews).build()
-        );
+        // System.out.println(PREVIEWS.size());
+        if (!previews.isEmpty()) {
+            PREVIEWS.addAll(
+                    LobbyPreviewEmbedBuilder.of(previews).build()
+            );
+        }
     }
 
-//    public static Set<EmbedCreateSpec> getPreviews() {
-//        return Set.copyOf(PREVIEWS);
-//    }
+    public static Set<EmbedCreateSpec> getPreviews() {
+        return Set.copyOf(PREVIEWS);
+    }
+
+    public static EmbedCreateSpec retrieve() {
+        return (EmbedCreateSpec) PREVIEWS.toArray()[0];
+    }
 //
 //    private static void buildSubstituteSlots(Set<TF2CSubstituteSlot> substitutionSpots) {
 //    }
