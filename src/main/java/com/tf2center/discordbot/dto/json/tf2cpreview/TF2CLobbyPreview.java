@@ -36,6 +36,17 @@ public final class TF2CLobbyPreview {
     @JsonIgnore
     private String server;
 
+    @JsonIgnore
+    private String leaderName;
+
+    public String getLeaderName() {
+        return leaderName;
+    }
+
+    public void setLeaderName(String leaderName) {
+        this.leaderName = leaderName;
+    }
+
     public boolean isOffclassingAllowed() {
         return offclassingAllowed;
     }

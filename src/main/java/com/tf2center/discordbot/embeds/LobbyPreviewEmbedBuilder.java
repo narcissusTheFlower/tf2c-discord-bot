@@ -2,6 +2,7 @@ package com.tf2center.discordbot.embeds;
 
 import com.tf2center.discordbot.dto.json.tf2cpreview.TF2CLobbyPreview;
 import com.tf2center.discordbot.dto.teams.TF2CPlayerSlot;
+import com.tf2center.discordbot.steamapi.SteamApiCaller;
 import discord4j.core.spec.EmbedCreateFields;
 import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.rest.util.Color;
@@ -35,6 +36,10 @@ public class LobbyPreviewEmbedBuilder {
             lobbyId = json.getLobbyId();
             teamType = json.getGameType();
             EmbedCreateSpec lobby = EmbedCreateSpec.builder()
+                    //.author("Leader: ","url","steamAvatarUrl")
+                    .author(
+                            buildAuthor(json.getLeaderName(), json.getLeaderSteamId())
+                    )
                     .color(Color.GREEN)
                     .title("Lobby #" + json.getLobbyId())
                     .url("https://tf2center.com/lobbies/" /*+ json.getLobbyId()*/)
@@ -56,13 +61,23 @@ public class LobbyPreviewEmbedBuilder {
 //                            "https://tf2center.com" + json.getMap()
 //                    )
                     .timestamp(Instant.now())
-                    //.footer("Lobby opened", "🕖")
+                    .footer("Lobby opened", "https://static.vecteezy.com/system/resources/previews/010/956/189/original/3d-blue-clock-icon-with-transparent-background-for-ui-element-graphic-png.png")
                     .build();
 
             result.add(lobby);
         });
 
         return result;
+    }
+
+
+    private EmbedCreateFields.Author buildAuthor(String leaderName, long leaderSteamId) {
+        String avatarUrl = SteamApiCaller.getPlayerAvatar(leaderSteamId);
+        String fullSteamUrl = "";
+        return EmbedCreateFields.Author.of(
+                String.format("Leader: %s", leaderName),
+                fullSteamUrl,
+                avatarUrl);
     }
 
     private String buildDescription(boolean isVoiceRequired, boolean isRegionLocked, boolean isBalanced, boolean offclassingAllowed, String teamType) {

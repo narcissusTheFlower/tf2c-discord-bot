@@ -83,6 +83,7 @@ public final class TF2CObserverFromFile {
                     preview.setOffclassingAllowed((boolean) headers.get(0));
                     preview.setConfig((String) headers.get(1));
                     preview.setServer((String) headers.get(2));
+            preview.setLeaderName((String) headers.get(3));
 
                     //TODO map to new separate DTO
                 }
@@ -161,7 +162,8 @@ public final class TF2CObserverFromFile {
         } else {
             server = headers.get(0).select("tr").get(2).text().substring(7);
         }
-        return List.of(offclassingAllowed, config, server);
+        String leaderName = headers.get(0).select("td").get(7).text();
+        return List.of(offclassingAllowed, config, server, leaderName);
 
 //        return List.of(
 //                headers.get(1).select("span").get(4).attributes().toString().contains("cross"), //Offclassing allowed
