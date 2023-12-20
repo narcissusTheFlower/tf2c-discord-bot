@@ -14,6 +14,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -34,7 +35,7 @@ public final class TF2CObserver {
     private static Document tf2cWebSite;
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    //@Scheduled(fixedRate = 10_000, initialDelay = 500)
+    @Scheduled(fixedRate = 10_000, initialDelay = 500)
     private static void parseTF2C() {
         try {
             tf2cWebSite = Jsoup.connect(TF2C_URL)

@@ -36,13 +36,12 @@ public class LobbyPreviewEmbedBuilder {
             lobbyId = json.getLobbyId();
             teamType = json.getGameType();
             EmbedCreateSpec lobby = EmbedCreateSpec.builder()
-                    //.author("Leader: ","url","steamAvatarUrl")
                     .author(
                             buildAuthor(json.getLeaderName(), json.getLeaderSteamId())
                     )
                     .color(Color.GREEN)
                     .title("Lobby #" + json.getLobbyId())
-                    .url("https://tf2center.com/lobbies/" /*+ json.getLobbyId()*/)
+                    .url("https://tf2center.com/lobbies/" + json.getLobbyId())
                     .description(
                             buildDescription(
                                     json.isVoiceCommunicationRequired(),
@@ -57,9 +56,9 @@ public class LobbyPreviewEmbedBuilder {
                     .addFields(
                             composeTeams(json.getPlayerSlotList())
                     )
-//                    .image(
-//                            "https://tf2center.com" + json.getMap()
-//                    )
+                    .image(
+                            "https://tf2center.com" + json.getThumbnailUrl()
+                    )
                     .timestamp(Instant.now())
                     .footer("Lobby opened", "https://static.vecteezy.com/system/resources/previews/010/956/189/original/3d-blue-clock-icon-with-transparent-background-for-ui-element-graphic-png.png")
                     .build();
@@ -73,7 +72,7 @@ public class LobbyPreviewEmbedBuilder {
 
     private EmbedCreateFields.Author buildAuthor(String leaderName, long leaderSteamId) {
         String avatarUrl = SteamApiCaller.getPlayerAvatar(leaderSteamId);
-        String fullSteamUrl = "";
+        String fullSteamUrl = "https://steamcommunity.com/profiles/" + leaderSteamId;
         return EmbedCreateFields.Author.of(
                 String.format("Leader: %s", leaderName),
                 fullSteamUrl,
