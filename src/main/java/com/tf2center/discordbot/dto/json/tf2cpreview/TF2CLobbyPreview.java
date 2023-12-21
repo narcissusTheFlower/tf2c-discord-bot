@@ -35,9 +35,19 @@ public final class TF2CLobbyPreview {
     private String config;
     @JsonIgnore
     private String server;
-
     @JsonIgnore
     private String leaderName;
+
+    @JsonIgnore
+    private String timeOpened;
+
+    public String getTimeOpened() {
+        return timeOpened;
+    }
+
+    public void setTimeOpened(String timeOpened) {
+        this.timeOpened = timeOpened;
+    }
 
     public String getLeaderName() {
         return leaderName;
@@ -76,6 +86,7 @@ public final class TF2CLobbyPreview {
     }
 
     public void setPlayerSlotList(List<TF2CPlayerSlot> playerSlotList) {
+
         this.playerSlotList = playerSlotList;
     }
 

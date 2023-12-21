@@ -40,7 +40,7 @@ public class LobbyPreviewEmbedBuilder {
                             buildAuthor(json.getLeaderName(), json.getLeaderSteamId())
                     )
                     .color(Color.GREEN)
-                    .title("Lobby #" + json.getLobbyId())
+                    .title("Lobby #" + json.getLobbyId() + " | " + json.getMap())
                     .url("https://tf2center.com/lobbies/" + json.getLobbyId())
                     .description(
                             buildDescription(
@@ -59,8 +59,9 @@ public class LobbyPreviewEmbedBuilder {
                     .image(
                             "https://tf2center.com" + json.getThumbnailUrl()
                     )
+                    //.timestamp(Instant.now()) will adjust to user local time?
                     .timestamp(Instant.now())
-                    .footer("Lobby opened", "https://static.vecteezy.com/system/resources/previews/010/956/189/original/3d-blue-clock-icon-with-transparent-background-for-ui-element-graphic-png.png")
+                    .footer("Lobby opened", "https://i.pinimg.com/originals/a8/a7/b2/a8a7b2f15d5a34424b27eb5804e3af8a.png")
                     .build();
 
             result.add(lobby);
@@ -71,6 +72,7 @@ public class LobbyPreviewEmbedBuilder {
 
 
     private EmbedCreateFields.Author buildAuthor(String leaderName, long leaderSteamId) {
+        //TODO you do not need this whole stam api the avatar is literally in the html
         String avatarUrl = SteamApiCaller.getPlayerAvatar(leaderSteamId);
         String fullSteamUrl = "https://steamcommunity.com/profiles/" + leaderSteamId;
         return EmbedCreateFields.Author.of(
@@ -83,15 +85,15 @@ public class LobbyPreviewEmbedBuilder {
         String blueX = "\uD83c\uDDFD";
         String greenCheck = "✅";
         //TODO change this to stringBuilder as it is faster and less memory consuming
+        String offclassing = "Offclassing allowed: " + (offclassingAllowed ? greenCheck : blueX) + "\n";
         String voice = "Mumble required: " + (isVoiceRequired ? greenCheck : blueX) + "\n";
-        String region = "Region lock: " + (isRegionLocked ? greenCheck : blueX) + "\n";
-        String balancing = "Balanced lobby: " + (isBalanced ? greenCheck : blueX);
+        String balancing = "Balanced lobby: " + (isBalanced ? greenCheck : blueX) + "\n";
+        String region = "Region lock: " + (isRegionLocked ? greenCheck : blueX);
         if (teamType.equals("6v6")) {
-            String offclassing = "Offclassing allowed: " + (offclassingAllowed ? greenCheck : blueX) + "\n";
-            return voice + region + offclassing + balancing;
+            return offclassing + voice + balancing + region;
         }
         //String advancedLobby; TODO
-        return voice + region + balancing;
+        return voice + balancing + region;
     }
 
     private String buildThumbnail(String region) {
@@ -119,7 +121,7 @@ public class LobbyPreviewEmbedBuilder {
             }
             teamBlu[i] = EmbedCreateFields.Field.of(
                     blu.get(i - 1).getTf2Class(),
-                    blu.get(i - 1).getPlayerName(),
+                    blu.get(i - 1).getPlayerName().equals("empty") ? "[Join](https://tf2center.com/lobbies" + lobbyId + ")" : blu.get(i - 1).getPlayerName(),
                     true);
         }
 
@@ -128,7 +130,7 @@ public class LobbyPreviewEmbedBuilder {
         for (int i = 1; i < teamRed.length; i++) {
             teamRed[i] = EmbedCreateFields.Field.of(
                     red.get(i - 1).getTf2Class(),
-                    red.get(i - 1).getPlayerName(),
+                    red.get(i - 1).getPlayerName().equals("empty") ? "[Join](https://tf2center.com/lobbies" + lobbyId + ")" : red.get(i - 1).getPlayerName(),
                     true);
         }
         return ArrayUtils.addAll(teamBlu, teamRed);
