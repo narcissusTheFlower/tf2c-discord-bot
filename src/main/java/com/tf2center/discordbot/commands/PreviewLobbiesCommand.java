@@ -1,9 +1,9 @@
 package com.tf2center.discordbot.commands;
 
-import com.tf2center.discordbot.embeds.EmbedsPool;
 import discord4j.common.util.Snowflake;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
+import discord4j.core.object.entity.channel.GuildMessageChannel;
 import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.rest.util.Color;
 import org.slf4j.Logger;
@@ -88,6 +88,10 @@ public class PreviewLobbiesCommand implements SlashCommand {
             .footer("Lobby opened", "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Team_Fortress_2_style_logo.svg/1024px-Team_Fortress_2_style_logo.svg.png")
             .build();
 
+//    EmbedCreateSpec sixes = EmbedCreateSpec.builder()
+//            .addField("RED TEAM", "", false)
+//            .addField("Roamer scout", "", true)
+//            .build();
 
     @Override
     public String getName() {
@@ -100,20 +104,37 @@ public class PreviewLobbiesCommand implements SlashCommand {
 //        gatewayDiscordClient.getChannelById(snowflake)
 //                .ofType(GuildMessageChannel.class)
 //                .flatMap(channel -> channel.createMessage(MessageCreateSpec.builder()
-//                                .addAllEmbeds(List.of(lobbyPreview))
-//                        .addEmbed(test)
-//                        .addEmbed(lobbyPreview)
 //
-//                                .embeds(test,test)
-//                        .build()
+//                                //.addAllEmbeds(List.of(lobbyPreview))
+//                        //.addEmbed(test)
+//                        //.addEmbed(lobbyPreview)
+//
+//                                //.embeds(test,test)
+//                        .build().withContent("with content")
 //                )).subscribe();
 
-        logger.info("Slash command called.");
+//        gatewayDiscordClient.getChannelById(snowflake)
+//                .ofType(GuildMessageChannel.class)
+//                .flatMap(channel -> channel.getMessageById(Snowflake.of(1187449098387861597L)).block().delete()).subscribe();
+
+//        GuildMessageChannel messageChannel = gatewayDiscordClient.getChannelById(snowflake)
+//                .ofType(GuildMessageChannel.class).block();
+//        messageChannel.getMessageById(Snowflake.of(1187476687018012773L)).block().edit().withEmbeds(sixes);
+
+        // .flatMap(channel -> channel.getMessageById(Snowflake.of(1187414222360027146L)).block().edit().);
+        //event.
+        event.getClient().getChannelById(snowflake).ofType(GuildMessageChannel.class)
+                .flatMap(channel -> channel.getMessageById(Snowflake.of(1187536140585156669L)).block().edit().withContent("another change").withEmbeds(sixes)).subscribe();
+//        event.getClient().getChannelById(snowflake)
+//                .ofType(GuildMessageChannel.class)
+//                .flatMap(channel -> channel.getMessageById(Snowflake.of(1187477447801831514L)).block().edit().withEmbeds(EmbedsPool.retrieve()));
+
         return event.reply()
-                .withEmbeds(
-                        EmbedsPool.retrieve()
-                )
+//                .withEmbeds(
+//                        EmbedsPool.retrieve()
+//                )
                 .withContent("test")
                 .withEphemeral(false);
+
     }
 }

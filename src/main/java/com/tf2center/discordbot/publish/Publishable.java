@@ -5,7 +5,5 @@ package com.tf2center.discordbot.publish;
  * For example, LobbyPublishable is responsible for updating embeded lobbies in the "lobbies" Discord channel.
  */
 public interface Publishable {
-
     void publish();
-
 }

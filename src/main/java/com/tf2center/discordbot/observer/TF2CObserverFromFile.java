@@ -14,6 +14,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -35,7 +36,7 @@ public final class TF2CObserverFromFile {
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private static Document tf2cWebSite;
 
-    //@Scheduled(fixedRate = 10_000, initialDelay = 500)
+    @Scheduled(fixedRate = 10_000, initialDelay = 500)
     private static void parseFromFileTest() {
         try {
             tf2cWebSite = Jsoup.parse(preview, "UTF-8", "http://example.com/");
@@ -89,6 +90,38 @@ public final class TF2CObserverFromFile {
         return lobbies;
     }
 
+    private static ArrayList<TF2CPlayerSlot> extractPlayers(Elements playerSlots) {
+        ArrayList<TF2CPlayerSlot> result = new ArrayList<>();
+        playerSlots.forEach(element -> {
+            if (element.attributes().toString().contains("filled")) {
+                String playerName = element.children().get(1).children().get(0).text();
+                String steamIdProfile = element.children().get(1).children().get(0).attributes().get("href");
+                result.add(new TF2CPlayerSlot(playerName, steamIdProfile, "filled"));
+            } else {
+                result.add(new TF2CPlayerSlot("empty", "empty", "empty"));
+            }
+        });
+        return result;
+    }
+
+    private static List<?> extractLobbyHeaders(Elements headers) {
+        boolean offclassingAllowed = !headers.get(1).select("span").get(4).attributes().toString().contains("cross");
+        String config = headers.get(0).select("td").get(3).text();
+        String server;
+        if (headers.get(0).select("tr").get(2).text().isBlank() || headers.get(0).select("tr").get(2).text().equals("Server")) {
+            server = "";
+        } else {
+            server = headers.get(0).select("tr").get(2).text().substring(7);
+        }
+        String leaderName = headers.get(0).select("td").get(7).text();
+        return List.of(offclassingAllowed, config, server, leaderName);
+
+//        return List.of(
+//                headers.get(1).select("span").get(4).attributes().toString().contains("cross"), //Offclassing allowed
+//                headers.get(0).select("td").get(3).text(), //Config
+//                headers.get(0).select("tr").get(2).text().isBlank() ? "" : headers.get(0).select("tr").get(2).text().substring(7) //Server
+//        );
+    }
 
     private static Set<TF2CSubstituteSlot> getSubstituteSlots() {
         String parsedJson = tf2cWebSite.select("script").get(29)
@@ -136,38 +169,4 @@ public final class TF2CObserverFromFile {
     private static Integer getPlayerCountTotal() {
         return Integer.parseInt(tf2cWebSite.getElementById("playersOnline").text());
     }
-
-    private static ArrayList<TF2CPlayerSlot> extractPlayers(Elements playerSlots) {
-        ArrayList<TF2CPlayerSlot> result = new ArrayList<>();
-        playerSlots.forEach(element -> {
-            if (element.attributes().toString().contains("filled")) {
-                String playerName = element.children().get(1).children().get(0).text();
-                String steamIdProfile = element.children().get(1).children().get(0).attributes().get("href");
-                result.add(new TF2CPlayerSlot(playerName, steamIdProfile, "filled"));
-            } else {
-                result.add(new TF2CPlayerSlot("empty", "empty", "empty"));
-            }
-        });
-        return result;
-    }
-
-    private static List<?> extractLobbyHeaders(Elements headers) {
-        boolean offclassingAllowed = !headers.get(1).select("span").get(4).attributes().toString().contains("cross");
-        String config = headers.get(0).select("td").get(3).text();
-        String server;
-        if (headers.get(0).select("tr").get(2).text().isBlank() || headers.get(0).select("tr").get(2).text().equals("Server")) {
-            server = "";
-        } else {
-            server = headers.get(0).select("tr").get(2).text().substring(7);
-        }
-        String leaderName = headers.get(0).select("td").get(7).text();
-        return List.of(offclassingAllowed, config, server, leaderName);
-
-//        return List.of(
-//                headers.get(1).select("span").get(4).attributes().toString().contains("cross"), //Offclassing allowed
-//                headers.get(0).select("td").get(3).text(), //Config
-//                headers.get(0).select("tr").get(2).text().isBlank() ? "" : headers.get(0).select("tr").get(2).text().substring(7) //Server
-//        );
-    }
-
 }

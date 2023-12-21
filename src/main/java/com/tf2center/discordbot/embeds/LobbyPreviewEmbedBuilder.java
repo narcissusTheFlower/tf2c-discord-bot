@@ -40,28 +40,24 @@ public class LobbyPreviewEmbedBuilder {
                             buildAuthor(json.getLeaderName(), json.getLeaderSteamId())
                     )
                     .color(Color.GREEN)
-                    .title("Lobby #" + json.getLobbyId() + " | " + json.getMap())
+                    .title(buildTitle(json))
                     .url("https://tf2center.com/lobbies/" + json.getLobbyId())
                     .description(
-                            buildDescription(
-                                    json.isVoiceCommunicationRequired(),
-                                    json.isRegionLocked(),
-                                    json.isBalancedLobby(),
-                                    json.isOffclassingAllowed(),
-                                    teamType)
+                            buildDescription(json)
                     )
                     .thumbnail(
                             buildThumbnail(json.getRegion())
                     )
                     .addFields(
-                            composeTeams(json.getPlayerSlotList())
+                            buildTeams(json.getPlayerSlotList())
                     )
                     .image(
                             "https://tf2center.com" + json.getThumbnailUrl()
                     )
-                    //.timestamp(Instant.now()) will adjust to user local time?
+                    //There is no need to build time cos we parse the website pretty often and the .now()  will represent it quite accurate.
+                    //It will adjust to users time.
                     .timestamp(Instant.now())
-                    .footer("Lobby opened", "https://i.pinimg.com/originals/a8/a7/b2/a8a7b2f15d5a34424b27eb5804e3af8a.png")
+                    .footer("Lobby opened", "https://static-00.iconduck.com/assets.00/four-o-clock-emoji-2047x2048-dqpvucft.png")
                     .build();
 
             result.add(lobby);
@@ -70,9 +66,12 @@ public class LobbyPreviewEmbedBuilder {
         return result;
     }
 
+    private String buildTitle(TF2CLobbyPreview json) {
+        String readyState = json.isInReadyUpMode() ? "Ready UP 🔥" : "Has not started yet 🕜";
+        return String.format("Lobby #%d | %s\n%s", json.getLobbyId(), json.getMap(), readyState);
+    }
 
     private EmbedCreateFields.Author buildAuthor(String leaderName, long leaderSteamId) {
-        //TODO you do not need this whole stam api the avatar is literally in the html
         String avatarUrl = SteamApiCaller.getPlayerAvatar(leaderSteamId);
         String fullSteamUrl = "https://steamcommunity.com/profiles/" + leaderSteamId;
         return EmbedCreateFields.Author.of(
@@ -81,19 +80,20 @@ public class LobbyPreviewEmbedBuilder {
                 avatarUrl);
     }
 
-    private String buildDescription(boolean isVoiceRequired, boolean isRegionLocked, boolean isBalanced, boolean offclassingAllowed, String teamType) {
+    private String buildDescription(TF2CLobbyPreview json) {
+
         String blueX = "\uD83c\uDDFD";
         String greenCheck = "✅";
-        //TODO change this to stringBuilder as it is faster and less memory consuming
-        String offclassing = "Offclassing allowed: " + (offclassingAllowed ? greenCheck : blueX) + "\n";
-        String voice = "Mumble required: " + (isVoiceRequired ? greenCheck : blueX) + "\n";
-        String balancing = "Balanced lobby: " + (isBalanced ? greenCheck : blueX) + "\n";
-        String region = "Region lock: " + (isRegionLocked ? greenCheck : blueX);
+        String offclassing = "Offclassing allowed: " + (json.isOffclassingAllowed() ? greenCheck : blueX) + "\n";
+        String voice = "Mumble required: " + (json.isVoiceCommunicationRequired() ? greenCheck : blueX) + "\n";
+        String advanced = "Advanced lobby: " + (json.isAdvanced() ? greenCheck : blueX) + "\n";
+        String balancing = "Balanced lobby: " + (json.isBalancedLobby() ? greenCheck : blueX) + "\n";
+        String region = "Region lock: " + (json.isRegionLocked() ? greenCheck : blueX);
         if (teamType.equals("6v6")) {
-            return offclassing + voice + balancing + region;
+            return offclassing + voice + advanced + balancing + region;
         }
         //String advancedLobby; TODO
-        return voice + balancing + region;
+        return voice + advanced + balancing + region;
     }
 
     private String buildThumbnail(String region) {
@@ -106,14 +106,14 @@ public class LobbyPreviewEmbedBuilder {
     }
 
 
-    private EmbedCreateFields.Field[] composeTeams(List<TF2CPlayerSlot> slots) {
+    private EmbedCreateFields.Field[] buildTeams(List<TF2CPlayerSlot> slots) {
         byte teamSize = (byte) slots.size();
 
         List<TF2CPlayerSlot> blu = assignClasses(slots.subList(0, teamSize / 2)); //First half of the list
         List<TF2CPlayerSlot> red = assignClasses(slots.subList(teamSize / 2, teamSize)); //Second half of the list
 
         EmbedCreateFields.Field[] teamBlu = new EmbedCreateFields.Field[(teamSize / 2) + 2];
-        teamBlu[0] = EmbedCreateFields.Field.of("BLU TEAM", "", false);
+        teamBlu[0] = EmbedCreateFields.Field.of("📘BLU TEAM", "", false);
         for (int i = 1; i < teamBlu.length; i++) {
             if (i == teamBlu.length - 1) {
                 teamBlu[i] = EmbedCreateFields.Field.of("\u200B", "\u200B", false);
@@ -121,16 +121,16 @@ public class LobbyPreviewEmbedBuilder {
             }
             teamBlu[i] = EmbedCreateFields.Field.of(
                     blu.get(i - 1).getTf2Class(),
-                    blu.get(i - 1).getPlayerName().equals("empty") ? "[Join](https://tf2center.com/lobbies" + lobbyId + ")" : blu.get(i - 1).getPlayerName(),
+                    blu.get(i - 1).getPlayerName().equals("empty") ? "[Join](https://tf2center.com/lobbies/" + lobbyId + ")" : blu.get(i - 1).getPlayerName(),
                     true);
         }
 
         EmbedCreateFields.Field[] teamRed = new EmbedCreateFields.Field[(teamSize / 2) + 1];
-        teamRed[0] = EmbedCreateFields.Field.of("RED TEAM", "", false);
+        teamRed[0] = EmbedCreateFields.Field.of("📕RED TEAM", "", false);
         for (int i = 1; i < teamRed.length; i++) {
             teamRed[i] = EmbedCreateFields.Field.of(
                     red.get(i - 1).getTf2Class(),
-                    red.get(i - 1).getPlayerName().equals("empty") ? "[Join](https://tf2center.com/lobbies" + lobbyId + ")" : red.get(i - 1).getPlayerName(),
+                    red.get(i - 1).getPlayerName().equals("empty") ? "[Join](https://tf2center.com/lobbies/" + lobbyId + ")" : red.get(i - 1).getPlayerName(),
                     true);
         }
         return ArrayUtils.addAll(teamBlu, teamRed);
@@ -223,15 +223,15 @@ public class LobbyPreviewEmbedBuilder {
     private class Highlander extends TeamType {
         public Highlander() {
             super.configure(List.of(
-                    "Scout",
-                    "Soldier",
-                    "Pyro",
-                    "Demo",
-                    "Engineer",
-                    "Heavy",
-                    "Medic",
-                    "Sniper",
-                    "Spy"
+                    "⚾Scout",
+                    "\uD83D\uDE80Soldier",
+                    "🔥Pyro",
+                    "🧨Demo",
+                    "\uD83D\uDD27Engineer",
+                    "🐤Heavy",
+                    "💊Medic",
+                    "🎯Sniper",
+                    "\uD83D\uDD2ASpy"
             ));
         }
     }
@@ -239,12 +239,12 @@ public class LobbyPreviewEmbedBuilder {
     private class Sixes extends TeamType {
         public Sixes() {
             super.configure(List.of(
-                    "Scout",
-                    "Scout",
-                    "Roamer",
-                    "Pocket",
-                    "Demo",
-                    "Medic"
+                    "⚾Scout",
+                    "⚾Scout",
+                    "\uD83D\uDE80Roamer",
+                    "\uD83D\uDE80Pocket",
+                    "🧨Demo",
+                    "💊Medic"
             ));
         }
     }
@@ -252,10 +252,10 @@ public class LobbyPreviewEmbedBuilder {
     private class Fours extends TeamType {
         public Fours() {
             super.configure(List.of(
-                    "Scout",
-                    "Soldier",
-                    "Demo",
-                    "Medic"
+                    "⚾Scout",
+                    "\uD83D\uDE80Soldier",
+                    "🧨Demo",
+                    "💊Medic"
             ));
         }
     }
@@ -263,8 +263,8 @@ public class LobbyPreviewEmbedBuilder {
     private class Ultiduo extends TeamType {
         public Ultiduo() {
             super.configure(List.of(
-                    "Soldier",
-                    "Medic"
+                    "\uD83D\uDE80Soldier",
+                    "💊Medic"
             ));
         }
     }
@@ -272,10 +272,10 @@ public class LobbyPreviewEmbedBuilder {
     private class Bbal extends TeamType {
         public Bbal() {
             super.configure(List.of(
-                    "Soldier",
-                    "Soldier",
-                    "Soldier",
-                    "Soldier"
+                    "\uD83D\uDE80Soldier",
+                    "\uD83D\uDE80Soldier",
+                    "\uD83D\uDE80Soldier",
+                    "\uD83D\uDE80Soldier"
             ));
         }
     }
