@@ -121,13 +121,10 @@ public class PreviewLobbiesCommand implements SlashCommand {
 //                .ofType(GuildMessageChannel.class).block();
 //        messageChannel.getMessageById(Snowflake.of(1187476687018012773L)).block().edit().withEmbeds(sixes);
 
-        // .flatMap(channel -> channel.getMessageById(Snowflake.of(1187414222360027146L)).block().edit().);
-        //event.
-//        event.getClient().getChannelById(snowflake).ofType(GuildMessageChannel.class)
+
+// THIS ONE WORKS FOR EDITS AND EVERYTHING ELSE       event.getClient().getChannelById(snowflake).ofType(GuildMessageChannel.class)
 //                .flatMap(channel -> channel.getMessageById(Snowflake.of(1187373319884910623L)).block().edit().withContent("another change").withEmbeds(sixes)).subscribe();
-//        event.getClient().getChannelById(snowflake)
-//                .ofType(GuildMessageChannel.class)
-//                .flatMap(channel -> channel.getMessageById(Snowflake.of(1187477447801831514L)).block().edit().withEmbeds(EmbedsPool.retrieve()));
+
 
         return event.reply()
                 .withEmbeds(

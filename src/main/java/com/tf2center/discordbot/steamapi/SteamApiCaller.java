@@ -28,7 +28,6 @@ public class SteamApiCaller {
         return avatarUrl;
     }
 
-
     private static String httpCall(String url) throws IOException {
         Request request = new Request.Builder().url(url).build();
         try (Response response = CLIENT.newCall(request).execute()) {
