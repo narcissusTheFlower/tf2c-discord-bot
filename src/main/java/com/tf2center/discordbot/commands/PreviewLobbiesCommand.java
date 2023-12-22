@@ -1,9 +1,9 @@
 package com.tf2center.discordbot.commands;
 
+import com.tf2center.discordbot.embeds.EmbedsPool;
 import discord4j.common.util.Snowflake;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
-import discord4j.core.object.entity.channel.GuildMessageChannel;
 import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.rest.util.Color;
 import org.slf4j.Logger;
@@ -123,16 +123,16 @@ public class PreviewLobbiesCommand implements SlashCommand {
 
         // .flatMap(channel -> channel.getMessageById(Snowflake.of(1187414222360027146L)).block().edit().);
         //event.
-        event.getClient().getChannelById(snowflake).ofType(GuildMessageChannel.class)
-                .flatMap(channel -> channel.getMessageById(Snowflake.of(1187536140585156669L)).block().edit().withContent("another change").withEmbeds(sixes)).subscribe();
+//        event.getClient().getChannelById(snowflake).ofType(GuildMessageChannel.class)
+//                .flatMap(channel -> channel.getMessageById(Snowflake.of(1187373319884910623L)).block().edit().withContent("another change").withEmbeds(sixes)).subscribe();
 //        event.getClient().getChannelById(snowflake)
 //                .ofType(GuildMessageChannel.class)
 //                .flatMap(channel -> channel.getMessageById(Snowflake.of(1187477447801831514L)).block().edit().withEmbeds(EmbedsPool.retrieve()));
 
         return event.reply()
-//                .withEmbeds(
-//                        EmbedsPool.retrieve()
-//                )
+                .withEmbeds(
+                        EmbedsPool.retrieveFirst()
+                )
                 .withContent("test")
                 .withEphemeral(false);
 

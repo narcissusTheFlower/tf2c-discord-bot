@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * Class represents a slot in a team in a lobby.
  */
-public class TF2CSlot {
+public class TF2CSlotDTO {
     private String tf2Class;
-    private TF2CAvailableSlot[] availableSlots;
+    private TF2CAvailableSlotDTO[] availableSlots;
     @JsonIgnore
     private Object[] availableReservedSlots;
 
@@ -19,11 +19,11 @@ public class TF2CSlot {
         this.tf2Class = tf2Class;
     }
 
-    public TF2CAvailableSlot[] getAvailableSlots() {
+    public TF2CAvailableSlotDTO[] getAvailableSlots() {
         return availableSlots;
     }
 
-    public void setAvailableSlots(TF2CAvailableSlot[] availableSlots) {
+    public void setAvailableSlots(TF2CAvailableSlotDTO[] availableSlots) {
         this.availableSlots = availableSlots;
     }
 

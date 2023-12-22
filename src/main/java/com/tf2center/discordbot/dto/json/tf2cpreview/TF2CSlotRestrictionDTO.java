@@ -1,6 +1,6 @@
 package com.tf2center.discordbot.dto.json.tf2cpreview;
 
-public class TF2CSlotRestriction {
+public class TF2CSlotRestrictionDTO {
     private String games;
 
     public String getGames() {

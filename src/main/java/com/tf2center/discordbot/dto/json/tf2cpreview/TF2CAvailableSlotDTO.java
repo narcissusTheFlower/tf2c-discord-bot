@@ -1,10 +1,10 @@
 package com.tf2center.discordbot.dto.json.tf2cpreview;
 
-public class TF2CAvailableSlot {
+public class TF2CAvailableSlotDTO {
 
     private String team;
     private boolean reserved;
-    private TF2CSlotRestriction restrictions;
+    private TF2CSlotRestrictionDTO restrictions;
 
     public String getTeam() {
         return team;
@@ -22,11 +22,11 @@ public class TF2CAvailableSlot {
         this.reserved = reserved;
     }
 
-    public TF2CSlotRestriction getRestrictions() {
+    public TF2CSlotRestrictionDTO getRestrictions() {
         return restrictions;
     }
 
-    public void setRestrictions(TF2CSlotRestriction restrictions) {
+    public void setRestrictions(TF2CSlotRestrictionDTO restrictions) {
         this.restrictions = restrictions;
     }
 }

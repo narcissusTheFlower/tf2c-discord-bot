@@ -2,9 +2,9 @@ package com.tf2center.discordbot.dto.json;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tf2center.discordbot.dto.json.tf2cpreview.TF2CSlotRestriction;
+import com.tf2center.discordbot.dto.json.tf2cpreview.TF2CSlotRestrictionDTO;
 
-public class TF2CSubstituteSlot {
+public class TF2CSubstituteSlotDTO {
 
     @JsonProperty("lobbyNo")
     private int lobbyId;
@@ -23,7 +23,7 @@ public class TF2CSubstituteSlot {
 
     //This field is present on the website, but I've never seen a sub that had requirements
     @JsonIgnore
-    private TF2CSlotRestriction restrictions;
+    private TF2CSlotRestrictionDTO restrictions;
 
     public int getLobbyId() {
         return lobbyId;
@@ -113,11 +113,11 @@ public class TF2CSubstituteSlot {
         this.advanced = advanced;
     }
 
-    public TF2CSlotRestriction getRestrictions() {
+    public TF2CSlotRestrictionDTO getRestrictions() {
         return restrictions;
     }
 
-    public void setRestrictions(TF2CSlotRestriction restrictions) {
+    public void setRestrictions(TF2CSlotRestrictionDTO restrictions) {
         this.restrictions = restrictions;
     }
 }

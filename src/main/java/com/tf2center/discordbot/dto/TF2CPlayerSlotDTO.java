@@ -1,13 +1,13 @@
-package com.tf2center.discordbot.dto.teams;
+package com.tf2center.discordbot.dto;
 
-public class TF2CPlayerSlot {
+public class TF2CPlayerSlotDTO {
 
     private String playerName;
     private String steamId;
     private String state;
     private String tf2Class;
 
-    public TF2CPlayerSlot(String playerName, String steamId, String state) {
+    public TF2CPlayerSlotDTO(String playerName, String steamId, String state) {
         this.playerName = playerName;
         this.steamId = steamId;
         this.state = state;

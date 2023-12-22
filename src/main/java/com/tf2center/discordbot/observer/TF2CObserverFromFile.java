@@ -4,11 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tf2center.discordbot.domain.TF2CWebSite;
-import com.tf2center.discordbot.dto.TF2CPlayerCount;
-import com.tf2center.discordbot.dto.json.TF2CSubstituteSlot;
+import com.tf2center.discordbot.dto.TF2CLobbyDTO;
+import com.tf2center.discordbot.dto.TF2CPlayerCountDTO;
+import com.tf2center.discordbot.dto.TF2CPlayerSlotDTO;
 import com.tf2center.discordbot.dto.json.TF2CSubstituteSlotContainer;
-import com.tf2center.discordbot.dto.json.tf2cpreview.TF2CLobbyPreview;
-import com.tf2center.discordbot.dto.teams.TF2CPlayerSlot;
+import com.tf2center.discordbot.dto.json.TF2CSubstituteSlotDTO;
+import com.tf2center.discordbot.dto.json.tf2cpreview.TF2CLobbyPreviewDTO;
 import com.tf2center.discordbot.utils.TF2CCollectionsUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -24,6 +25,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 /**
  * This class parses pure HTML from the website and transforms JSON into a POJO
@@ -44,20 +46,20 @@ public final class TF2CObserverFromFile {
             throw new RuntimeException(e);
         }
 
-        TF2CWebSite.update(getPlayerCount(), getLobbyPreview(), getSubstituteSlots());
+        TF2CWebSite.update(getPlayerCount(), getLobbies(), getSubstituteSlots());
     }
 
-    private static Set<TF2CLobbyPreview> getLobbyPreview() {
+    private static Set<TF2CLobbyDTO> getLobbies() {
         //We cut away unnecessary characters and leave pure JSON
         String parsedJson = new TF2CCollectionsUtils().getLastFromList(tf2cWebSite.getElementsByTag("script"))
                 .toString().substring(49);
         parsedJson = parsedJson.substring(0, parsedJson.length() - 11);
 
 
-        Set<TF2CLobbyPreview> lobbies = null;
+        Set<TF2CLobbyPreviewDTO> lobbies = null;
 
         try {
-            lobbies = objectMapper.readValue(parsedJson, new TypeReference<Set<TF2CLobbyPreview>>() {
+            lobbies = objectMapper.readValue(parsedJson, new TypeReference<Set<TF2CLobbyPreviewDTO>>() {
             });
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
@@ -70,7 +72,7 @@ public final class TF2CObserverFromFile {
         lobbies.forEach(preview -> {
                     //TODO Redo with reactive streams
                     Document tf2cWebSiteLocal;
-                    ArrayList<TF2CPlayerSlot> players;
+            ArrayList<TF2CPlayerSlotDTO> players;
                     try {
                         tf2cWebSiteLocal = Jsoup.parse(inner, "UTF-8", "http://example.com/");
                     } catch (IOException e) {
@@ -84,21 +86,23 @@ public final class TF2CObserverFromFile {
                     preview.setConfig((String) headers.get(1));
                     preview.setServer((String) headers.get(2));
             preview.setLeaderName((String) headers.get(3));
-                    //TODO map to new separate DTO
+
                 }
         );
-        return lobbies;
+        return Set.copyOf(
+                lobbies.stream().map(lobby -> new TF2CLobbyDTO(lobby)).collect(Collectors.toSet())
+        );
     }
 
-    private static ArrayList<TF2CPlayerSlot> extractPlayers(Elements playerSlots) {
-        ArrayList<TF2CPlayerSlot> result = new ArrayList<>();
+    private static ArrayList<TF2CPlayerSlotDTO> extractPlayers(Elements playerSlots) {
+        ArrayList<TF2CPlayerSlotDTO> result = new ArrayList<>();
         playerSlots.forEach(element -> {
             if (element.attributes().toString().contains("filled")) {
                 String playerName = element.children().get(1).children().get(0).text();
                 String steamIdProfile = element.children().get(1).children().get(0).attributes().get("href");
-                result.add(new TF2CPlayerSlot(playerName, steamIdProfile, "filled"));
+                result.add(new TF2CPlayerSlotDTO(playerName, steamIdProfile, "filled"));
             } else {
-                result.add(new TF2CPlayerSlot("empty", "empty", "empty"));
+                result.add(new TF2CPlayerSlotDTO("empty", "empty", "empty"));
             }
         });
         return result;
@@ -123,7 +127,7 @@ public final class TF2CObserverFromFile {
 //        );
     }
 
-    private static Set<TF2CSubstituteSlot> getSubstituteSlots() {
+    private static Set<TF2CSubstituteSlotDTO> getSubstituteSlots() {
         String parsedJson = tf2cWebSite.select("script").get(29)
                 .toString().substring(164);
         parsedJson = parsedJson.substring(0, parsedJson.indexOf(";;") - 1);
@@ -142,8 +146,8 @@ public final class TF2CObserverFromFile {
         return Collections.emptySet();
     }
 
-    private static TF2CPlayerCount getPlayerCount() {
-        return TF2CPlayerCount.of(
+    private static TF2CPlayerCountDTO getPlayerCount() {
+        return TF2CPlayerCountDTO.of(
                 new AtomicInteger(getPlayerCountTotal()),
                 new AtomicInteger(getPlayerCountEU()),
                 new AtomicInteger(getPlayerCountNA()),

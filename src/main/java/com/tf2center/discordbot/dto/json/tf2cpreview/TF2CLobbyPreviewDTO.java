@@ -2,12 +2,12 @@ package com.tf2center.discordbot.dto.json.tf2cpreview;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tf2center.discordbot.dto.teams.TF2CPlayerSlot;
+import com.tf2center.discordbot.dto.TF2CPlayerSlotDTO;
 
 import java.util.List;
 
 
-public final class TF2CLobbyPreview {
+public final class TF2CLobbyPreviewDTO {
 
     @JsonProperty("no")
     private int lobbyId;
@@ -26,9 +26,9 @@ public final class TF2CLobbyPreview {
     @JsonProperty("useBalancer")
     private boolean balancedLobby;
     private boolean advanced;
-    private TF2CSlot[] slots;
+    private TF2CSlotDTO[] slots;
     @JsonIgnore
-    private List<TF2CPlayerSlot> playerSlotList;
+    private List<TF2CPlayerSlotDTO> playerSlotList;
     @JsonIgnore
     private boolean offclassingAllowed;
     @JsonIgnore
@@ -81,11 +81,11 @@ public final class TF2CLobbyPreview {
         this.server = server;
     }
 
-    public List<TF2CPlayerSlot> getPlayerSlotList() {
+    public List<TF2CPlayerSlotDTO> getPlayerSlotList() {
         return playerSlotList;
     }
 
-    public void setPlayerSlotList(List<TF2CPlayerSlot> playerSlotList) {
+    public void setPlayerSlotList(List<TF2CPlayerSlotDTO> playerSlotList) {
 
         this.playerSlotList = playerSlotList;
     }
@@ -202,11 +202,11 @@ public final class TF2CLobbyPreview {
         this.advanced = advanced;
     }
 
-    public TF2CSlot[] getSlots() {
+    public TF2CSlotDTO[] getSlots() {
         return slots;
     }
 
-    public void setSlots(TF2CSlot[] slots) {
+    public void setSlots(TF2CSlotDTO[] slots) {
         this.slots = slots;
     }
 

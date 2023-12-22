@@ -5,13 +5,12 @@ import org.springframework.lang.NonNull;
 
 import java.util.List;
 
-public class TF2CCollectionsUtils<T extends List> {
+public class TF2CCollectionsUtils {
 
-    public Object getLastFromList(@NonNull T collection) {
+    public <T extends List<?>> Object getLastFromList(@NonNull T collection) {
         if (collection.isEmpty()) {
             throw new TF2CUtilsException("Collection is empty.", new RuntimeException());
         }
         return collection.get(collection.size() - 1);
     }
-
 }

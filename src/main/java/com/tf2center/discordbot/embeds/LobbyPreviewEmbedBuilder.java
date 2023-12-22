@@ -1,7 +1,8 @@
 package com.tf2center.discordbot.embeds;
 
-import com.tf2center.discordbot.dto.json.tf2cpreview.TF2CLobbyPreview;
-import com.tf2center.discordbot.dto.teams.TF2CPlayerSlot;
+import com.tf2center.discordbot.dto.TF2CLobby;
+import com.tf2center.discordbot.dto.TF2CPlayerSlotDTO;
+import com.tf2center.discordbot.exceptions.TF2CEmbedBuilderException;
 import com.tf2center.discordbot.steamapi.SteamApiCaller;
 import discord4j.core.spec.EmbedCreateFields;
 import discord4j.core.spec.EmbedCreateSpec;
@@ -9,28 +10,28 @@ import discord4j.rest.util.Color;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.time.Instant;
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
 public class LobbyPreviewEmbedBuilder {
 
-    private final Set<TF2CLobbyPreview> jsonParsedPreviews;
+    private final Set<TF2CLobby> jsonParsedPreviews;
     private long lobbyId;
     private String teamType;
 
-    private LobbyPreviewEmbedBuilder(Set<TF2CLobbyPreview> jsonParsedPreviews) {
+    private LobbyPreviewEmbedBuilder(Set<TF2CLobby> jsonParsedPreviews) {
         this.jsonParsedPreviews = jsonParsedPreviews;
     }
 
-    public static LobbyPreviewEmbedBuilder of(Set<TF2CLobbyPreview> previews) {
+    public static LobbyPreviewEmbedBuilder of(Set<TF2CLobby> previews) {
         return new LobbyPreviewEmbedBuilder(previews);
     }
 
     public Set<EmbedCreateSpec> build() {
-        //Flux<TF2CLobbyPreview>
-        HashSet<EmbedCreateSpec> result = new HashSet<>();
+        //Flux<TF2CLobbyPreviewDTO>
+        Set<EmbedCreateSpec> result = new LinkedHashSet<>();
 
         jsonParsedPreviews.forEach(json -> {
             lobbyId = json.getLobbyId();
@@ -43,7 +44,9 @@ public class LobbyPreviewEmbedBuilder {
                     .title(buildTitle(json))
                     .url("https://tf2center.com/lobbies/" + json.getLobbyId())
                     .description(
-                            buildDescription(json)
+                            String.valueOf(
+                                    buildDescription(json)
+                            )
                     )
                     .thumbnail(
                             buildThumbnail(json.getRegion())
@@ -54,8 +57,7 @@ public class LobbyPreviewEmbedBuilder {
                     .image(
                             "https://tf2center.com" + json.getThumbnailUrl()
                     )
-                    //There is no need to build time cos we parse the website pretty often and the .now()  will represent it quite accurate.
-                    //It will adjust to users time.
+                    //TODO build proper timings
                     .timestamp(Instant.now())
                     .footer("Lobby opened", "https://static-00.iconduck.com/assets.00/four-o-clock-emoji-2047x2048-dqpvucft.png")
                     .build();
@@ -63,10 +65,10 @@ public class LobbyPreviewEmbedBuilder {
             result.add(lobby);
         });
 
-        return result;
+        return Set.copyOf(result);
     }
 
-    private String buildTitle(TF2CLobbyPreview json) {
+    private String buildTitle(TF2CLobby json) {
         String readyState = json.isInReadyUpMode() ? "Ready UP 🔥" : "Has not started yet 🕜";
         return String.format("Lobby #%d | %s\n%s", json.getLobbyId(), json.getMap(), readyState);
     }
@@ -80,7 +82,7 @@ public class LobbyPreviewEmbedBuilder {
                 avatarUrl);
     }
 
-    private String buildDescription(TF2CLobbyPreview json) {
+    private StringBuffer buildDescription(TF2CLobby json) {
 
         String blueX = "\uD83c\uDDFD";
         String greenCheck = "✅";
@@ -90,10 +92,10 @@ public class LobbyPreviewEmbedBuilder {
         String balancing = "Balanced lobby: " + (json.isBalancedLobby() ? greenCheck : blueX) + "\n";
         String region = "Region lock: " + (json.isRegionLocked() ? greenCheck : blueX);
         if (teamType.equals("6v6")) {
-            return offclassing + voice + advanced + balancing + region;
+            return new StringBuffer().append(offclassing).append(voice).append(advanced).append(balancing).append(region);
         }
         //String advancedLobby; TODO
-        return voice + advanced + balancing + region;
+        return new StringBuffer().append(voice).append(advanced).append(balancing).append(region);
     }
 
     private String buildThumbnail(String region) {
@@ -106,11 +108,11 @@ public class LobbyPreviewEmbedBuilder {
     }
 
 
-    private EmbedCreateFields.Field[] buildTeams(List<TF2CPlayerSlot> slots) {
+    private EmbedCreateFields.Field[] buildTeams(List<TF2CPlayerSlotDTO> slots) {
         byte teamSize = (byte) slots.size();
 
-        List<TF2CPlayerSlot> blu = assignClasses(slots.subList(0, teamSize / 2)); //First half of the list
-        List<TF2CPlayerSlot> red = assignClasses(slots.subList(teamSize / 2, teamSize)); //Second half of the list
+        List<TF2CPlayerSlotDTO> blu = assignClasses(slots.subList(0, teamSize / 2)); //First half of the list
+        List<TF2CPlayerSlotDTO> red = assignClasses(slots.subList(teamSize / 2, teamSize)); //Second half of the list
 
         EmbedCreateFields.Field[] teamBlu = new EmbedCreateFields.Field[(teamSize / 2) + 2];
         teamBlu[0] = EmbedCreateFields.Field.of("📘BLU TEAM", "", false);
@@ -136,11 +138,11 @@ public class LobbyPreviewEmbedBuilder {
         return ArrayUtils.addAll(teamBlu, teamRed);
     }
 
-    private List<TF2CPlayerSlot> assignClasses(List<TF2CPlayerSlot> singleTeam) {
+    private List<TF2CPlayerSlotDTO> assignClasses(List<TF2CPlayerSlotDTO> singleTeam) {
         return switch (teamType) {
             case "Highlander" -> {
 
-                Iterator<TF2CPlayerSlot> iterator = singleTeam.iterator();
+                Iterator<TF2CPlayerSlotDTO> iterator = singleTeam.iterator();
                 Highlander highlander = new Highlander();
                 for (int i = 0; i < singleTeam.size(); i++) {
                     if (iterator.hasNext()) {
@@ -152,7 +154,7 @@ public class LobbyPreviewEmbedBuilder {
                 yield List.copyOf(singleTeam);
             }
             case "6v6" -> {
-                Iterator<TF2CPlayerSlot> iterator = singleTeam.iterator();
+                Iterator<TF2CPlayerSlotDTO> iterator = singleTeam.iterator();
                 Sixes sixes = new Sixes();
                 for (int i = 0; i < singleTeam.size(); i++) {
                     if (iterator.hasNext()) {
@@ -164,7 +166,7 @@ public class LobbyPreviewEmbedBuilder {
                 yield List.copyOf(singleTeam);
             }
             case "4v4" -> {
-                Iterator<TF2CPlayerSlot> iterator = singleTeam.iterator();
+                Iterator<TF2CPlayerSlotDTO> iterator = singleTeam.iterator();
                 Fours fours = new Fours();
                 for (int i = 0; i < singleTeam.size(); i++) {
                     if (iterator.hasNext()) {
@@ -176,7 +178,7 @@ public class LobbyPreviewEmbedBuilder {
                 yield List.copyOf(singleTeam);
             }
             case "Ultiduo" -> {
-                Iterator<TF2CPlayerSlot> iterator = singleTeam.iterator();
+                Iterator<TF2CPlayerSlotDTO> iterator = singleTeam.iterator();
                 Ultiduo ultiduo = new Ultiduo();
                 for (int i = 0; i < singleTeam.size(); i++) {
                     if (iterator.hasNext()) {
@@ -188,7 +190,7 @@ public class LobbyPreviewEmbedBuilder {
                 yield List.copyOf(singleTeam);
             }
             case "Bbal" -> {
-                Iterator<TF2CPlayerSlot> iterator = singleTeam.iterator();
+                Iterator<TF2CPlayerSlotDTO> iterator = singleTeam.iterator();
                 Bbal bbal = new Bbal();
                 for (int i = 0; i < singleTeam.size(); i++) {
                     if (iterator.hasNext()) {
@@ -199,16 +201,16 @@ public class LobbyPreviewEmbedBuilder {
                 }
                 yield List.copyOf(singleTeam);
             }
-            default -> throw new IllegalStateException("Failed to determine team type: " + teamType);
+            default -> throw new TF2CEmbedBuilderException("Failed to determine team type: " + teamType);
         };
     }
 
     private abstract class TeamType {
-        public List<String> classes;
-        Iterator<String> iterator;
+        //private List<String> classes;
+        private Iterator<String> iterator;
 
         public void configure(List<String> classes) {
-            this.classes = classes;
+            //this.classes = classes;
             this.iterator = classes.iterator();
         }
 

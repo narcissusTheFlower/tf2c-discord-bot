@@ -9,11 +9,9 @@ import java.io.IOException;
 
 public class SteamApiCaller {
 
-    private static final OkHttpClient client = new OkHttpClient();
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final OkHttpClient CLIENT = new OkHttpClient();
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private static final String STEAM_API_KEY = System.getenv("STEAM_API_KEY");
-
-    //private static URL url = new URL("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key="+STEAM_API_KEY+"&steamids=");
     private static String url = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + STEAM_API_KEY + "&steamids=";
 
     public static String getPlayerAvatar(long steamId) {
@@ -23,7 +21,7 @@ public class SteamApiCaller {
             json = httpCall(url + steamId);
             json = json.substring(24);
             json = json.substring(0, json.length() - 3);
-            avatarUrl = objectMapper.readTree(json).path("avatarfull").asText();
+            avatarUrl = OBJECT_MAPPER.readTree(json).path("avatarfull").asText();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -32,7 +30,7 @@ public class SteamApiCaller {
 
     private static String httpCall(String url) throws IOException {
         Request request = new Request.Builder().url(url).build();
-        try (Response response = client.newCall(request).execute()) {
+        try (Response response = CLIENT.newCall(request).execute()) {
             return response.body().string();
         }
     }

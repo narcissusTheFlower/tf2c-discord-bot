@@ -1,25 +1,50 @@
 package com.tf2center.discordbot.dto;
 
+import com.tf2center.discordbot.dto.json.tf2cpreview.TF2CSlotDTO;
 
-import com.tf2center.discordbot.dto.json.tf2cpreview.TF2CSlot;
+import java.util.List;
 
-public class TF2CLobby<T> {
+public interface TF2CLobby {
 
-    private int lobbyId;
-    private long leaderSteamId;
-    private String region;
-    private boolean voiceCommunicationRequired;
-    private String gameType;
-    private boolean inReadyUpMode;
-    private String map;
-    private String thumbnailUrl;
-    private int playersInLobby;
-    private int playersForGame;
-    private String restrictionsText;
-    private boolean regionLock;
-    private boolean balancedLobby;
-    private boolean advanced;
-    private TF2CSlot[] slots;
+    int getLobbyId();
 
+    long getLeaderSteamId();
 
+    String getRegion();
+
+    boolean isVoiceCommunicationRequired();
+
+    String getGameType();
+
+    boolean isInReadyUpMode();
+
+    String getMap();
+
+    String getThumbnailUrl();
+
+    int getPlayersInLobby();
+
+    int getPlayersForGame();
+
+    String getRestrictionsText();
+
+    boolean isRegionLocked();
+
+    boolean isBalancedLobby();
+
+    boolean isAdvanced();
+
+    TF2CSlotDTO[] getSlots();
+
+    List<TF2CPlayerSlotDTO> getPlayerSlotList();
+
+    boolean isOffclassingAllowed();
+
+    String getConfig();
+
+    String getServer();
+
+    String getLeaderName();
+
+    String getTimeOpened();
 }
