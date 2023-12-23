@@ -1,6 +1,5 @@
 package com.tf2center.discordbot.commands;
 
-import com.tf2center.discordbot.embeds.EmbedsPool;
 import discord4j.common.util.Snowflake;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
@@ -127,9 +126,9 @@ public class PreviewLobbiesCommand implements SlashCommand {
 
 
         return event.reply()
-                .withEmbeds(
-                        EmbedsPool.retrieveFirst()
-                )
+//                .withEmbeds(
+//                        EmbedsPool.retrieveFirst()
+//                )
                 .withContent("test")
                 .withEphemeral(false);
 

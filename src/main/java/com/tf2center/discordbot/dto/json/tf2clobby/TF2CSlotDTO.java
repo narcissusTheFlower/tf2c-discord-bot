@@ -1,4 +1,4 @@
-package com.tf2center.discordbot.dto.json.tf2cpreview;
+package com.tf2center.discordbot.dto.json.tf2clobby;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

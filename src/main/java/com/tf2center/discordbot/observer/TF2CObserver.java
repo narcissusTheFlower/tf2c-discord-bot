@@ -9,13 +9,15 @@ import com.tf2center.discordbot.dto.TF2CPlayerCountDTO;
 import com.tf2center.discordbot.dto.TF2CPlayerSlotDTO;
 import com.tf2center.discordbot.dto.json.TF2CSubstituteSlotContainer;
 import com.tf2center.discordbot.dto.json.TF2CSubstituteSlotDTO;
-import com.tf2center.discordbot.dto.json.tf2cpreview.TF2CLobbyPreviewDTO;
+import com.tf2center.discordbot.dto.json.tf2clobby.TF2CLobbyPreviewDTO;
 import com.tf2center.discordbot.exceptions.TF2CObserverException;
 import com.tf2center.discordbot.utils.TF2CCollectionsUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -30,6 +32,7 @@ import java.util.stream.Collectors;
  * This class parses pure HTML from the website and transforms JSON into a POJO
  */
 @EnableScheduling
+@Scope("singleton")
 @Component("htmlParser")
 public final class TF2CObserver {
 
@@ -37,9 +40,15 @@ public final class TF2CObserver {
     private static Document tf2cWebSite;
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-    //@Scheduled(fixedRate = 10_000, initialDelay = 500)
+    @Scheduled(fixedRate = 10_000, initialDelay = 500)
     private static void parseTF2C() {
         try {
+            //TODO clean cookies
+//            Connection connect = Jsoup.connect(TF2C_URL)
+//                    .userAgent("Mozilla")
+//                    .timeout(5000);
+//            connect.cookieStore().removeAll();
+//            tf2cWebSite = connect.get();
             tf2cWebSite = Jsoup.connect(TF2C_URL)
                     .userAgent("Mozilla")
                     .timeout(5000)

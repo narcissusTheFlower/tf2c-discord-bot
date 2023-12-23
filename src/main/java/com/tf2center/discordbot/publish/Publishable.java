@@ -6,4 +6,6 @@ package com.tf2center.discordbot.publish;
  */
 public interface Publishable {
     void publish();
+
+    void refresh();
 }

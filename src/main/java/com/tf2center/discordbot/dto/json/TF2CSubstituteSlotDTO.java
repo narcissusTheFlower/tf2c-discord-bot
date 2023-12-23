@@ -2,7 +2,7 @@ package com.tf2center.discordbot.dto.json;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tf2center.discordbot.dto.json.tf2cpreview.TF2CSlotRestrictionDTO;
+import com.tf2center.discordbot.dto.json.tf2clobby.TF2CSlotRestrictionDTO;
 
 public class TF2CSubstituteSlotDTO {
 

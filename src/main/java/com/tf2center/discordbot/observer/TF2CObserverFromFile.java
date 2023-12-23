@@ -9,13 +9,12 @@ import com.tf2center.discordbot.dto.TF2CPlayerCountDTO;
 import com.tf2center.discordbot.dto.TF2CPlayerSlotDTO;
 import com.tf2center.discordbot.dto.json.TF2CSubstituteSlotContainer;
 import com.tf2center.discordbot.dto.json.TF2CSubstituteSlotDTO;
-import com.tf2center.discordbot.dto.json.tf2cpreview.TF2CLobbyPreviewDTO;
+import com.tf2center.discordbot.dto.json.tf2clobby.TF2CLobbyPreviewDTO;
 import com.tf2center.discordbot.utils.TF2CCollectionsUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -38,7 +37,7 @@ public final class TF2CObserverFromFile {
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private static Document tf2cWebSite;
 
-    @Scheduled(fixedRate = 10_000, initialDelay = 500)
+    //@Scheduled(fixedRate = 10_000, initialDelay = 500)
     private static void parseFromFileTest() {
         try {
             tf2cWebSite = Jsoup.parse(preview, "UTF-8", "http://example.com/");

@@ -1,6 +1,6 @@
 package com.tf2center.discordbot.dto;
 
-import com.tf2center.discordbot.dto.json.tf2cpreview.TF2CSlotDTO;
+import com.tf2center.discordbot.dto.json.tf2clobby.TF2CSlotDTO;
 
 import java.util.List;
 

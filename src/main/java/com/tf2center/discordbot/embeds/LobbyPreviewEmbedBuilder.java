@@ -10,10 +10,7 @@ import discord4j.rest.util.Color;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.time.Instant;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class LobbyPreviewEmbedBuilder {
 
@@ -29,9 +26,10 @@ public class LobbyPreviewEmbedBuilder {
         return new LobbyPreviewEmbedBuilder(previews);
     }
 
-    public Set<EmbedCreateSpec> build() {
+    public Map<Integer, EmbedCreateSpec> build() {
         //Flux<TF2CLobbyPreviewDTO>
-        Set<EmbedCreateSpec> result = new LinkedHashSet<>();
+        //Set<EmbedCreateSpec> result = new LinkedHashSet<>();
+        Map<Integer, EmbedCreateSpec> result = new HashMap<>();
 
         jsonParsedPreviews.forEach(json -> {
             lobbyId = json.getLobbyId();
@@ -62,14 +60,14 @@ public class LobbyPreviewEmbedBuilder {
                     .footer("Lobby opened", "https://static-00.iconduck.com/assets.00/four-o-clock-emoji-2047x2048-dqpvucft.png")
                     .build();
 
-            result.add(lobby);
+            result.put(json.getLobbyId(), lobby);
         });
 
-        return Set.copyOf(result);
+        return Map.copyOf(result);
     }
 
     private String buildTitle(TF2CLobby json) {
-        String readyState = json.isInReadyUpMode() ? "Ready UP 🔥" : "Has not started yet 🕜";
+        String readyState = json.isInReadyUpMode() ? "Ready UP 🔥\n" : "Has not started yet 🕜\n";
         return String.format("Lobby #%d | %s\n%s", json.getLobbyId(), json.getMap(), readyState);
     }
 
@@ -83,7 +81,6 @@ public class LobbyPreviewEmbedBuilder {
     }
 
     private StringBuffer buildDescription(TF2CLobby json) {
-
         String blueX = "\uD83c\uDDFD";
         String greenCheck = "✅";
         String offclassing = "Offclassing allowed: " + (json.isOffclassingAllowed() ? greenCheck : blueX) + "\n";
@@ -94,7 +91,6 @@ public class LobbyPreviewEmbedBuilder {
         if (teamType.equals("6v6")) {
             return new StringBuffer().append(offclassing).append(voice).append(advanced).append(balancing).append(region);
         }
-        //String advancedLobby; TODO
         return new StringBuffer().append(voice).append(advanced).append(balancing).append(region);
     }
 
