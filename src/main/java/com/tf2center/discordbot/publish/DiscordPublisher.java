@@ -29,9 +29,4 @@ public class DiscordPublisher {
     private void executePublishers() {
             publishables.forEach(Publishable::publish);
     }
-//    private void publishLobbies(){
-//        //     event.getClient().getChannelById(snowflake).ofType(GuildMessageChannel.class)
-////                .flatMap(channel -> channel.getMessageById(Snowflake.of(1187373319884910623L)).block().edit().withContent("another change").withEmbeds(sixes)).subscribe();
-//    }
-
 }

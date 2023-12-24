@@ -7,7 +7,7 @@ import java.util.List;
 
 public class TF2CCollectionsUtils {
 
-    public <T extends List<?>> Object getLastFromList(@NonNull T collection) {
+    public static <T extends List<?>> Object getLastFromList(@NonNull T collection) {
         if (collection.isEmpty()) {
             throw new TF2CUtilsException("Collection is empty.", new RuntimeException());
         }

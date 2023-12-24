@@ -185,13 +185,13 @@ public class LobbyPreviewEmbedBuilder {
                 }
                 yield List.copyOf(singleTeam);
             }
-            case "Bbal" -> {
+            case "BBall" -> {
                 Iterator<TF2CPlayerSlotDTO> iterator = singleTeam.iterator();
-                Bbal bbal = new Bbal();
+                BBall BBall = new BBall();
                 for (int i = 0; i < singleTeam.size(); i++) {
                     if (iterator.hasNext()) {
                         singleTeam.get(i).setTf2Class(
-                                bbal.assignClass()
+                                BBall.assignClass()
                         );
                     }
                 }
@@ -202,11 +202,10 @@ public class LobbyPreviewEmbedBuilder {
     }
 
     private abstract class TeamType {
-        //private List<String> classes;
+
         private Iterator<String> iterator;
 
         public void configure(List<String> classes) {
-            //this.classes = classes;
             this.iterator = classes.iterator();
         }
 
@@ -267,8 +266,8 @@ public class LobbyPreviewEmbedBuilder {
         }
     }
 
-    private class Bbal extends TeamType {
-        public Bbal() {
+    private class BBall extends TeamType {
+        public BBall() {
             super.configure(List.of(
                     "\uD83D\uDE80Soldier",
                     "\uD83D\uDE80Soldier",

@@ -46,13 +46,9 @@ public class EmbedsPool {
         }
     }
 
-    public static Map<Integer, EmbedCreateSpec> getLobbies() {
+    public static Map<Integer, EmbedCreateSpec> getFreshLobbies() {
         return Map.copyOf(LOBBIES);
     }
-
-//    public static EmbedCreateSpec retrieveFirst() {
-//        return (EmbedCreateSpec) LOBBIES.getOrDefault();
-//    }
 
 //
 //    private static void buildSubstituteSlots(Set<TF2CSubstituteSlotDTO> substitutionSpots) {

@@ -62,7 +62,7 @@ public final class TF2CObserver {
 
     private static Set<TF2CLobbyDTO> getLobbyPreview() {
         //We cut away unnecessary characters and leave pure JSON
-        String parsedJson = new TF2CCollectionsUtils().getLastFromList(tf2cWebSite.getElementsByTag("script"))
+        String parsedJson = TF2CCollectionsUtils.getLastFromList(tf2cWebSite.getElementsByTag("script"))
                 .toString().substring(49);
         parsedJson = parsedJson.substring(0, parsedJson.length() - 11);
 
