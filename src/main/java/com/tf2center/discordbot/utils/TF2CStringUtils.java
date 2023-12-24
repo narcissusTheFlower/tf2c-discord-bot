@@ -2,7 +2,7 @@ package com.tf2center.discordbot.utils;
 
 public class TF2CStringUtils {
 
-    public static long extractDigits(String src) {
+    public static int extractDigits(String src) {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < src.length(); i++) {
             char c = src.charAt(i);
@@ -10,7 +10,6 @@ public class TF2CStringUtils {
                 builder.append(c);
             }
         }
-        return Long.parseLong(builder.toString());
+        return Integer.parseInt(builder.toString());
     }
-
 }

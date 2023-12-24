@@ -1,6 +1,7 @@
 package com.tf2center.discordbot.publish.publishables;
 
 import com.tf2center.discordbot.embeds.EmbedsPool;
+import com.tf2center.discordbot.embeds.TF2CLobbyId;
 import com.tf2center.discordbot.publish.Publishable;
 import com.tf2center.discordbot.utils.TF2CStringUtils;
 import discord4j.common.util.Snowflake;
@@ -13,65 +14,73 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Component("lobbyPublishable")
 public class LobbyPublishable implements Publishable {
 
     private final static Snowflake TEXT_CHANNEL_ID = Snowflake.of(Long.parseLong(System.getenv("TF2CLOBBY_CHANNEL")));
-    private final static List<Long> IDS = new LinkedList<>();
+    private static Map<Snowflake, TF2CLobbyId> postedMessagesIds = new LinkedHashMap<>();
     private final Mono<Channel> textChannel;
-    private Map<Integer, EmbedCreateSpec> embeds;
+    private Map<TF2CLobbyId, EmbedCreateSpec> freshEmbeds;
+    private Iterator<TF2CLobbyId> freshTf2cIds;
 
     @Autowired
     public LobbyPublishable(GatewayDiscordClient client) {
         textChannel = client.getChannelById(TEXT_CHANNEL_ID);
+
     }
 
-    public static Mono<Void> takeNewLobby(String title) {
-        long lobbyId = TF2CStringUtils.extractDigits(title);
-        IDS.add(lobbyId);
+    //TF2C id is for detecting if a lobby needs to be edited or posted as new message
+    //Snowflake is for finding messages that need to be edited
+
+    public static Mono<Void> extractInformation(String title, Snowflake snowflake) {
+        int lobbyId = TF2CStringUtils.extractDigits(title);
+        postedMessagesIds.put(snowflake, new TF2CLobbyId(lobbyId));
         return Mono.empty();
     }
 
     @Override
-    public void refresh() {
-        embeds = EmbedsPool.getFreshLobbies();
+    public void publish() {
+        refresh();
+        for (EmbedCreateSpec embed : freshEmbeds.values()) {
+            if (freshTf2cIds.hasNext()) {
+                if (postedMessagesIds.containsValue(freshTf2cIds.next())) {
+                    editLobby(embed, );
+                }
+                publishNewLobby(embed);
+            }
+        }
     }
 
     @Override
-    public void publish() {
-        //First do a refresh
-        refresh();
-
-        if (newLobbiesDetected()) {
-            editLobbies();
-        } else {
-            publishNewLobbies();
-        }
+    public void refresh() {
+        freshEmbeds = EmbedsPool.getFreshLobbies();
+        freshTf2cIds = freshEmbeds.keySet().iterator();
     }
 
-    private void editLobbies() {
-        //     event.getClient().getChannelById(snowflake).ofType(GuildMessageChannel.class)
-//                .flatMap(channel -> channel.getMessageById(Snowflake.of(1187373319884910623L)).block().edit().withContent("another change")
-//                .withEmbeds(sixes)).subscribe();
+    private void editLobby(EmbedCreateSpec embed, Snowflake snowflake) {
+        textChannel.ofType(GuildMessageChannel.class)
+                .flatMap(channel -> channel.getMessageById(snowflake).block()
+                        .edit()
+                        .withEmbeds(embed))
+                .subscribe();
     }
 
-    private void publishNewLobbies() {
-        for (EmbedCreateSpec embed : embeds.values()) {
-            textChannel.ofType(GuildMessageChannel.class)
-                    .flatMap(channel -> channel.createMessage(MessageCreateSpec.builder()
-                            .addEmbed(embed)
-                            .build()
-                    )).block();
-        }
+    private void publishNewLobby(EmbedCreateSpec embed) {
+        textChannel.ofType(GuildMessageChannel.class)
+                .flatMap(channel -> channel.createMessage(MessageCreateSpec.builder()
+                        .addEmbed(embed)
+                        .build()
+                )).block();
     }
 
-    private boolean newLobbiesDetected() {
-
-        refresh();
-        return false;
+    private void deleteLobby(Snowflake snowflake) {
+        textChannel.ofType(GuildMessageChannel.class)
+                .flatMap(channel -> channel.getMessageById(snowflake).block()
+                        .delete())
+                .subscribe();
     }
 }

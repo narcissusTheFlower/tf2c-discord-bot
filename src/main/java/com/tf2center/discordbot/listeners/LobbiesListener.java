@@ -16,8 +16,10 @@ public class LobbiesListener {
     }
 
     private Mono<Void> recordNewLobbies(ChatInputInteractionEvent event) {
-        return Mono.just(event.getInteraction().getMessage().get().getEmbeds().get(0).getTitle())
-                .flatMap(title -> LobbyPublishable.takeNewLobby(title.get()));
+        return Mono.just(event.getInteraction())
+                .flatMap(interaction -> LobbyPublishable.extractInformation(
+                        interaction.getMessage().get().getEmbeds().get(0).getTitle().get(),
+                        interaction.getMessageId().get()
+                ));
     }
-
 }

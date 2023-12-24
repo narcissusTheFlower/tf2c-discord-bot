@@ -22,7 +22,7 @@ import java.util.*;
 public class EmbedsPool {
 
     private static final Logger logger = LoggerFactory.getLogger(EmbedsPool.class);
-    private static final Map<Integer, EmbedCreateSpec> LOBBIES = Collections.synchronizedMap(new HashMap<>());
+    private static final Map<TF2CLobbyId, EmbedCreateSpec> LOBBIES = Collections.synchronizedMap(new HashMap<>());
     private static final Set<EmbedCreateSpec> SUBSTITUTION_SLOTS = Collections.synchronizedSet(new LinkedHashSet<>()); //Still thinking
 
     @Scheduled(fixedRate = 10_000, initialDelay = 2000)
@@ -40,13 +40,13 @@ public class EmbedsPool {
 
     private static void buildEmbedLobbies(Set<TF2CLobby> lobbies) {
         LOBBIES.clear();
-        Map<Integer, EmbedCreateSpec> embeds = LobbyPreviewEmbedBuilder.of(lobbies).build();
+        Map<TF2CLobbyId, EmbedCreateSpec> embeds = LobbyPreviewEmbedBuilder.of(lobbies).build();
         if (!embeds.isEmpty()) {
             LOBBIES.putAll(embeds);
         }
     }
 
-    public static Map<Integer, EmbedCreateSpec> getFreshLobbies() {
+    public static Map<TF2CLobbyId, EmbedCreateSpec> getFreshLobbies() {
         return Map.copyOf(LOBBIES);
     }
 
