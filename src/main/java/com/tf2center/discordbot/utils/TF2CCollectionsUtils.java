@@ -13,4 +13,6 @@ public class TF2CCollectionsUtils {
         }
         return collection.get(collection.size() - 1);
     }
+
+
 }

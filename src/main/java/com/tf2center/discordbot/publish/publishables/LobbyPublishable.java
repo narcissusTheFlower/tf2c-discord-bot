@@ -23,7 +23,8 @@ public class LobbyPublishable implements Publishable {
 
     private final static Snowflake TEXT_CHANNEL_ID = Snowflake.of(Long.parseLong(System.getenv("TF2CLOBBY_CHANNEL")));
     private static final Map<TF2CLobbyId, Snowflake> postedMessagesIds = new LinkedHashMap<>();
-    private static Iterator<TF2CLobbyId> postedMessagesIdsIterator;
+    private static Iterator<TF2CLobbyId> postedMessagesIdsIterator;  //Another issue with this coolectiois that the title contains integers int the map name it will scre
+    //up the ids here
     private final Mono<Channel> textChannel;
     private Map<TF2CLobbyId, EmbedCreateSpec> freshEmbeds;
     private static TF2CLobbyId latestTF2CLobbyId = TF2CLobbyId.of(0);
@@ -37,7 +38,7 @@ public class LobbyPublishable implements Publishable {
     //TF2C id is for detecting if a lobby needs to be edited or posted as new message
     //Snowflake is for finding messages that need to be edited/deleted
     public static Mono<Void> extractInformation(String title, Snowflake snowflake) {
-        int lobbyId = TF2CStringUtils.extractDigits(title);
+        int lobbyId = TF2CStringUtils.extractLobbyId(title);
         if (!postedMessagesIds.containsKey(TF2CLobbyId.of(lobbyId))) {
             postedMessagesIds.put(TF2CLobbyId.of(lobbyId), snowflake);
             postedMessagesIdsIterator = postedMessagesIds.keySet().iterator();
@@ -58,10 +59,13 @@ public class LobbyPublishable implements Publishable {
                 );
                 //Delete
                 //} else if (!postedMessagesIds.containsKey(newTF2CLobbyId) && latestTF2CLobbyId.intValue() > newTF2CLobbyId.intValue()) {
-            } else if (postedMessagesIdsIterator != null) {
+            } else if (postedMessagesIdsIterator != null && postedMessagesIdsIterator.hasNext()) {
+                //Will throw an exception cos there might be more lobbies but just 1 lobby was posted before that hence null pointer
+
                 if (postedMessagesIdsIterator.next().intValue() != newTF2CLobbyId.intValue() &&
                         latestTF2CLobbyId.intValue() > newTF2CLobbyId.intValue()) {
                     //deleteLobby();
+                    //clear collections
                 }
                 //Post new
             } else if (!postedMessagesIds.containsKey(newTF2CLobbyId) && latestTF2CLobbyId.intValue() < newTF2CLobbyId.intValue()) {
