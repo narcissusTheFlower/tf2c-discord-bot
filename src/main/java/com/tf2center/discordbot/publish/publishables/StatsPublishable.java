@@ -9,9 +9,6 @@ public class StatsPublishable implements Publishable {
         System.out.println("test");
     }
 
-    @Override
-    public void refresh() {
 
-    }
 
 }

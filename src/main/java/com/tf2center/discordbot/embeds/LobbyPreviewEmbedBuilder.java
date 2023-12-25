@@ -60,7 +60,7 @@ public class LobbyPreviewEmbedBuilder {
                     .footer("Lobby opened", "https://static-00.iconduck.com/assets.00/four-o-clock-emoji-2047x2048-dqpvucft.png")
                     .build();
 
-            result.put(new TF2CLobbyId(json.getLobbyId()), lobby);
+            result.put(TF2CLobbyId.of(json.getLobbyId()), lobby);
         });
 
         return Map.copyOf(result);

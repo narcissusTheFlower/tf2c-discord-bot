@@ -10,6 +10,7 @@ public class TF2CStringUtils {
                 builder.append(c);
             }
         }
+
         return Integer.parseInt(builder.toString());
     }
 }
