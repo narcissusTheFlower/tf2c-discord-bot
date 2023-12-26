@@ -14,8 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
-import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component("lobbyPublishable")
@@ -23,12 +23,9 @@ public class LobbyPublishable implements Publishable {
 
     private final static Snowflake TEXT_CHANNEL_ID = Snowflake.of(Long.parseLong(System.getenv("TF2CLOBBY_CHANNEL")));
     private static final Map<TF2CLobbyId, Snowflake> postedMessagesIds = new LinkedHashMap<>();
-    private static Iterator<TF2CLobbyId> postedMessagesIdsIterator;  //Another issue with this coolectiois that the title contains integers int the map name it will scre
-    //up the ids here
     private final Mono<Channel> textChannel;
     private Map<TF2CLobbyId, EmbedCreateSpec> freshEmbeds;
-    private static TF2CLobbyId latestTF2CLobbyId = TF2CLobbyId.of(0);
-    private Iterator<TF2CLobbyId> freshTF2cIds;
+    private List<TF2CLobbyId> freshEmbedsTF2CLobbySortedIdList;
 
     @Autowired
     public LobbyPublishable(GatewayDiscordClient client) {
@@ -41,8 +38,7 @@ public class LobbyPublishable implements Publishable {
         int lobbyId = TF2CStringUtils.extractLobbyId(title);
         if (!postedMessagesIds.containsKey(TF2CLobbyId.of(lobbyId))) {
             postedMessagesIds.put(TF2CLobbyId.of(lobbyId), snowflake);
-            postedMessagesIdsIterator = postedMessagesIds.keySet().iterator();
-            latestTF2CLobbyId = TF2CLobbyId.of(lobbyId);
+            //postedMessagesIdsIterator = postedMessagesIds.keySet().iterator();
         }
         return Mono.empty();
     }
@@ -50,25 +46,26 @@ public class LobbyPublishable implements Publishable {
     @Override
     public void publish() {
         getNewLobbiesFromPool();
-        for (TF2CLobbyId newTF2CLobbyId : freshEmbeds.keySet()) {
+        //Delete
+        if (!postedMessagesIds.isEmpty()) {
+            for (TF2CLobbyId postedId : postedMessagesIds.keySet()) {
+                if (!freshEmbeds.containsKey(postedId) && postedMessagesIds.containsKey(postedId)) {
+                    deleteLobby(postedMessagesIds.get(postedId));
+                    postedMessagesIds.remove(postedId);
+                }
+            }
+        }
+
+        for (TF2CLobbyId newTF2CLobbyId : freshEmbedsTF2CLobbySortedIdList) {
             //Edit
-            if (postedMessagesIds.containsKey(newTF2CLobbyId)) {
+            if (!postedMessagesIds.isEmpty() && postedMessagesIds.containsKey(newTF2CLobbyId)) {
                 editLobby(
                         freshEmbeds.get(newTF2CLobbyId),
                         postedMessagesIds.get(newTF2CLobbyId)
                 );
-                //Delete
-                //} else if (!postedMessagesIds.containsKey(newTF2CLobbyId) && latestTF2CLobbyId.intValue() > newTF2CLobbyId.intValue()) {
-            } else if (postedMessagesIdsIterator != null && postedMessagesIdsIterator.hasNext()) {
-                //Will throw an exception cos there might be more lobbies but just 1 lobby was posted before that hence null pointer
-
-                if (postedMessagesIdsIterator.next().intValue() != newTF2CLobbyId.intValue() &&
-                        latestTF2CLobbyId.intValue() > newTF2CLobbyId.intValue()) {
-                    //deleteLobby();
-                    //clear collections
-                }
-                //Post new
-            } else if (!postedMessagesIds.containsKey(newTF2CLobbyId) && latestTF2CLobbyId.intValue() < newTF2CLobbyId.intValue()) {
+            }
+            //Post new
+            if (!postedMessagesIds.containsKey(newTF2CLobbyId)) {
                 publishNewLobby(freshEmbeds.get(newTF2CLobbyId));
             }
         }
@@ -76,7 +73,7 @@ public class LobbyPublishable implements Publishable {
 
     public void getNewLobbiesFromPool() {
         freshEmbeds = EmbedsPool.getFreshLobbies();
-        freshTF2cIds = freshEmbeds.keySet().iterator();
+        freshEmbedsTF2CLobbySortedIdList = freshEmbeds.keySet().stream().sorted().toList();
     }
 
     private void publishNewLobby(EmbedCreateSpec embed) {

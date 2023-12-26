@@ -224,8 +224,8 @@ public class LobbyPreviewEmbedBuilder {
                     "\uD83D\uDE80Soldier",
                     "🔥Pyro",
                     "🧨Demo",
-                    "\uD83D\uDD27Engineer",
                     "🐤Heavy",
+                    "\uD83D\uDD27Engineer",
                     "💊Medic",
                     "🎯Sniper",
                     "\uD83D\uDD2ASpy"

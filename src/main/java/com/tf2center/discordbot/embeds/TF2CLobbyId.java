@@ -2,7 +2,7 @@ package com.tf2center.discordbot.embeds;
 
 import org.jetbrains.annotations.NotNull;
 
-public final class TF2CLobbyId extends Number implements Comparable<Integer> {
+public final class TF2CLobbyId implements Comparable<TF2CLobbyId> {
 
     private final int lobbyId;
 
@@ -14,29 +14,13 @@ public final class TF2CLobbyId extends Number implements Comparable<Integer> {
         return new TF2CLobbyId(lobbyId);
     }
 
-    @Override
     public int intValue() {
         return lobbyId;
     }
 
     @Override
-    public long longValue() {
-        return (long) lobbyId;
-    }
-
-    @Override
-    public float floatValue() {
-        return (float) lobbyId;
-    }
-
-    @Override
-    public double doubleValue() {
-        return (double) lobbyId;
-    }
-
-    @Override
-    public int compareTo(@NotNull Integer anotherInteger) {
-        return Integer.compare(this.lobbyId, anotherInteger);
+    public int compareTo(@NotNull TF2CLobbyId anotherLobbyId) {
+        return Integer.compare(this.lobbyId, anotherLobbyId.intValue());
     }
 
     @Override
