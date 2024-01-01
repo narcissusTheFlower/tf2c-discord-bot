@@ -1,7 +1,7 @@
 package com.tf2center.discordbot.publish.publishables;
 
+import com.tf2center.discordbot.dto.TF2CLobbyIdDTO;
 import com.tf2center.discordbot.embeds.EmbedsPool;
-import com.tf2center.discordbot.embeds.TF2CLobbyId;
 import com.tf2center.discordbot.publish.Publishable;
 import com.tf2center.discordbot.utils.TF2CStringUtils;
 import discord4j.common.util.Snowflake;
@@ -22,10 +22,10 @@ import java.util.Map;
 public class LobbyPublishable implements Publishable {
 
     private final static Snowflake TEXT_CHANNEL_ID = Snowflake.of(Long.parseLong(System.getenv("TF2CLOBBY_CHANNEL")));
-    private static final Map<TF2CLobbyId, Snowflake> postedMessagesIds = new LinkedHashMap<>();
+    private static final Map<TF2CLobbyIdDTO, Snowflake> postedMessagesIds = new LinkedHashMap<>();
     private final Mono<Channel> textChannel;
-    private Map<TF2CLobbyId, EmbedCreateSpec> freshEmbeds;
-    private List<TF2CLobbyId> freshEmbedsTF2CLobbySortedIdList;
+    private Map<TF2CLobbyIdDTO, EmbedCreateSpec> freshEmbeds;
+    private List<TF2CLobbyIdDTO> freshEmbedsTF2CLobbySortedIdList;
 
     @Autowired
     public LobbyPublishable(GatewayDiscordClient client) {
@@ -36,8 +36,8 @@ public class LobbyPublishable implements Publishable {
     //Snowflake is for finding messages that need to be edited/deleted
     public static Mono<Void> extractInformation(String title, Snowflake snowflake) {
         int lobbyId = TF2CStringUtils.extractLobbyId(title);
-        if (!postedMessagesIds.containsKey(TF2CLobbyId.of(lobbyId))) {
-            postedMessagesIds.put(TF2CLobbyId.of(lobbyId), snowflake);
+        if (!postedMessagesIds.containsKey(TF2CLobbyIdDTO.of(lobbyId))) {
+            postedMessagesIds.put(TF2CLobbyIdDTO.of(lobbyId), snowflake);
             //postedMessagesIdsIterator = postedMessagesIds.keySet().iterator();
         }
         return Mono.empty();
@@ -48,7 +48,7 @@ public class LobbyPublishable implements Publishable {
         getNewLobbiesFromPool();
         //Delete
         if (!postedMessagesIds.isEmpty()) {
-            for (TF2CLobbyId postedId : postedMessagesIds.keySet()) {
+            for (TF2CLobbyIdDTO postedId : postedMessagesIds.keySet()) {
                 if (!freshEmbeds.containsKey(postedId) && postedMessagesIds.containsKey(postedId)) {
                     deleteLobby(postedMessagesIds.get(postedId));
                     postedMessagesIds.remove(postedId);
@@ -56,17 +56,17 @@ public class LobbyPublishable implements Publishable {
             }
         }
 
-        for (TF2CLobbyId newTF2CLobbyId : freshEmbedsTF2CLobbySortedIdList) {
+        for (TF2CLobbyIdDTO newTF2CLobbyIdDTO : freshEmbedsTF2CLobbySortedIdList) {
             //Edit
-            if (!postedMessagesIds.isEmpty() && postedMessagesIds.containsKey(newTF2CLobbyId)) {
+            if (!postedMessagesIds.isEmpty() && postedMessagesIds.containsKey(newTF2CLobbyIdDTO)) {
                 editLobby(
-                        freshEmbeds.get(newTF2CLobbyId),
-                        postedMessagesIds.get(newTF2CLobbyId)
+                        freshEmbeds.get(newTF2CLobbyIdDTO),
+                        postedMessagesIds.get(newTF2CLobbyIdDTO)
                 );
             }
             //Post new
-            if (!postedMessagesIds.containsKey(newTF2CLobbyId)) {
-                publishNewLobby(freshEmbeds.get(newTF2CLobbyId));
+            if (!postedMessagesIds.containsKey(newTF2CLobbyIdDTO)) {
+                publishNewLobby(freshEmbeds.get(newTF2CLobbyIdDTO));
             }
         }
     }

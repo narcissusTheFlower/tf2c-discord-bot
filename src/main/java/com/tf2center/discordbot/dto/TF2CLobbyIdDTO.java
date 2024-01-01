@@ -1,17 +1,17 @@
-package com.tf2center.discordbot.embeds;
+package com.tf2center.discordbot.dto;
 
 import org.jetbrains.annotations.NotNull;
 
-public final class TF2CLobbyId implements Comparable<TF2CLobbyId> {
+public final class TF2CLobbyIdDTO implements Comparable<TF2CLobbyIdDTO> {
 
     private final int lobbyId;
 
-    private TF2CLobbyId(int lobbyId) {
+    private TF2CLobbyIdDTO(int lobbyId) {
         this.lobbyId = lobbyId;
     }
 
-    public static TF2CLobbyId of(int lobbyId) {
-        return new TF2CLobbyId(lobbyId);
+    public static TF2CLobbyIdDTO of(int lobbyId) {
+        return new TF2CLobbyIdDTO(lobbyId);
     }
 
     public int intValue() {
@@ -19,7 +19,7 @@ public final class TF2CLobbyId implements Comparable<TF2CLobbyId> {
     }
 
     @Override
-    public int compareTo(@NotNull TF2CLobbyId anotherLobbyId) {
+    public int compareTo(@NotNull TF2CLobbyIdDTO anotherLobbyId) {
         return Integer.compare(this.lobbyId, anotherLobbyId.intValue());
     }
 
@@ -30,8 +30,8 @@ public final class TF2CLobbyId implements Comparable<TF2CLobbyId> {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof TF2CLobbyId) {
-            return this.lobbyId == ((TF2CLobbyId) obj).lobbyId;
+        if (obj instanceof TF2CLobbyIdDTO) {
+            return this.lobbyId == ((TF2CLobbyIdDTO) obj).lobbyId;
         }
         return false;
     }

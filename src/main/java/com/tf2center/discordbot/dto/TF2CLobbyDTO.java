@@ -157,4 +157,20 @@ public class TF2CLobbyDTO implements TF2CLobby {
     public String getTimeOpened() {
         return timeOpened;
     }
+
+    @Override
+    public int hashCode() {
+        return this.lobbyId + (int) System.currentTimeMillis();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (this.getClass() != obj.getClass()) return false;
+        TF2CLobbyDTO lobbyDTO = (TF2CLobbyDTO) obj;
+        return this.getLobbyId() == lobbyDTO.getLobbyId() &&
+                this.getPlayerSlotList().equals(lobbyDTO.getPlayerSlotList()) &&
+                this.isInReadyUpMode() == lobbyDTO.isInReadyUpMode();
+    }
 }

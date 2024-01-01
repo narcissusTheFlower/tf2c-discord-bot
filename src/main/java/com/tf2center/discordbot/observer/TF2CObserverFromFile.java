@@ -89,7 +89,7 @@ public final class TF2CObserverFromFile {
                 }
         );
         return Set.copyOf(
-                lobbies.stream().map(lobby -> new TF2CLobbyDTO(lobby)).collect(Collectors.toSet())
+                lobbies.stream().map(TF2CLobbyDTO::new).collect(Collectors.toSet())
         );
     }
 
@@ -118,12 +118,6 @@ public final class TF2CObserverFromFile {
         }
         String leaderName = headers.get(0).select("td").get(7).text();
         return List.of(offclassingAllowed, config, server, leaderName);
-
-//        return List.of(
-//                headers.get(1).select("span").get(4).attributes().toString().contains("cross"), //Offclassing allowed
-//                headers.get(0).select("td").get(3).text(), //Config
-//                headers.get(0).select("tr").get(2).text().isBlank() ? "" : headers.get(0).select("tr").get(2).text().substring(7) //Server
-//        );
     }
 
     private static Set<TF2CSubstituteSlotDTO> getSubstituteSlots() {

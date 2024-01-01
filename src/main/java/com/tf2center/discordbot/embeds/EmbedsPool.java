@@ -2,6 +2,7 @@ package com.tf2center.discordbot.embeds;
 
 import com.tf2center.discordbot.domain.TF2CWebSite;
 import com.tf2center.discordbot.dto.TF2CLobby;
+import com.tf2center.discordbot.dto.TF2CLobbyIdDTO;
 import com.tf2center.discordbot.exceptions.TF2CUpdateException;
 import discord4j.core.spec.EmbedCreateSpec;
 import org.slf4j.Logger;
@@ -22,7 +23,7 @@ import java.util.*;
 public class EmbedsPool {
 
     private static final Logger logger = LoggerFactory.getLogger(EmbedsPool.class);
-    private static final Map<TF2CLobbyId, EmbedCreateSpec> LOBBIES = Collections.synchronizedMap(new HashMap<>());
+    private static final Map<TF2CLobbyIdDTO, EmbedCreateSpec> LOBBIES = Collections.synchronizedMap(new HashMap<>());
     private static final Set<EmbedCreateSpec> SUBSTITUTION_SLOTS = Collections.synchronizedSet(new LinkedHashSet<>()); //Still thinking
 
     @Scheduled(fixedRate = 10_000, initialDelay = 2000)
@@ -40,13 +41,13 @@ public class EmbedsPool {
 
     private static void buildEmbedLobbies(Set<TF2CLobby> lobbies) {
         LOBBIES.clear();
-        Map<TF2CLobbyId, EmbedCreateSpec> embeds = LobbyPreviewEmbedBuilder.of(lobbies).build();
+        Map<TF2CLobbyIdDTO, EmbedCreateSpec> embeds = LobbyPreviewEmbedBuilder.of(lobbies).build();
         if (!embeds.isEmpty()) {
             LOBBIES.putAll(embeds);
         }
     }
 
-    public static Map<TF2CLobbyId, EmbedCreateSpec> getFreshLobbies() {
+    public static Map<TF2CLobbyIdDTO, EmbedCreateSpec> getFreshLobbies() {
         return Map.copyOf(LOBBIES);
     }
 

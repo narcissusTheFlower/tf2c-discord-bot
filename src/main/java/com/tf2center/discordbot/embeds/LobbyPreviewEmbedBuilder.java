@@ -1,6 +1,7 @@
 package com.tf2center.discordbot.embeds;
 
 import com.tf2center.discordbot.dto.TF2CLobby;
+import com.tf2center.discordbot.dto.TF2CLobbyIdDTO;
 import com.tf2center.discordbot.dto.TF2CPlayerSlotDTO;
 import com.tf2center.discordbot.exceptions.TF2CEmbedBuilderException;
 import com.tf2center.discordbot.steamapi.SteamApiCaller;
@@ -26,10 +27,10 @@ public class LobbyPreviewEmbedBuilder {
         return new LobbyPreviewEmbedBuilder(previews);
     }
 
-    public Map<TF2CLobbyId, EmbedCreateSpec> build() {
+    public Map<TF2CLobbyIdDTO, EmbedCreateSpec> build() {
         //Flux<TF2CLobbyPreviewDTO>
         //Set<EmbedCreateSpec> result = new LinkedHashSet<>();
-        Map<TF2CLobbyId, EmbedCreateSpec> result = new HashMap<>();
+        Map<TF2CLobbyIdDTO, EmbedCreateSpec> result = new HashMap<>();
 
         jsonParsedPreviews.forEach(json -> {
             lobbyId = json.getLobbyId();
@@ -60,7 +61,7 @@ public class LobbyPreviewEmbedBuilder {
                     .footer("Lobby opened", "https://static-00.iconduck.com/assets.00/four-o-clock-emoji-2047x2048-dqpvucft.png")
                     .build();
 
-            result.put(TF2CLobbyId.of(json.getLobbyId()), lobby);
+            result.put(TF2CLobbyIdDTO.of(json.getLobbyId()), lobby);
         });
 
         return Map.copyOf(result);
