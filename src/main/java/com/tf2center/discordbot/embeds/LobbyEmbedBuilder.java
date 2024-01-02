@@ -107,17 +107,6 @@ public final class LobbyEmbedBuilder {
 
 
     private EmbedCreateFields.Field[] buildTeams(List<TF2CPlayerSlotDTO> slots) {
-        /*
-        Official tf2c classnames
-        scout
-        soldier
-        pyro
-        demoman
-        medic
-        sniper
-        spy
-
-         */
         byte teamSize = (byte) slots.size();
 
         List<TF2CPlayerSlotDTO> blu = assignClasses(slots.subList(0, teamSize / 2)); //First half of the list
@@ -153,16 +142,43 @@ public final class LobbyEmbedBuilder {
     }
 
     private String buildJoinLink(String teamSide, String tf2Class) {
-        tf2Class = switch (tf2Class) {
-            case
+        if (teamType.equals("Highlander")) {
+            tf2Class = switch (tf2Class) {
+                case "⚾Scout" -> "scout";
+                case "\uD83D\uDE80Soldier" -> "solly";
+                case "🔥Pyro" -> "pyro";
+                case "🧨Demoman" -> "demoman";
+                case "🐤Heavy" -> "heavy";
+                case "\uD83D\uDD27Engineer" -> "engie";
+                case "💊Medic" -> "medic";
+                case "🎯Sniper" -> "sniper";
+                case "\uD83D\uDD2ASpy" -> "spy";
+
+                default -> throw new TF2CEmbedBuilderException("Could not identify class: " + tf2Class);
+            };
+        } else if (teamType.equals("6v6")) {
+            tf2Class = switch (tf2Class) {
+                case "⚾Scout1" -> "scout";
+                case "⚾Scout2" -> "scout";
+                case "\uD83D\uDE80Roamer" -> "soldier_roamer";
+                case "\uD83D\uDE80Pocket" -> "soldier_pocket";
+                case "🧨Demoman" -> "demoman";
+                case "💊Medic" -> "medic";
+
+                default -> throw new TF2CEmbedBuilderException("Could not identify class: " + tf2Class);
+            };
+        } else {
+            //Other game types
         }
+
         StringBuilder sb = new StringBuilder()
                 .append("[Join](https://tf2center.com/join/lobby/")
                 .append(lobbyId)
                 .append("/")
                 .append(teamSide)
                 .append("/")
-                .append(tf2Class);
+                .append(tf2Class)
+                .append(")");
         return sb.toString();
     }
 
@@ -268,8 +284,8 @@ public final class LobbyEmbedBuilder {
     private class Sixes extends TeamType {
         public Sixes() {
             super.configure(List.of(
-                    "⚾Scout",
-                    "⚾Scout",
+                    "⚾Scout1",
+                    "⚾Scout2",
                     "\uD83D\uDE80Roamer",
                     "\uD83D\uDE80Pocket",
                     "🧨Demoman",
