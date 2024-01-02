@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -26,21 +25,21 @@ public final class TF2CWebSite {
     private static AtomicInteger playersEU;
     private static AtomicInteger playersNA;
     private static AtomicInteger playersOther;
-    private static Instant lastUpdate = Instant.now();
-    private static final Set<TF2CLobby> LOBBIES = Collections.synchronizedSet(new LinkedHashSet<>());
-    private static final Set<TF2CSubstituteSlotDTO> substitutionSpots = Collections.synchronizedSet(new LinkedHashSet<>());
+    private static final Set<TF2CLobby> LOBBIES = Collections.synchronizedSet(new LinkedHashSet<>(6));
+    private static final Set<TF2CSubstituteSlotDTO> SUBSTITUTE_SLOTS = Collections.synchronizedSet(new LinkedHashSet<>(6));
 
     public static void update(@NonNull TF2CPlayerCountDTO playerCount,
                               @NonNull Set<TF2CLobbyDTO> lobbies,
                               @NonNull Set<TF2CSubstituteSlotDTO> substitutionSpots) {
         try {
+            updateLobbies(lobbies);
+            updateSubstitutionSlots(substitutionSpots);
+
             playersCountTotal = playerCount.getPlayersCountTotal();
             playersEU = playerCount.getPlayersEU();
             playersNA = playerCount.getPlayersNA();
             playersOther = playerCount.getPlayersOther();
-            updateLobbies(lobbies);
-            updateSubstitutionSlots(substitutionSpots);
-            lastUpdate = Instant.now();
+
             logger.info("TF2CENTER OBJECT updated with %d opened lobbies, %d current players, %d substitution spots."
                     .formatted(lobbies.size(), playersCountTotal.get(), substitutionSpots.size()));
         } catch (RuntimeException exception) {
@@ -49,29 +48,24 @@ public final class TF2CWebSite {
     }
 
     private static void updateLobbies(Set<TF2CLobbyDTO> incomingLobbies) {
-        if (!incomingLobbies.isEmpty()) {
             LOBBIES.clear();
+        if (!incomingLobbies.isEmpty())
             LOBBIES.addAll(incomingLobbies);
-        }
+
     }
 
     private static void updateSubstitutionSlots(Set<TF2CSubstituteSlotDTO> incomingSubstitutionSlots) {
-        if (!incomingSubstitutionSlots.isEmpty()) {
-            substitutionSpots.clear();
-            substitutionSpots.addAll(incomingSubstitutionSlots);
-        }
+        SUBSTITUTE_SLOTS.clear();
+        if (!incomingSubstitutionSlots.isEmpty())
+            SUBSTITUTE_SLOTS.addAll(incomingSubstitutionSlots);
     }
 
     public static Set<TF2CLobby> getLobbies() {
         return Set.copyOf(LOBBIES);
     }
 
-    public static Set<TF2CSubstituteSlotDTO> getSubstitutionSpots() {
-        return Set.copyOf(substitutionSpots);
-    }
-
-    public static synchronized Instant getLastUpdate() {
-        return lastUpdate;
+    public static Set<TF2CSubstituteSlotDTO> getSubstituteSlots() {
+        return Set.copyOf(SUBSTITUTE_SLOTS);
     }
 
     public static AtomicInteger getPlayersCountTotal() {

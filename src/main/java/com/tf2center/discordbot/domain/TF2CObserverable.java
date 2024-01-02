@@ -1,9 +1,8 @@
-package com.tf2center.discordbot.observer;
+package com.tf2center.discordbot.domain;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tf2center.discordbot.domain.TF2CWebSite;
 import com.tf2center.discordbot.dto.TF2CLobbyDTO;
 import com.tf2center.discordbot.dto.TF2CPlayerCountDTO;
 import com.tf2center.discordbot.dto.TF2CPlayerSlotDTO;
@@ -23,7 +22,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -32,72 +30,58 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
- * This class parses pure HTML from the website and transforms JSON into a POJO
+ * This class parses pure HTML from the website and transforms JSON from this HTML into a POJO.
  */
 @EnableScheduling
 @Scope("singleton")
 @Component("htmlParser")
-public final class TF2CObserver {
+public final class TF2CObserverable {
 
-    private static final Logger logger = LoggerFactory.getLogger(TF2CObserver.class);
+    private static final Logger logger = LoggerFactory.getLogger(TF2CObserverable.class);
     private static final String TF2C_URL = "https://tf2center.com/lobbies";
     private static Document tf2cWebSite;
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-    @Scheduled(fixedRate = 10_000, initialDelay = 500)
-    private static void parseTF2C() {
-        try {
-            tf2cWebSite = Jsoup.connect(TF2C_URL)
-                    .userAgent("Mozilla")
-                    .timeout(5000)
-                    .get();
-
-        } catch (IOException e) {
-            if (e instanceof SocketTimeoutException) {
-                logger.warn("Timeout happened, proceeding");
-            } else {
-                throw new TF2CObserverException(e);
-            }
-
-        }
-        TF2CWebSite.update(getPlayerCount(), getLobbyPreview(), getSubstituteSlots());
+    @Scheduled(fixedRate = 10_000)// Order of scheduled: 1
+    private static void parseTF2C() throws IOException {
+        //Default timeout is 30 seconds
+        tf2cWebSite = Jsoup.connect(TF2C_URL).userAgent("Mozilla").get();
+        TF2CWebSite.update(getPlayerCount(), getLobbiesFromTF2Center(), getSubstituteSlots());
     }
 
-    private static Set<TF2CLobbyDTO> getLobbyPreview() {
+    private static Set<TF2CLobbyDTO> getLobbiesFromTF2Center() {
         //We cut away unnecessary characters and leave pure JSON
         String parsedJson = TF2CCollectionsUtils.getLastFromList(tf2cWebSite.getElementsByTag("script"))
                 .toString().substring(49);
         parsedJson = parsedJson.substring(0, parsedJson.length() - 11);
 
         Set<TF2CLobbyPreviewDTO> lobbies = null;
-
         try {
             lobbies = OBJECT_MAPPER.readValue(parsedJson, new TypeReference<Set<TF2CLobbyPreviewDTO>>() {
             });
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to map the parsed JSON to a POJO.", e);
         }
 
+        //If there are no lobbies open we do not parse inner lobbies.
         if (lobbies.isEmpty()) {
+            logger.debug("No lobbies, returning empty Set.");
             return Collections.emptySet();
         }
-        //These iterations extract info from within the lobby
+
         lobbies.forEach(lobby -> {
             //TODO Redo with reactive streams
-            Document tf2cWebSiteLocal;
+            Document tf2cInnerLobby;
             List<TF2CPlayerSlotDTO> players;
                     try {
-                        tf2cWebSiteLocal = Jsoup.connect(TF2C_URL + "/" + lobby.getLobbyId())
-                                .userAgent("Mozilla")
-                                .timeout(5000)
-                                .get();
+                        tf2cInnerLobby = Jsoup.connect(TF2C_URL + "/" + lobby.getLobbyId()).userAgent("Mozilla").get();
                     } catch (IOException e) {
-                        throw new TF2CObserverException(e);
+                        throw new TF2CObserverException("Failed to parse inner lobby. Possibly a connection timeout.", e);
                     }
-            players = extractPlayers(tf2cWebSiteLocal.getElementsByClass("lobbySlot"));
+            players = extractPlayers(tf2cInnerLobby.getElementsByClass("lobbySlot"));
             lobby.setPlayerSlotList(players);
 
-            List<?> headers = extractLobbyHeaders(tf2cWebSiteLocal.getElementsByClass("lobbyHeaderOptions"));
+            List<?> headers = extractLobbyHeaders(tf2cInnerLobby.getElementsByClass("lobbyHeaderOptions"));
             lobby.setOffclassingAllowed((boolean) headers.get(0));
             lobby.setConfig((String) headers.get(1));
             lobby.setServer((String) headers.get(2));
@@ -105,7 +89,7 @@ public final class TF2CObserver {
                 }
         );
         return Set.copyOf(
-                lobbies.stream().map(lobby -> new TF2CLobbyDTO(lobby)).collect(Collectors.toSet())
+                lobbies.stream().map(TF2CLobbyDTO::new).collect(Collectors.toSet())
         );
     }
 
@@ -125,6 +109,7 @@ public final class TF2CObserver {
             return substituteSpots.getSubstitutionSlot();
         }
 
+        logger.debug("No substitute spots, returning empty Set.");
         return Collections.emptySet();
     }
 
@@ -157,7 +142,7 @@ public final class TF2CObserver {
     }
 
     private static List<TF2CPlayerSlotDTO> extractPlayers(Elements playerSlots) {
-        ArrayList<TF2CPlayerSlotDTO> result = new ArrayList<>();
+        List<TF2CPlayerSlotDTO> result = new ArrayList<>();
         playerSlots.forEach(element -> {
             if (element.attributes().toString().contains("filled")) {
                 String playerName = element.children().get(1).children().get(0).text();
@@ -171,6 +156,7 @@ public final class TF2CObserver {
     }
 
     private static List<?> extractLobbyHeaders(Elements headers) {
+        //TODO fixme
         boolean offclassingAllowed = !headers.get(1).select("span").get(4).attributes().toString().contains("cross"); //java.lang.IndexOutOfBoundsException: Index 1 out of bounds for length 0
         String config = headers.get(0).select("td").get(3).text();
         String server;
@@ -187,5 +173,4 @@ public final class TF2CObserver {
                 leaderName
         );
     }
-
 }

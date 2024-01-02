@@ -11,20 +11,21 @@ import discord4j.core.object.entity.channel.GuildMessageChannel;
 import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.core.spec.MessageCreateSpec;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component("lobbyPublishable")
+@Scope("singleton")
 public class LobbyPublishable implements Publishable {
 
+    private static final Map<TF2CLobbyIdDTO, Snowflake> POSTED_IDS = new LinkedHashMap<>();
+    static List<Integer> test = new ArrayList<>();
     private final static Snowflake TEXT_CHANNEL_ID = Snowflake.of(Long.parseLong(System.getenv("TF2CLOBBY_CHANNEL")));
-    private static final Map<TF2CLobbyIdDTO, Snowflake> postedMessagesIds = new LinkedHashMap<>();
-    private final Mono<Channel> textChannel;
     private Map<TF2CLobbyIdDTO, EmbedCreateSpec> freshEmbeds;
+    private final Mono<Channel> textChannel;
     private List<TF2CLobbyIdDTO> freshEmbedsTF2CLobbySortedIdList;
 
     @Autowired
@@ -32,51 +33,46 @@ public class LobbyPublishable implements Publishable {
         textChannel = client.getChannelById(TEXT_CHANNEL_ID);
     }
 
-    //TF2C id is for detecting if a lobby needs to be edited or posted as new message
-    //Snowflake is for finding messages that need to be edited/deleted
     public static Mono<Void> extractInformation(String title, Snowflake snowflake) {
         int lobbyId = TF2CStringUtils.extractLobbyId(title);
-        if (!postedMessagesIds.containsKey(TF2CLobbyIdDTO.of(lobbyId))) {
-            postedMessagesIds.put(TF2CLobbyIdDTO.of(lobbyId), snowflake);
-            //postedMessagesIdsIterator = postedMessagesIds.keySet().iterator();
+        test.add(lobbyId);
+        if (!POSTED_IDS.containsKey(TF2CLobbyIdDTO.of(lobbyId))) {
+            POSTED_IDS.put(TF2CLobbyIdDTO.of(lobbyId), snowflake);
         }
         return Mono.empty();
     }
 
     @Override
     public void publish() {
-        getNewLobbiesFromPool();
-        //Delete
-        if (!postedMessagesIds.isEmpty()) {
-            for (TF2CLobbyIdDTO postedId : postedMessagesIds.keySet()) {
-                if (!freshEmbeds.containsKey(postedId) && postedMessagesIds.containsKey(postedId)) {
-                    deleteLobby(postedMessagesIds.get(postedId));
-                    postedMessagesIds.remove(postedId);
+        //Publish subs
+        //publishEmbed(EmbedsPool.getFreshSubs());
+
+        //Get fresh lobbies
+        freshEmbeds = EmbedsPool.getFreshLobbies();
+        freshEmbedsTF2CLobbySortedIdList = freshEmbeds.keySet().stream().sorted().toList();
+
+        //Delete old lobbies
+        if (!POSTED_IDS.isEmpty()) {
+            for (TF2CLobbyIdDTO postedId : POSTED_IDS.keySet()) { //java.util.ConcurrentModificationException: null //TODO FIX ME
+                if (!freshEmbeds.containsKey(postedId) && POSTED_IDS.containsKey(postedId)) {
+                    deleteEmbed(POSTED_IDS.get(postedId));
+                    POSTED_IDS.remove(postedId);
                 }
             }
         }
 
-        for (TF2CLobbyIdDTO newTF2CLobbyIdDTO : freshEmbedsTF2CLobbySortedIdList) {
-            //Edit
-            if (!postedMessagesIds.isEmpty() && postedMessagesIds.containsKey(newTF2CLobbyIdDTO)) {
-                editLobby(
-                        freshEmbeds.get(newTF2CLobbyIdDTO),
-                        postedMessagesIds.get(newTF2CLobbyIdDTO)
-                );
+        //Edit old lobbies and post new
+        for (TF2CLobbyIdDTO freshTF2CLobbyId : freshEmbedsTF2CLobbySortedIdList) {
+            if (!POSTED_IDS.isEmpty() && POSTED_IDS.containsKey(freshTF2CLobbyId)) {
+                editEmbed(freshEmbeds.get(freshTF2CLobbyId), POSTED_IDS.get(freshTF2CLobbyId));
             }
-            //Post new
-            if (!postedMessagesIds.containsKey(newTF2CLobbyIdDTO)) {
-                publishNewLobby(freshEmbeds.get(newTF2CLobbyIdDTO));
+            if (!POSTED_IDS.containsKey(freshTF2CLobbyId)) {
+                publishEmbed(freshEmbeds.get(freshTF2CLobbyId));
             }
         }
     }
 
-    public void getNewLobbiesFromPool() {
-        freshEmbeds = EmbedsPool.getFreshLobbies();
-        freshEmbedsTF2CLobbySortedIdList = freshEmbeds.keySet().stream().sorted().toList();
-    }
-
-    private void publishNewLobby(EmbedCreateSpec embed) {
+    private void publishEmbed(EmbedCreateSpec embed) {
         textChannel.ofType(GuildMessageChannel.class)
                 .flatMap(channel -> channel.createMessage(MessageCreateSpec.builder()
                         .addEmbed(embed)
@@ -84,15 +80,20 @@ public class LobbyPublishable implements Publishable {
                 )).block();
     }
 
-    private void deleteLobby(Snowflake snowflake) {
+    private void publishAllEmbeds(Set<EmbedCreateSpec> embeds) {
+        for (EmbedCreateSpec embed : embeds) {
+            publishEmbed(embed);
+        }
+    }
+
+    private void deleteEmbed(Snowflake snowflake) {
         textChannel.ofType(GuildMessageChannel.class)
                 .flatMap(channel -> channel.getMessageById(snowflake).block()
                         .delete())
                 .subscribe();
     }
 
-    private void editLobby(EmbedCreateSpec embed, Snowflake snowflake) {
-
+    private void editEmbed(EmbedCreateSpec embed, Snowflake snowflake) {
         textChannel.ofType(GuildMessageChannel.class)
                 .flatMap(channel -> channel.getMessageById(snowflake).block()
                         .edit()

@@ -13,25 +13,27 @@ import org.apache.commons.lang3.ArrayUtils;
 import java.time.Instant;
 import java.util.*;
 
-public class LobbyPreviewEmbedBuilder {
+public final class LobbyEmbedBuilder {
 
     private final Set<TF2CLobby> jsonParsedPreviews;
     private long lobbyId;
     private String teamType;
 
-    private LobbyPreviewEmbedBuilder(Set<TF2CLobby> jsonParsedPreviews) {
+    private LobbyEmbedBuilder(Set<TF2CLobby> jsonParsedPreviews) {
         this.jsonParsedPreviews = jsonParsedPreviews;
     }
 
-    public static LobbyPreviewEmbedBuilder of(Set<TF2CLobby> previews) {
-        return new LobbyPreviewEmbedBuilder(previews);
+    public static LobbyEmbedBuilder of(Set<TF2CLobby> previews) {
+        return new LobbyEmbedBuilder(previews);
     }
 
     public Map<TF2CLobbyIdDTO, EmbedCreateSpec> build() {
         //Flux<TF2CLobbyPreviewDTO>
-        //Set<EmbedCreateSpec> result = new LinkedHashSet<>();
-        Map<TF2CLobbyIdDTO, EmbedCreateSpec> result = new HashMap<>();
+        if (jsonParsedPreviews.isEmpty()) {
+            return Collections.emptyMap();
+        }
 
+        Map<TF2CLobbyIdDTO, EmbedCreateSpec> result = new HashMap<>(jsonParsedPreviews.size());
         jsonParsedPreviews.forEach(json -> {
             lobbyId = json.getLobbyId();
             teamType = json.getGameType();
@@ -63,7 +65,6 @@ public class LobbyPreviewEmbedBuilder {
 
             result.put(TF2CLobbyIdDTO.of(json.getLobbyId()), lobby);
         });
-
         return Map.copyOf(result);
     }
 
