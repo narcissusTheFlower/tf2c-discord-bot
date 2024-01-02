@@ -15,27 +15,27 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Component("lobbyPublishable")
 @Scope("singleton")
 public class LobbyPublishable implements Publishable {
 
     private static final Map<TF2CLobbyIdDTO, Snowflake> POSTED_IDS = new LinkedHashMap<>();
-    static List<Integer> test = new ArrayList<>();
-    private final static Snowflake TEXT_CHANNEL_ID = Snowflake.of(Long.parseLong(System.getenv("TF2CLOBBY_CHANNEL")));
     private Map<TF2CLobbyIdDTO, EmbedCreateSpec> freshEmbeds;
     private final Mono<Channel> textChannel;
-    private List<TF2CLobbyIdDTO> freshEmbedsTF2CLobbySortedIdList;
 
     @Autowired
     public LobbyPublishable(GatewayDiscordClient client) {
-        textChannel = client.getChannelById(TEXT_CHANNEL_ID);
+        textChannel = client.getChannelById(
+                Snowflake.of(Long.parseLong(System.getenv("TF2CLOBBY_CHANNEL")))
+        );
     }
 
     public static Mono<Void> extractInformation(String title, Snowflake snowflake) {
         int lobbyId = TF2CStringUtils.extractLobbyId(title);
-        test.add(lobbyId);
         if (!POSTED_IDS.containsKey(TF2CLobbyIdDTO.of(lobbyId))) {
             POSTED_IDS.put(TF2CLobbyIdDTO.of(lobbyId), snowflake);
         }
@@ -49,7 +49,7 @@ public class LobbyPublishable implements Publishable {
 
         //Get fresh lobbies
         freshEmbeds = EmbedsPool.getFreshLobbies();
-        freshEmbedsTF2CLobbySortedIdList = freshEmbeds.keySet().stream().sorted().toList();
+        List<TF2CLobbyIdDTO> freshEmbedsTF2CLobbySortedIdList = freshEmbeds.keySet().stream().sorted().toList();
 
         //Delete old lobbies
         if (!POSTED_IDS.isEmpty()) {
@@ -78,12 +78,6 @@ public class LobbyPublishable implements Publishable {
                         .addEmbed(embed)
                         .build()
                 )).block();
-    }
-
-    private void publishAllEmbeds(Set<EmbedCreateSpec> embeds) {
-        for (EmbedCreateSpec embed : embeds) {
-            publishEmbed(embed);
-        }
     }
 
     private void deleteEmbed(Snowflake snowflake) {

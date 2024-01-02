@@ -107,6 +107,17 @@ public final class LobbyEmbedBuilder {
 
 
     private EmbedCreateFields.Field[] buildTeams(List<TF2CPlayerSlotDTO> slots) {
+        /*
+        Official tf2c classnames
+        scout
+        soldier
+        pyro
+        demoman
+        medic
+        sniper
+        spy
+
+         */
         byte teamSize = (byte) slots.size();
 
         List<TF2CPlayerSlotDTO> blu = assignClasses(slots.subList(0, teamSize / 2)); //First half of the list
@@ -121,8 +132,11 @@ public final class LobbyEmbedBuilder {
             }
             teamBlu[i] = EmbedCreateFields.Field.of(
                     blu.get(i - 1).getTf2Class(),
-                    blu.get(i - 1).getPlayerName().equals("empty") ? "[Join](https://tf2center.com/lobbies/" + lobbyId + ")" : blu.get(i - 1).getPlayerName(),
+                    blu.get(i - 1).getPlayerName().equals("empty") ?
+                            buildJoinLink("blue", blu.get(i - 1).getTf2Class()) :
+                            blu.get(i - 1).getPlayerName(),
                     true);
+            //https://tf2center.com/join/lobby/1254135/blue/demoman
         }
 
         EmbedCreateFields.Field[] teamRed = new EmbedCreateFields.Field[(teamSize / 2) + 1];
@@ -130,10 +144,26 @@ public final class LobbyEmbedBuilder {
         for (int i = 1; i < teamRed.length; i++) {
             teamRed[i] = EmbedCreateFields.Field.of(
                     red.get(i - 1).getTf2Class(),
-                    red.get(i - 1).getPlayerName().equals("empty") ? "[Join](https://tf2center.com/lobbies/" + lobbyId + ")" : red.get(i - 1).getPlayerName(),
+                    red.get(i - 1).getPlayerName().equals("empty") ?
+                            buildJoinLink("red", blu.get(i - 1).getTf2Class()) :
+                            red.get(i - 1).getPlayerName(),
                     true);
         }
         return ArrayUtils.addAll(teamBlu, teamRed);
+    }
+
+    private String buildJoinLink(String teamSide, String tf2Class) {
+        tf2Class = switch (tf2Class) {
+            case
+        }
+        StringBuilder sb = new StringBuilder()
+                .append("[Join](https://tf2center.com/join/lobby/")
+                .append(lobbyId)
+                .append("/")
+                .append(teamSide)
+                .append("/")
+                .append(tf2Class);
+        return sb.toString();
     }
 
     private List<TF2CPlayerSlotDTO> assignClasses(List<TF2CPlayerSlotDTO> singleTeam) {
@@ -225,7 +255,7 @@ public final class LobbyEmbedBuilder {
                     "⚾Scout",
                     "\uD83D\uDE80Soldier",
                     "🔥Pyro",
-                    "🧨Demo",
+                    "🧨Demoman",
                     "🐤Heavy",
                     "\uD83D\uDD27Engineer",
                     "💊Medic",
@@ -242,7 +272,7 @@ public final class LobbyEmbedBuilder {
                     "⚾Scout",
                     "\uD83D\uDE80Roamer",
                     "\uD83D\uDE80Pocket",
-                    "🧨Demo",
+                    "🧨Demoman",
                     "💊Medic"
             ));
         }
@@ -253,7 +283,7 @@ public final class LobbyEmbedBuilder {
             super.configure(List.of(
                     "⚾Scout",
                     "\uD83D\uDE80Soldier",
-                    "🧨Demo",
+                    "🧨Demoman",
                     "💊Medic"
             ));
         }
