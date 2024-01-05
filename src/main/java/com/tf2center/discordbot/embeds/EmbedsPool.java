@@ -11,7 +11,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class serves as a single point of reference for getting embeds that represent a lobby in any state.
@@ -23,19 +25,16 @@ public class EmbedsPool {
 
     private static final Logger logger = LoggerFactory.getLogger(EmbedsPool.class);
     private static final Map<TF2CLobbyIdDTO, EmbedCreateSpec> EMBED_LOBBIES_POOL = Collections.synchronizedMap(new HashMap<>(10));
-    private static final Set<EmbedCreateSpec> EMBED_SUBSTITUTION_POOL = Collections.synchronizedSet(new LinkedHashSet<>(10));
+    private static EmbedCreateSpec EMBED_SUBSTITUTION_POOL = EmbedCreateSpec.create();
 
     @Scheduled(fixedRate = 10_000, initialDelay = 2000)// Order of scheduled: 2
     public static void updatePool() {
         try {
             EMBED_LOBBIES_POOL.clear();
-            EMBED_SUBSTITUTION_POOL.clear();
-
             Map<TF2CLobbyIdDTO, EmbedCreateSpec> lobbyEmbeds = LobbyEmbedBuilder.of(TF2CWebSite.getLobbies()).build();
             EMBED_LOBBIES_POOL.putAll(lobbyEmbeds);
 
-            //Set<EmbedCreateSpec> substituteEmbeds = SubstituteEmbedBuilder.of(TF2CWebSite.getSubstituteSlots()).build();
-            //EMBED_SUBSTITUTION_POOL.addAll(substituteEmbeds);
+            //EMBED_SUBSTITUTION_POOL = SubstituteEmbedBuilder.of(TF2CWebSite.getSubstituteSlots()).build();
         } catch (RuntimeException e) {
             throw new TF2CUpdateException("Failed to update embeds pool.", e);
         }
@@ -47,8 +46,8 @@ public class EmbedsPool {
         return Map.copyOf(EMBED_LOBBIES_POOL);
     }
 
-    public static Set<EmbedCreateSpec> getFreshSubs() {
-        return Set.copyOf(EMBED_SUBSTITUTION_POOL);
+    public static EmbedCreateSpec getFreshSubstitues() {
+        return EMBED_SUBSTITUTION_POOL;
     }
 
 }

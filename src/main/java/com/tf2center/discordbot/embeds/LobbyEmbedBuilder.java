@@ -125,7 +125,6 @@ public final class LobbyEmbedBuilder {
                             buildJoinLink("blue", blu.get(i - 1).getTf2Class()) :
                             blu.get(i - 1).getPlayerName(),
                     true);
-            //https://tf2center.com/join/lobby/1254135/blue/demoman
         }
 
         EmbedCreateFields.Field[] teamRed = new EmbedCreateFields.Field[(teamSize / 2) + 1];
@@ -168,7 +167,8 @@ public final class LobbyEmbedBuilder {
                 default -> throw new TF2CEmbedBuilderException("Could not identify class: " + tf2Class);
             };
         } else {
-            //Other game types
+
+            // TODO other game types
         }
 
         StringBuilder sb = new StringBuilder()

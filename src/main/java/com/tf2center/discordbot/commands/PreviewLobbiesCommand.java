@@ -129,7 +129,7 @@ public class PreviewLobbiesCommand implements SlashCommand {
 //                .withEmbeds(
 //                        EmbedsPool.retrieveFirst()
 //                )
-                .withContent("test")
+                //.withContent("test")
                 .withEphemeral(false);
 
     }

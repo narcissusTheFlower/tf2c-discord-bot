@@ -1,6 +1,7 @@
 package com.tf2center.discordbot.publish.publishables;
 
 import com.tf2center.discordbot.dto.TF2CLobbyIdDTO;
+import com.tf2center.discordbot.embeds.EmbedActions;
 import com.tf2center.discordbot.embeds.EmbedsPool;
 import com.tf2center.discordbot.publish.Publishable;
 import com.tf2center.discordbot.utils.TF2CStringUtils;
@@ -21,7 +22,7 @@ import java.util.Map;
 
 @Component("lobbyPublishable")
 @Scope("singleton")
-public class LobbyPublishable implements Publishable {
+public class LobbyPublishable implements Publishable, EmbedActions {
 
     private static final Map<TF2CLobbyIdDTO, Snowflake> POSTED_IDS = new LinkedHashMap<>();
     private Map<TF2CLobbyIdDTO, EmbedCreateSpec> freshEmbeds;
@@ -35,6 +36,9 @@ public class LobbyPublishable implements Publishable {
     }
 
     public static Mono<Void> extractInformation(String title, Snowflake snowflake) {
+        if (!title.toLowerCase().contains("lobby")) {
+            return Mono.empty();
+        }
         int lobbyId = TF2CStringUtils.extractLobbyId(title);
         if (!POSTED_IDS.containsKey(TF2CLobbyIdDTO.of(lobbyId))) {
             POSTED_IDS.put(TF2CLobbyIdDTO.of(lobbyId), snowflake);
@@ -72,7 +76,8 @@ public class LobbyPublishable implements Publishable {
         }
     }
 
-    private void publishEmbed(EmbedCreateSpec embed) {
+    @Override
+    public void publishEmbed(EmbedCreateSpec embed) {
         textChannel.ofType(GuildMessageChannel.class)
                 .flatMap(channel -> channel.createMessage(MessageCreateSpec.builder()
                         .addEmbed(embed)
@@ -80,14 +85,16 @@ public class LobbyPublishable implements Publishable {
                 )).block();
     }
 
-    private void deleteEmbed(Snowflake snowflake) {
+    @Override
+    public void deleteEmbed(Snowflake snowflake) {
         textChannel.ofType(GuildMessageChannel.class)
                 .flatMap(channel -> channel.getMessageById(snowflake).block()
                         .delete())
                 .subscribe();
     }
 
-    private void editEmbed(EmbedCreateSpec embed, Snowflake snowflake) {
+    @Override
+    public void editEmbed(EmbedCreateSpec embed, Snowflake snowflake) {
         textChannel.ofType(GuildMessageChannel.class)
                 .flatMap(channel -> channel.getMessageById(snowflake).block()
                         .edit()

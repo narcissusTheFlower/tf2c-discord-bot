@@ -8,14 +8,14 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 @Component
-public class LobbiesListener {
+public class EmbedsListener {
 
     @Autowired
-    public LobbiesListener(GatewayDiscordClient client) {
-        client.on(MessageCreateEvent.class).flatMap(this::recordNewLobbies).subscribe();
+    public EmbedsListener(GatewayDiscordClient client) {
+        client.on(MessageCreateEvent.class).flatMap(this::recordNewEmbeds).subscribe();
     }
 
-    private Mono<Void> recordNewLobbies(MessageCreateEvent message) {
+    private Mono<Void> recordNewEmbeds(MessageCreateEvent message) {
         return Mono.just(message.getMessage())
                 .flatMap(lobbyEmbed -> LobbyPublishable.extractInformation(
                         lobbyEmbed.getEmbeds().get(0).getTitle().get(),
