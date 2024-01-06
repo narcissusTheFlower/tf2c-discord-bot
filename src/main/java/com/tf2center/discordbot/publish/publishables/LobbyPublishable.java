@@ -36,9 +36,6 @@ public class LobbyPublishable implements Publishable, EmbedActions {
     }
 
     public static Mono<Void> extractInformation(String title, Snowflake snowflake) {
-        if (!title.toLowerCase().contains("lobby")) {
-            return Mono.empty();
-        }
         int lobbyId = TF2CStringUtils.extractLobbyId(title);
         if (!POSTED_IDS.containsKey(TF2CLobbyIdDTO.of(lobbyId))) {
             POSTED_IDS.put(TF2CLobbyIdDTO.of(lobbyId), snowflake);

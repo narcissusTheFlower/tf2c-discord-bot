@@ -97,7 +97,6 @@ public final class LobbyEmbedBuilder {
     }
 
     private String buildThumbnail(String region) {
-        //TODO change resource origins and fix their sizes to be the same dimensions
         if (region.equals("EU")) {
             return "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/1280px-Flag_of_Europe.svg.png";
         } else {
@@ -155,9 +154,10 @@ public final class LobbyEmbedBuilder {
 
                 default -> throw new TF2CEmbedBuilderException("Could not identify class: " + tf2Class);
             };
+            //TODO fix: both scouts lead to one spot
         } else if (teamType.equals("6v6")) {
             tf2Class = switch (tf2Class) {
-                case "⚾Scout1" -> "scout";
+                case "⚾Scout1" -> "scout"; //TODO figure out what descriptions tf2c uses for identifying scouts
                 case "⚾Scout2" -> "scout";
                 case "\uD83D\uDE80Roamer" -> "soldier_roamer";
                 case "\uD83D\uDE80Pocket" -> "soldier_pocket";
@@ -167,19 +167,30 @@ public final class LobbyEmbedBuilder {
                 default -> throw new TF2CEmbedBuilderException("Could not identify class: " + tf2Class);
             };
         } else {
+            tf2Class = switch (tf2Class) {
+                case "⚾Scout" -> "scout";
+                case "\uD83D\uDE80Soldier" -> "solly";
+                case "🔥Pyro" -> "pyro";
+                case "🧨Demoman" -> "demoman";
+                case "🐤Heavy" -> "heavy";
+                case "\uD83D\uDD27Engineer" -> "engie";
+                case "💊Medic" -> "medic";
+                case "🎯Sniper" -> "sniper";
+                case "\uD83D\uDD2ASpy" -> "spy";
 
-            // TODO other game types
+                default -> throw new TF2CEmbedBuilderException("Could not identify class: " + tf2Class);
+            };
         }
 
-        StringBuilder sb = new StringBuilder()
+        return new StringBuilder()
                 .append("[Join](https://tf2center.com/join/lobby/")
                 .append(lobbyId)
                 .append("/")
                 .append(teamSide)
                 .append("/")
                 .append(tf2Class)
-                .append(")");
-        return sb.toString();
+                .append(")")
+                .toString();
     }
 
     private List<TF2CPlayerSlotDTO> assignClasses(List<TF2CPlayerSlotDTO> singleTeam) {

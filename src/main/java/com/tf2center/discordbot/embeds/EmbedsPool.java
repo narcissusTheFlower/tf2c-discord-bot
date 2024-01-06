@@ -34,11 +34,10 @@ public class EmbedsPool {
             Map<TF2CLobbyIdDTO, EmbedCreateSpec> lobbyEmbeds = LobbyEmbedBuilder.of(TF2CWebSite.getLobbies()).build();
             EMBED_LOBBIES_POOL.putAll(lobbyEmbeds);
 
-            //EMBED_SUBSTITUTION_POOL = SubstituteEmbedBuilder.of(TF2CWebSite.getSubstituteSlots()).build();
+            EMBED_SUBSTITUTION_POOL = SubstituteEmbedBuilder.of(TF2CWebSite.getSubstituteSlots()).build();
         } catch (RuntimeException e) {
             throw new TF2CUpdateException("Failed to update embeds pool.", e);
         }
-
         logger.info("EMBEDS POOL updated with {} lobbies(-s) X substitution slots", EMBED_LOBBIES_POOL.size());
     }
 

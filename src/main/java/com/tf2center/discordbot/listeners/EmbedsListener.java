@@ -1,6 +1,8 @@
 package com.tf2center.discordbot.listeners;
 
 import com.tf2center.discordbot.publish.publishables.LobbyPublishable;
+import com.tf2center.discordbot.publish.publishables.SubstituteSlotsPublishable;
+import discord4j.common.util.Snowflake;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +18,14 @@ public class EmbedsListener {
     }
 
     private Mono<Void> recordNewEmbeds(MessageCreateEvent message) {
+        String title = message.getMessage().getEmbeds().get(0).getTitle().get();
+        Snowflake id = message.getMessage().getId();
+
+        if (!title.toLowerCase().contains("lobby")) {
+            return Mono.just(message.getMessage())
+                    .flatMap(lobbyEmbed -> SubstituteSlotsPublishable.extractInformation(id));
+        }
         return Mono.just(message.getMessage())
-                .flatMap(lobbyEmbed -> LobbyPublishable.extractInformation(
-                        lobbyEmbed.getEmbeds().get(0).getTitle().get(),
-                        lobbyEmbed.getId()
-                ));
+                .flatMap(lobbyEmbed -> LobbyPublishable.extractInformation(title, id));
     }
 }

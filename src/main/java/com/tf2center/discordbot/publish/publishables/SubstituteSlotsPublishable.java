@@ -1,6 +1,7 @@
 package com.tf2center.discordbot.publish.publishables;
 
 import com.tf2center.discordbot.embeds.EmbedActions;
+import com.tf2center.discordbot.embeds.EmbedsPool;
 import com.tf2center.discordbot.publish.Publishable;
 import discord4j.common.util.Snowflake;
 import discord4j.core.GatewayDiscordClient;
@@ -19,6 +20,7 @@ public class SubstituteSlotsPublishable implements Publishable, EmbedActions {
 
     private final Mono<Channel> textChannel;
     private boolean thisIsFirstPost = true;
+    private static Snowflake subsEmbedId;
 
     @Autowired
     public SubstituteSlotsPublishable(GatewayDiscordClient client) {
@@ -27,19 +29,19 @@ public class SubstituteSlotsPublishable implements Publishable, EmbedActions {
         );
     }
 
-    @Override
-    public void publish() {
-//        EmbedCreateSpec freshSubstitues = EmbedsPool.getFreshSubstitues();
-//        if (thisIsFirstPost){
-//            //publishEmbed();
-//        }
-
-
+    public static Mono<Void> extractInformation(Snowflake snowflake) {
+        subsEmbedId = snowflake;
+        return Mono.empty();
     }
 
-
-    public Mono<Void> extractInformation(String title, Snowflake snowflake) {
-        return Mono.empty();
+    @Override
+    public void publish() {
+        EmbedCreateSpec freshSubstitues = EmbedsPool.getFreshSubstitues();
+        if (thisIsFirstPost) {
+            publishEmbed(freshSubstitues);
+            thisIsFirstPost = false;
+        }
+        editEmbed(freshSubstitues, subsEmbedId);
     }
 
     @Override
