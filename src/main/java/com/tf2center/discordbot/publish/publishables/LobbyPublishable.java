@@ -45,9 +45,6 @@ public class LobbyPublishable implements Publishable, EmbedActions {
 
     @Override
     public void publish() {
-        //Publish subs
-        //publishEmbed(EmbedsPool.getFreshSubs());
-
         //Get fresh lobbies
         freshEmbeds = EmbedsPool.getFreshLobbies();
         List<TF2CLobbyIdDTO> freshEmbedsTF2CLobbySortedIdList = freshEmbeds.keySet().stream().sorted().toList();
