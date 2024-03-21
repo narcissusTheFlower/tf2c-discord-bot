@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
  */
 @EnableScheduling
 @Component("htmlParserFile")
+@Deprecated
 public final class TF2CObserverFromFile {
     private static final File preview = new File("/home/user/test-case/preview");
     private static final File inner = new File("/home/user/test-case/inner");

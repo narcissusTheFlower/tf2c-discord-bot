@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Component
+@Deprecated
 public class SlashCommandListener {
 
     private final Collection<SlashCommand> commands;

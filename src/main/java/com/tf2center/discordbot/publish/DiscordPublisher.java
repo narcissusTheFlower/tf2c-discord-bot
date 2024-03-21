@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component()
+@Component
 @Scope("singleton")
 @EnableScheduling
 public class DiscordPublisher {

@@ -31,15 +31,12 @@ public class PrePublishActions {
         );
     }
 
-    //As of now I do not care how bad this looks. This library does not even have clearChannel() method which is
-    //stupid AF.I HAVE TO manually pick up the messages. I tried doing the "right" way using reactive streams as was
-    //shown in the example for bulk deletion but this retarded library does not even has working examples.
-    //Just implement clearChannel() so we can channel.clearChannel(). How hard is that huh????
     @PostConstruct
     private void cleanMessageChannel() {
         List<Snowflake> snowflakes = textChannel.ofType(GuildMessageChannel.class)
                 .map(channel -> channel.getMessagesBefore(Snowflake.of(Instant.now()))
-                        .take(100)
+                        .take(5)
+                        .filter(message -> !message.getEmbeds().isEmpty())
                         .map(Message::getId)
                         .collectList()
                         .block()

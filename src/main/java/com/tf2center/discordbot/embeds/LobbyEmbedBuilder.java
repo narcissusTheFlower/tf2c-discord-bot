@@ -10,7 +10,6 @@ import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.rest.util.Color;
 import org.apache.commons.lang3.ArrayUtils;
 
-import java.time.Instant;
 import java.util.*;
 
 public final class LobbyEmbedBuilder {
@@ -58,9 +57,9 @@ public final class LobbyEmbedBuilder {
                     .image(
                             "https://tf2center.com" + json.getThumbnailUrl()
                     )
-                    //TODO build proper timings
-                    .timestamp(Instant.now())
-                    .footer("Lobby opened", "https://static-00.iconduck.com/assets.00/four-o-clock-emoji-2047x2048-dqpvucft.png")
+                    //TODO build proper creation time
+                    //.timestamp(Instant.now())
+                    //.footer("Lobby opened", "https://static-00.iconduck.com/assets.00/four-o-clock-emoji-2047x2048-dqpvucft.png")
                     .build();
 
             result.put(TF2CLobbyIdDTO.of(json.getLobbyId()), lobby);
@@ -154,10 +153,9 @@ public final class LobbyEmbedBuilder {
 
                 default -> throw new TF2CEmbedBuilderException("Could not identify class: " + tf2Class);
             };
-            //TODO fix: both scouts lead to one spot
         } else if (teamType.equals("6v6")) {
             tf2Class = switch (tf2Class) {
-                case "⚾Scout1" -> "scout"; //TODO figure out what descriptions tf2c uses for identifying scouts
+                case "⚾Scout1" -> "scout";
                 case "⚾Scout2" -> "scout";
                 case "\uD83D\uDE80Roamer" -> "soldier_roamer";
                 case "\uD83D\uDE80Pocket" -> "soldier_pocket";
@@ -166,17 +164,27 @@ public final class LobbyEmbedBuilder {
 
                 default -> throw new TF2CEmbedBuilderException("Could not identify class: " + tf2Class);
             };
-        } else {
+        } else if (teamType.equals("4v4")) {
             tf2Class = switch (tf2Class) {
                 case "⚾Scout" -> "scout";
-                case "\uD83D\uDE80Soldier" -> "solly";
-                case "🔥Pyro" -> "pyro";
+                case "\uD83D\uDE80Soldier" -> "soldier";
                 case "🧨Demoman" -> "demoman";
-                case "🐤Heavy" -> "heavy";
-                case "\uD83D\uDD27Engineer" -> "engie";
                 case "💊Medic" -> "medic";
-                case "🎯Sniper" -> "sniper";
-                case "\uD83D\uDD2ASpy" -> "spy";
+
+                default -> throw new TF2CEmbedBuilderException("Could not identify class: " + tf2Class);
+            };
+        } else if (teamType.equals("Ultiduo")) {
+            tf2Class = switch (tf2Class) {
+                case "\uD83D\uDE80Soldier" -> "soldier";
+                case "💊Medic" -> "medic";
+
+                default -> throw new TF2CEmbedBuilderException("Could not identify class: " + tf2Class);
+            };
+        } else if (teamType.equals("BBall")) {
+            tf2Class = switch (tf2Class) {
+                case "\uD83D\uDE80Soldier1" -> "soldier_roamer";
+                case "\uD83D\uDE80Soldier2" -> "soldier_pocket";
+                case "💊Medic" -> "medic";
 
                 default -> throw new TF2CEmbedBuilderException("Could not identify class: " + tf2Class);
             };
@@ -328,10 +336,8 @@ public final class LobbyEmbedBuilder {
     private class BBall extends TeamType {
         public BBall() {
             super.configure(List.of(
-                    "\uD83D\uDE80Soldier",
-                    "\uD83D\uDE80Soldier",
-                    "\uD83D\uDE80Soldier",
-                    "\uD83D\uDE80Soldier"
+                    "\uD83D\uDE80Soldier1",
+                    "\uD83D\uDE80Soldier2"
             ));
         }
     }
