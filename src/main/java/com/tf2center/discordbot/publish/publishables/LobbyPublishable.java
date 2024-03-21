@@ -49,16 +49,19 @@ public class LobbyPublishable implements Publishable, EmbedActions {
         freshEmbeds = EmbedsPool.getFreshLobbies();
         List<TF2CLobbyIdDTO> freshEmbedsTF2CLobbySortedIdList = freshEmbeds.keySet().stream().sorted().toList();
 
-        //Delete old lobbies
-        if (!POSTED_IDS.keySet().isEmpty()) {
-            for (TF2CLobbyIdDTO postedId : POSTED_IDS.keySet()) { //java.util.ConcurrentModificationException: null //TODO FIX ME
-                if (!freshEmbeds.containsKey(postedId)) {
-                    deleteEmbed(POSTED_IDS.get(postedId));
-                    POSTED_IDS.remove(postedId);
+        //Synchronizing this to avoid "java.util.ConcurrentModificationException: null" on "for (TF2CLobbyIdDTO postedId : POSTED_IDS.keySet()) {"
+        //java.util.ConcurrentModificationException: null WILL BREAK THE LOBBY PUBLISHING MECHANISM
+        synchronized (this) {
+            //Delete old lobbies
+            if (!POSTED_IDS.keySet().isEmpty()) {
+                for (TF2CLobbyIdDTO postedId : POSTED_IDS.keySet()) {
+                    if (!freshEmbeds.containsKey(postedId)) {
+                        deleteEmbed(POSTED_IDS.get(postedId));
+                        POSTED_IDS.remove(postedId);
+                    }
                 }
             }
         }
-
         //Edit old lobbies and post new
         for (TF2CLobbyIdDTO freshTF2CLobbyId : freshEmbedsTF2CLobbySortedIdList) {
             if (!POSTED_IDS.isEmpty() && POSTED_IDS.containsKey(freshTF2CLobbyId)) {

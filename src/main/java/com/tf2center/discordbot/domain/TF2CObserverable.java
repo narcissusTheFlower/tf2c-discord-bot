@@ -42,7 +42,7 @@ public final class TF2CObserverable {
     private static Document tf2cWebSite;
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-    @Scheduled(fixedRate = 10_000)// Order of scheduled: 1
+    @Scheduled(fixedRate = 10_000)// Order of scheduled events: 1
     private static void parseTF2C() throws IOException {
         //Default timeout is 30 seconds
         tf2cWebSite = Jsoup.connect(TF2C_URL).userAgent("Mozilla").get();
@@ -157,7 +157,8 @@ public final class TF2CObserverable {
 
     private static List<?> extractLobbyHeaders(Elements headers) {
         //TODO fixme
-        boolean offclassingAllowed = !headers.get(1).select("span").get(4).attributes().toString().contains("cross"); //java.lang.IndexOutOfBoundsException: Index 1 out of bounds for length 0
+        //java.lang.IndexOutOfBoundsException: Index 1 out of bounds for length 0
+        boolean offclassingAllowed = !headers.get(1).select("span").get(4).attributes().toString().contains("cross");
         String config = headers.get(0).select("td").get(3).text();
         String server;
         if (headers.get(0).select("tr").get(2).text().isBlank() || headers.get(0).select("tr").get(2).text().equals("Server")) {

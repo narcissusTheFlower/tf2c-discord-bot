@@ -35,7 +35,7 @@ public class PrePublishActions {
     private void cleanMessageChannel() {
         List<Snowflake> snowflakes = textChannel.ofType(GuildMessageChannel.class)
                 .map(channel -> channel.getMessagesBefore(Snowflake.of(Instant.now()))
-                        .take(5)
+                        .take(6)
                         .filter(message -> !message.getEmbeds().isEmpty())
                         .map(Message::getId)
                         .collectList()
