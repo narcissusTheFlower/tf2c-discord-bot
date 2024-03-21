@@ -1,9 +1,8 @@
-package com.tf2center.discordbot.observer;
+package com.tf2center.discordbot.domain;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tf2center.discordbot.domain.TF2CWebSite;
 import com.tf2center.discordbot.dto.TF2CLobbyDTO;
 import com.tf2center.discordbot.dto.TF2CPlayerCountDTO;
 import com.tf2center.discordbot.dto.TF2CPlayerSlotDTO;
@@ -31,6 +30,7 @@ import java.util.stream.Collectors;
  */
 @EnableScheduling
 @Component("htmlParserFile")
+@Deprecated
 public final class TF2CObserverFromFile {
     private static final File preview = new File("/home/user/test-case/preview");
     private static final File inner = new File("/home/user/test-case/inner");

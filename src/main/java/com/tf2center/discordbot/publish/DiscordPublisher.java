@@ -6,17 +6,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
-@Component()
+@Component
 @Scope("singleton")
 @EnableScheduling
 public class DiscordPublisher {
-
-    private final static Set<Integer> activeLobbiesIDs = Collections.synchronizedSet(new LinkedHashSet<>());
 
     private final List<Publishable> publishables;
 
@@ -25,7 +20,7 @@ public class DiscordPublisher {
         this.publishables = publishables;
     }
 
-    @Scheduled(fixedRate = 10_000, initialDelay = 2300)
+    @Scheduled(fixedRate = 10_000, initialDelay = 2300)// Order of scheduled: 3
     private void executePublishers() {
             publishables.forEach(Publishable::publish);
     }

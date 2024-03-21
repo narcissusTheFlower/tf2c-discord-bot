@@ -10,28 +10,29 @@ import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.rest.util.Color;
 import org.apache.commons.lang3.ArrayUtils;
 
-import java.time.Instant;
 import java.util.*;
 
-public class LobbyPreviewEmbedBuilder {
+public final class LobbyEmbedBuilder {
 
     private final Set<TF2CLobby> jsonParsedPreviews;
     private long lobbyId;
     private String teamType;
 
-    private LobbyPreviewEmbedBuilder(Set<TF2CLobby> jsonParsedPreviews) {
+    private LobbyEmbedBuilder(Set<TF2CLobby> jsonParsedPreviews) {
         this.jsonParsedPreviews = jsonParsedPreviews;
     }
 
-    public static LobbyPreviewEmbedBuilder of(Set<TF2CLobby> previews) {
-        return new LobbyPreviewEmbedBuilder(previews);
+    public static LobbyEmbedBuilder of(Set<TF2CLobby> previews) {
+        return new LobbyEmbedBuilder(previews);
     }
 
     public Map<TF2CLobbyIdDTO, EmbedCreateSpec> build() {
         //Flux<TF2CLobbyPreviewDTO>
-        //Set<EmbedCreateSpec> result = new LinkedHashSet<>();
-        Map<TF2CLobbyIdDTO, EmbedCreateSpec> result = new HashMap<>();
+        if (jsonParsedPreviews.isEmpty()) {
+            return Collections.emptyMap();
+        }
 
+        Map<TF2CLobbyIdDTO, EmbedCreateSpec> result = new HashMap<>(jsonParsedPreviews.size());
         jsonParsedPreviews.forEach(json -> {
             lobbyId = json.getLobbyId();
             teamType = json.getGameType();
@@ -56,14 +57,13 @@ public class LobbyPreviewEmbedBuilder {
                     .image(
                             "https://tf2center.com" + json.getThumbnailUrl()
                     )
-                    //TODO build proper timings
-                    .timestamp(Instant.now())
-                    .footer("Lobby opened", "https://static-00.iconduck.com/assets.00/four-o-clock-emoji-2047x2048-dqpvucft.png")
+                    //TODO build proper creation time
+                    //.timestamp(Instant.now())
+                    //.footer("Lobby opened", "https://static-00.iconduck.com/assets.00/four-o-clock-emoji-2047x2048-dqpvucft.png")
                     .build();
 
             result.put(TF2CLobbyIdDTO.of(json.getLobbyId()), lobby);
         });
-
         return Map.copyOf(result);
     }
 
@@ -96,7 +96,6 @@ public class LobbyPreviewEmbedBuilder {
     }
 
     private String buildThumbnail(String region) {
-        //TODO change resource origins and fix their sizes to be the same dimensions
         if (region.equals("EU")) {
             return "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/1280px-Flag_of_Europe.svg.png";
         } else {
@@ -120,7 +119,9 @@ public class LobbyPreviewEmbedBuilder {
             }
             teamBlu[i] = EmbedCreateFields.Field.of(
                     blu.get(i - 1).getTf2Class(),
-                    blu.get(i - 1).getPlayerName().equals("empty") ? "[Join](https://tf2center.com/lobbies/" + lobbyId + ")" : blu.get(i - 1).getPlayerName(),
+                    blu.get(i - 1).getPlayerName().equals("empty") ?
+                            buildJoinLink("blue", blu.get(i - 1).getTf2Class()) :
+                            blu.get(i - 1).getPlayerName(),
                     true);
         }
 
@@ -129,10 +130,75 @@ public class LobbyPreviewEmbedBuilder {
         for (int i = 1; i < teamRed.length; i++) {
             teamRed[i] = EmbedCreateFields.Field.of(
                     red.get(i - 1).getTf2Class(),
-                    red.get(i - 1).getPlayerName().equals("empty") ? "[Join](https://tf2center.com/lobbies/" + lobbyId + ")" : red.get(i - 1).getPlayerName(),
+                    red.get(i - 1).getPlayerName().equals("empty") ?
+                            buildJoinLink("red", blu.get(i - 1).getTf2Class()) :
+                            red.get(i - 1).getPlayerName(),
                     true);
         }
         return ArrayUtils.addAll(teamBlu, teamRed);
+    }
+
+    private String buildJoinLink(String teamSide, String tf2Class) {
+        if (teamType.equals("Highlander")) {
+            tf2Class = switch (tf2Class) {
+                case "⚾Scout" -> "scout";
+                case "\uD83D\uDE80Soldier" -> "solly";
+                case "🔥Pyro" -> "pyro";
+                case "🧨Demoman" -> "demoman";
+                case "🐤Heavy" -> "heavy";
+                case "\uD83D\uDD27Engineer" -> "engie";
+                case "💊Medic" -> "medic";
+                case "🎯Sniper" -> "sniper";
+                case "\uD83D\uDD2ASpy" -> "spy";
+
+                default -> throw new TF2CEmbedBuilderException("Could not identify class: " + tf2Class);
+            };
+        } else if (teamType.equals("6v6")) {
+            tf2Class = switch (tf2Class) {
+                case "⚾Scout1" -> "scout";
+                case "⚾Scout2" -> "scout";
+                case "\uD83D\uDE80Roamer" -> "soldier_roamer";
+                case "\uD83D\uDE80Pocket" -> "soldier_pocket";
+                case "🧨Demoman" -> "demoman";
+                case "💊Medic" -> "medic";
+
+                default -> throw new TF2CEmbedBuilderException("Could not identify class: " + tf2Class);
+            };
+        } else if (teamType.equals("4v4")) {
+            tf2Class = switch (tf2Class) {
+                case "⚾Scout" -> "scout";
+                case "\uD83D\uDE80Soldier" -> "soldier";
+                case "🧨Demoman" -> "demoman";
+                case "💊Medic" -> "medic";
+
+                default -> throw new TF2CEmbedBuilderException("Could not identify class: " + tf2Class);
+            };
+        } else if (teamType.equals("Ultiduo")) {
+            tf2Class = switch (tf2Class) {
+                case "\uD83D\uDE80Soldier" -> "soldier";
+                case "💊Medic" -> "medic";
+
+                default -> throw new TF2CEmbedBuilderException("Could not identify class: " + tf2Class);
+            };
+        } else if (teamType.equals("BBall")) {
+            tf2Class = switch (tf2Class) {
+                case "\uD83D\uDE80Soldier1" -> "soldier_roamer";
+                case "\uD83D\uDE80Soldier2" -> "soldier_pocket";
+                case "💊Medic" -> "medic";
+
+                default -> throw new TF2CEmbedBuilderException("Could not identify class: " + tf2Class);
+            };
+        }
+
+        return new StringBuilder()
+                .append("[Join](https://tf2center.com/join/lobby/")
+                .append(lobbyId)
+                .append("/")
+                .append(teamSide)
+                .append("/")
+                .append(tf2Class)
+                .append(")")
+                .toString();
     }
 
     private List<TF2CPlayerSlotDTO> assignClasses(List<TF2CPlayerSlotDTO> singleTeam) {
@@ -224,7 +290,7 @@ public class LobbyPreviewEmbedBuilder {
                     "⚾Scout",
                     "\uD83D\uDE80Soldier",
                     "🔥Pyro",
-                    "🧨Demo",
+                    "🧨Demoman",
                     "🐤Heavy",
                     "\uD83D\uDD27Engineer",
                     "💊Medic",
@@ -237,11 +303,11 @@ public class LobbyPreviewEmbedBuilder {
     private class Sixes extends TeamType {
         public Sixes() {
             super.configure(List.of(
-                    "⚾Scout",
-                    "⚾Scout",
+                    "⚾Scout1",
+                    "⚾Scout2",
                     "\uD83D\uDE80Roamer",
                     "\uD83D\uDE80Pocket",
-                    "🧨Demo",
+                    "🧨Demoman",
                     "💊Medic"
             ));
         }
@@ -252,7 +318,7 @@ public class LobbyPreviewEmbedBuilder {
             super.configure(List.of(
                     "⚾Scout",
                     "\uD83D\uDE80Soldier",
-                    "🧨Demo",
+                    "🧨Demoman",
                     "💊Medic"
             ));
         }
@@ -270,10 +336,8 @@ public class LobbyPreviewEmbedBuilder {
     private class BBall extends TeamType {
         public BBall() {
             super.configure(List.of(
-                    "\uD83D\uDE80Soldier",
-                    "\uD83D\uDE80Soldier",
-                    "\uD83D\uDE80Soldier",
-                    "\uD83D\uDE80Soldier"
+                    "\uD83D\uDE80Soldier1",
+                    "\uD83D\uDE80Soldier2"
             ));
         }
     }

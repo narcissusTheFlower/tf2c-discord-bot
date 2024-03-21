@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Component
+@Deprecated
 public class SlashCommandListener {
 
     private final Collection<SlashCommand> commands;
@@ -23,8 +24,6 @@ public class SlashCommandListener {
     }
 
     public Mono<Void> handle(ChatInputInteractionEvent event) {
-        //event.getInteraction().getId();
-        //Convert our list to a flux that we can iterate through
         return Flux.fromIterable(commands)
                 //Filter out all commands that don't match the name this event is for
                 .filter(javaCommand -> javaCommand.getName().equals(event.getCommandName()))

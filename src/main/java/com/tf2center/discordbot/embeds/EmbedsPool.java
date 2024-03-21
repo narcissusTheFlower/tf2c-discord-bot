@@ -1,7 +1,6 @@
 package com.tf2center.discordbot.embeds;
 
 import com.tf2center.discordbot.domain.TF2CWebSite;
-import com.tf2center.discordbot.dto.TF2CLobby;
 import com.tf2center.discordbot.dto.TF2CLobbyIdDTO;
 import com.tf2center.discordbot.exceptions.TF2CUpdateException;
 import discord4j.core.spec.EmbedCreateSpec;
@@ -12,7 +11,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class serves as a single point of reference for getting embeds that represent a lobby in any state.
@@ -23,40 +24,29 @@ import java.util.*;
 public class EmbedsPool {
 
     private static final Logger logger = LoggerFactory.getLogger(EmbedsPool.class);
-    private static final Map<TF2CLobbyIdDTO, EmbedCreateSpec> LOBBIES = Collections.synchronizedMap(new HashMap<>());
-    private static final Set<EmbedCreateSpec> SUBSTITUTION_SLOTS = Collections.synchronizedSet(new LinkedHashSet<>()); //Still thinking
+    private static final Map<TF2CLobbyIdDTO, EmbedCreateSpec> EMBED_LOBBIES_POOL = Collections.synchronizedMap(new HashMap<>(10));
+    private static EmbedCreateSpec EMBED_SUBSTITUTION_POOL = EmbedCreateSpec.create();
 
-    @Scheduled(fixedRate = 10_000, initialDelay = 2000)
+    @Scheduled(fixedRate = 10_000, initialDelay = 2000)// Order of scheduled events: 2
     public static void updatePool() {
         try {
-            Set<TF2CLobby> lobbies = TF2CWebSite.getLobbies();
-            buildEmbedLobbies(lobbies);
-            //buildSubstituteSlots(TF2CWebSite.getSubstitutionSpots());
+            EMBED_LOBBIES_POOL.clear();
+            Map<TF2CLobbyIdDTO, EmbedCreateSpec> lobbyEmbeds = LobbyEmbedBuilder.of(TF2CWebSite.getLobbies()).build();
+            EMBED_LOBBIES_POOL.putAll(lobbyEmbeds);
+
+            EMBED_SUBSTITUTION_POOL = SubstituteEmbedBuilder.of(TF2CWebSite.getSubstituteSlots()).build();
         } catch (RuntimeException e) {
             throw new TF2CUpdateException("Failed to update embeds pool.", e);
         }
-
-        logger.info("EMBEDS POOL updated with {} lobbies(-s) X substitution slots", LOBBIES.size());
-    }
-
-    private static void buildEmbedLobbies(Set<TF2CLobby> lobbies) {
-        LOBBIES.clear();
-        Map<TF2CLobbyIdDTO, EmbedCreateSpec> embeds = LobbyPreviewEmbedBuilder.of(lobbies).build();
-        if (!embeds.isEmpty()) {
-            LOBBIES.putAll(embeds);
-        }
+        logger.info("EMBEDS POOL updated with {} lobbies(-s) X substitution slots", EMBED_LOBBIES_POOL.size());
     }
 
     public static Map<TF2CLobbyIdDTO, EmbedCreateSpec> getFreshLobbies() {
-        return Map.copyOf(LOBBIES);
+        return Map.copyOf(EMBED_LOBBIES_POOL);
     }
 
-//
-//    private static void buildSubstituteSlots(Set<TF2CSubstituteSlotDTO> substitutionSpots) {
-//    }
-//
-//    public static Set<EmbedCreateSpec> getSubstitutionSlots() {
-//        return null;
-//    }
+    public static EmbedCreateSpec getFreshSubstitues() {
+        return EMBED_SUBSTITUTION_POOL;
+    }
 
 }

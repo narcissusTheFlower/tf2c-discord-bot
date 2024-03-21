@@ -19,18 +19,10 @@ public class DiscordBotApplication {
 
 	@Bean
 	public <T extends Event> GatewayDiscordClient gatewayDiscordClient() {
-		//Right now the environment variable "DISCORD_TOKEN" is set in Intelij Idea.
-		//On the deployment machine will be set with ~/.bashrc (add "export DISCORD_TOKEN=token_from_portal")
 		GatewayDiscordClient client = DiscordClientBuilder.create(System.getenv("DISCORD_TOKEN"))
 				.build()
 				.login()
 				.block();
-//		for (EventListener<T> listener : eventListeners) {
-//			client.on(listener.getEventType())
-//					.flatMap(listener::execute)
-//					.onErrorResume(listener::handleError)
-//					.subscribe();
-//		}
 		return client;
 	}
 

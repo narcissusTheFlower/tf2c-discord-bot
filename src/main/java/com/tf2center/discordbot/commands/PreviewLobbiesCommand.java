@@ -35,6 +35,7 @@ Embeds allow markdown. Field values and description support markdown links.
 
  */
 @Component
+@Deprecated
 public class PreviewLobbiesCommand implements SlashCommand {
 
     private static final Logger logger = LoggerFactory.getLogger(PreviewLobbiesCommand.class);
@@ -129,7 +130,7 @@ public class PreviewLobbiesCommand implements SlashCommand {
 //                .withEmbeds(
 //                        EmbedsPool.retrieveFirst()
 //                )
-                .withContent("test")
+                //.withContent("test")
                 .withEphemeral(false);
 
     }
