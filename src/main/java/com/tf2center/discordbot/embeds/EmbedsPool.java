@@ -38,7 +38,7 @@ public class EmbedsPool {
         } catch (RuntimeException e) {
             throw new TF2CUpdateException("Failed to update embeds pool.", e);
         }
-        logger.info("EMBEDS POOL updated with {} lobbies(-s) X substitution slots", EMBED_LOBBIES_POOL.size());
+        logger.info("EMBEDS POOL updated with {} lobbies(-s) {} substitution slots", EMBED_LOBBIES_POOL.size(), EMBED_SUBSTITUTION_POOL.fields().size());
     }
 
     public static Map<TF2CLobbyIdDTO, EmbedCreateSpec> getFreshLobbies() {
