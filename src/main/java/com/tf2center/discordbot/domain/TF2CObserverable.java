@@ -157,7 +157,7 @@ public final class TF2CObserverable {
 
     private static List<?> extractLobbyHeaders(Elements headers) {
         //TODO fixme
-        //java.lang.IndexOutOfBoundsException: Index 1 out of bounds for length 0
+        //java.lang.IndexOutOfBoundsException: Index 1 out of bounds for length 0. Probably happens on 6s lobbies
         boolean offclassingAllowed = !headers.get(1).select("span").get(4).attributes().toString().contains("cross");
         String config = headers.get(0).select("td").get(3).text();
         String server;

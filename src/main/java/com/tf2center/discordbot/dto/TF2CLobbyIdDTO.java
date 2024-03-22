@@ -31,7 +31,7 @@ public final class TF2CLobbyIdDTO implements Comparable<TF2CLobbyIdDTO> {
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof TF2CLobbyIdDTO) {
-            return this.lobbyId == ((TF2CLobbyIdDTO) obj).lobbyId;
+            return this.lobbyId == ((TF2CLobbyIdDTO) obj).intValue();
         }
         return false;
     }

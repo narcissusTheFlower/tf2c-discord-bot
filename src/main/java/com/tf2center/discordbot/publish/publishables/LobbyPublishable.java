@@ -62,6 +62,7 @@ public class LobbyPublishable implements Publishable, EmbedActions {
                 }
             }
         }
+
         //Edit old lobbies and post new
         for (TF2CLobbyIdDTO freshTF2CLobbyId : freshEmbedsTF2CLobbySortedIdList) {
             if (!POSTED_IDS.isEmpty() && POSTED_IDS.containsKey(freshTF2CLobbyId)) {

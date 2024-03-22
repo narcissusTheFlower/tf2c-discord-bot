@@ -1,6 +1,5 @@
 package com.tf2center.discordbot.listeners;
 
-import com.tf2center.discordbot.exceptions.TF2CUpdateException;
 import com.tf2center.discordbot.publish.publishables.LobbyPublishable;
 import com.tf2center.discordbot.publish.publishables.SubstituteSlotsPublishable;
 import discord4j.common.util.Snowflake;
@@ -11,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 @Component
@@ -35,15 +37,21 @@ public class EmbedsListener {
 
             return Mono.just(message.getMessage())
                     .flatMap(lobbyEmbed -> LobbyPublishable.extractInformation(title, id));
-
-            // i am not sure if this exception happens everything goes to hell
         } else {
-            throw new TF2CUpdateException("Failed to detect embeds in new messages, which should be impossible. " +
-                    "something has gone wrong.");
+
+            String path = "/home/discord/bots/tf2c-discord-bot/dump";
+            File dump = new File(path);
+            try {
+                FileWriter fileWriter = new FileWriter(dump);
+                fileWriter.write(message.getMessage().toString());
+                fileWriter.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            // todo: if this else is reached the bot will spam the same message. cos for some reason embed mesasges are not recognised as embeds
+
+            System.exit(1);
+            throw new RuntimeException();
         }
-
-
-
-
     }
 }
