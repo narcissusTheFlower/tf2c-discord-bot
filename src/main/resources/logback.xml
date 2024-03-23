@@ -15,9 +15,9 @@
 
     <!-- Appenders -->
     <!--Used only for development or debuggin-->
-    <!--    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">-->
+    <!--        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">-->
 <!--        <encoder>-->
-    <!--            <pattern>%d{HH:mm:ss.SS} [%thread]  %-5level %logger{36} - %msg%n</pattern>-->
+    <!--                <pattern>%d{HH:mm:ss.SS} [%thread]  %-5level %logger{36} - %msg%n</pattern>-->
 <!--        </encoder>-->
 <!--    </appender>-->
 
@@ -41,7 +41,7 @@
 
     <!-- Assigning default appenders -->
     <root level="INFO">
-        <!--        <appender-ref ref="CONSOLE"/>-->
+        <!--                <appender-ref ref="CONSOLE"/>-->
         <appender-ref ref="FILE-ROLLING"/>
     </root>
 </configuration>

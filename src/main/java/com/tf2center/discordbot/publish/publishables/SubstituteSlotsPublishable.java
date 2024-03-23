@@ -14,13 +14,15 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
+import java.time.Instant;
+import java.util.Optional;
+
 @Component("substituteSlotsPublishable")
 @Scope("singleton")
 public class SubstituteSlotsPublishable implements Publishable, EmbedActions {
 
     private final Mono<Channel> textChannel;
-    private boolean thisIsFirstPost = true;
-    private static Snowflake subsEmbedId;
+    private static Optional<Snowflake> subsEmbedId = Optional.empty();
 
     @Autowired
     public SubstituteSlotsPublishable(GatewayDiscordClient client) {
@@ -29,20 +31,29 @@ public class SubstituteSlotsPublishable implements Publishable, EmbedActions {
         );
     }
 
-    public static Mono<Void> extractInformation(Snowflake snowflake) {
-        subsEmbedId = snowflake;
-        return Mono.empty();
-    }
-
     @Override
     public void publish() {
         EmbedCreateSpec freshSubstitues = EmbedsPool.getFreshSubstitues();
-        if (thisIsFirstPost) {
+        if (subsEmbedId.isEmpty()) {
             publishEmbed(freshSubstitues);
-            thisIsFirstPost = false;
+            subsEmbedId = Optional.of(extractPostedSubstitutesEmbed(textChannel));
+        } else {
+            editEmbed(freshSubstitues, subsEmbedId.get());
         }
-        editEmbed(freshSubstitues, subsEmbedId);
     }
+
+    private Snowflake extractPostedSubstitutesEmbed(Mono<Channel> textChannel) {
+        return textChannel.ofType(GuildMessageChannel.class)
+                .map(channel -> channel.getMessagesBefore(Snowflake.of(Instant.now()))
+                        .take(6)
+                        .filter(message -> message.getEmbeds().get(0).getTitle().get().toLowerCase().contains("substitute"))
+                        .take(1)
+                        .blockFirst()
+                        .getId()
+                )
+                .block();
+    }
+
 
     @Override
     public void publishEmbed(EmbedCreateSpec embed) {

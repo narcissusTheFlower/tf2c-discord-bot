@@ -109,7 +109,6 @@ public final class TF2CObserverable {
             return substituteSpots.getSubstitutionSlot();
         }
 
-        logger.debug("No substitute spots, returning empty Set.");
         return Collections.emptySet();
     }
 
