@@ -35,23 +35,30 @@ public class SubstituteSlotsPublishable implements Publishable, EmbedActions {
     public void publish() {
         EmbedCreateSpec freshSubstitues = EmbedsPool.getFreshSubstitues();
         if (subsEmbedId.isEmpty()) {
-            publishEmbed(freshSubstitues);
-            subsEmbedId = Optional.of(extractPostedSubstitutesEmbed(textChannel));
+            Optional<Snowflake> snowflake = extractPostedSubstitutesEmbed(textChannel);
+            if (snowflake.isEmpty()) {
+                publishEmbed(freshSubstitues);
+                subsEmbedId = extractPostedSubstitutesEmbed(textChannel);
+            } else {
+                subsEmbedId = snowflake;
+            }
         } else {
             editEmbed(freshSubstitues, subsEmbedId.get());
         }
+
     }
 
-    private Snowflake extractPostedSubstitutesEmbed(Mono<Channel> textChannel) {
-        return textChannel.ofType(GuildMessageChannel.class)
-                .map(channel -> channel.getMessagesBefore(Snowflake.of(Instant.now()))
-                        .take(6)
-                        .filter(message -> message.getEmbeds().get(0).getTitle().get().toLowerCase().contains("substitute"))
-                        .take(1)
-                        .blockFirst()
-                        .getId()
-                )
-                .block();
+    private Optional<Snowflake> extractPostedSubstitutesEmbed(Mono<Channel> textChannel) {
+        return Optional.ofNullable(
+                textChannel.ofType(GuildMessageChannel.class)
+                        .map(channel -> channel.getMessagesBefore(Snowflake.of(Instant.now()))
+                                .take(6)
+                                .filter(message -> message.getEmbeds().get(0).getTitle().get().toLowerCase().contains("substitute"))
+                                .blockFirst()
+                                .getId()
+                        )
+                        .block()
+        );
     }
 
 

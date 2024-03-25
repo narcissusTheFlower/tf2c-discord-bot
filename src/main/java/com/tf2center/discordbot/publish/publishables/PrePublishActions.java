@@ -5,7 +5,6 @@ import discord4j.core.GatewayDiscordClient;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.channel.Channel;
 import discord4j.core.object.entity.channel.GuildMessageChannel;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -31,7 +30,7 @@ public class PrePublishActions {
         );
     }
 
-    @PostConstruct
+    //@PostConstruct
     private void cleanMessageChannel() {
         List<Snowflake> snowflakes = textChannel.ofType(GuildMessageChannel.class)
                 .map(channel -> channel.getMessagesBefore(Snowflake.of(Instant.now()))

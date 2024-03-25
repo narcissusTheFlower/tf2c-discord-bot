@@ -27,12 +27,6 @@ import java.util.Map;
 @Scope("singleton")
 public class LobbyPublishable implements Publishable, EmbedActions {
 
-    //Bot starts
-    //Take all messages
-    //Record their lobby ids
-    //Compare to fresh ids
-    //Do appropriate actions
-
     private final Mono<Channel> textChannel;
 
     @Autowired
@@ -104,10 +98,14 @@ public class LobbyPublishable implements Publishable, EmbedActions {
 
     @Override
     public void deleteEmbed(Snowflake snowflake) {
+        try {
         textChannel.ofType(GuildMessageChannel.class)
                 .flatMap(channel -> channel.getMessageById(snowflake).block()
                         .delete())
                 .subscribe();
+        } catch (Exception e) {
+            System.out.println("caught while editing");
+        }
     }
 
     @Override

@@ -1,0 +1,15 @@
+#!/bin/bash
+#java -jar ~/discord/bots/tf2c-discord-lobby-parser.jar
+
+pkill -f "tf2c-parser"
+#Give the machine some time for good measure
+sleep 2
+bash -c "exec -a tf2c-parser java -jar /home/user/IdeaProjects/new-discord-bot/target/tf2c-discord-lobby-parser-1.0.jar &"
+
+
+
+
+
+
+
+
