@@ -18,7 +18,13 @@
 ~/discord/bots/discord-bot-reloader
 ```
 
-* Set up cron job every 2 hours as follows `0 */2 * * * ./full path to discord-bot-reloader`. To edit cron type "crontab
-  -e" and insert the given numbers
-* **_chill_**
+Make the script executable with `cmod +x ~/discord/bots/discord-bot-reloader`
+
+* Create SCREEN session with
+
+```
+screen
+```
+
+Run: `/home/bots/discord-bot-reloader`
 

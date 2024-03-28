@@ -43,15 +43,6 @@ public class LobbyPublishable implements Publishable, EmbedActions {
         final List<TF2CLobbyIdDTO> freshEmbedsTF2CLobbySortedIdList = freshEmbeds.keySet().stream().sorted().toList();
         final Map<TF2CLobbyIdDTO, Snowflake> postedIdPlusSnowflake = extractPostedLobbiesEmbeds(textChannel);
 
-        //Delete old lobbies
-        if (!postedIdPlusSnowflake.keySet().isEmpty()) {
-            for (TF2CLobbyIdDTO postedId : postedIdPlusSnowflake.keySet()) {
-                    if (!freshEmbeds.containsKey(postedId)) {
-                        deleteEmbed(postedIdPlusSnowflake.get(postedId));
-                    }
-            }
-        }
-
         //Edit old lobbies and post new
         for (TF2CLobbyIdDTO freshTF2CLobbyId : freshEmbedsTF2CLobbySortedIdList) {
             if (!postedIdPlusSnowflake.isEmpty() && postedIdPlusSnowflake.containsKey(freshTF2CLobbyId)) {
@@ -61,6 +52,16 @@ public class LobbyPublishable implements Publishable, EmbedActions {
                 publishEmbed(freshEmbeds.get(freshTF2CLobbyId));
             }
         }
+        //Delete old lobbies
+        if (!postedIdPlusSnowflake.keySet().isEmpty()) {
+            for (TF2CLobbyIdDTO postedId : postedIdPlusSnowflake.keySet()) {
+                if (!freshEmbeds.containsKey(postedId)) {
+                    deleteEmbed(postedIdPlusSnowflake.get(postedId));
+                }
+            }
+        }
+
+
     }
 
     private Map<TF2CLobbyIdDTO, Snowflake> extractPostedLobbiesEmbeds(Mono<Channel> textChannel) {
