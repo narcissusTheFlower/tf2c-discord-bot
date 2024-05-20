@@ -46,10 +46,10 @@ public final class TF2CObserverable {
     private static void parseTF2C() throws IOException {
         //Default timeout is 30 seconds
         tf2cWebSite = Jsoup.connect(TF2C_URL).userAgent("Mozilla").get();
-        TF2CWebSite.update(getPlayerCount(), getLobbiesFromTF2Center(), getSubstituteSlots());
+        TF2CWebSite.update(getPlayerCount(), getLobbies(), getSubstituteSlots());
     }
 
-    private static Set<TF2CLobbyDTO> getLobbiesFromTF2Center() {
+    private static Set<TF2CLobbyDTO> getLobbies() {
         //We cut away unnecessary characters and leave pure JSON
         String parsedJson = TF2CCollectionsUtils.getLastFromList(tf2cWebSite.getElementsByTag("script"))
                 .toString().substring(49);
@@ -109,7 +109,6 @@ public final class TF2CObserverable {
             return substituteSpots.getSubstitutionSlot();
         }
 
-        logger.debug("No substitute spots, returning empty Set.");
         return Collections.emptySet();
     }
 

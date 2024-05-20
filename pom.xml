@@ -12,8 +12,8 @@
 	</parent>
 
     <groupId>com.tf2center</groupId>
-	<artifactId>discord-bot</artifactId>
-	<version>0.0.1</version>
+	<artifactId>tf2c-discord-lobby-parser</artifactId>
+	<version>1.1.1</version>
 	<name>discord-bot</name>
 	<description>TF2Center Discord bot</description>
 
