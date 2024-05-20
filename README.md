@@ -1,3 +1,5 @@
+## [Check this bot out](https://discord.gg/QB9R3Qkp)
+Go into general -> lobbies. Tho, your account has to be linked to steam, otherwise you are not going to see it due to Discord server rules.
 ## Environment variables to set before launch:
 <li>Discord bot token as "DISCORD_TOKEN" in SpringBot.java</li>
 <li>TF2 guild (server) in discord "TF2CENTER_GUILD" in GlobalCommandRegistrar.java</li>
