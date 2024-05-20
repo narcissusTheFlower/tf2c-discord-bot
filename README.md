@@ -25,4 +25,4 @@ Make the script executable with `cmod +x ~/discord/bots/discord-bot-reloader`
 ```
 screen
 ```
-Configure crontab as follows "23 */1 * * * /home/discord/bots/discord-bot-reloader"
+Configure `crontab -e` as follows "23 */1 * * * /home/discord/bots/discord-bot-reloader"
