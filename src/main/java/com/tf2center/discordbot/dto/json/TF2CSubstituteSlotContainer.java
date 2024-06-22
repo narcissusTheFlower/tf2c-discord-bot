@@ -6,6 +6,7 @@ import java.util.Set;
 
 //TODO redo this with simple field jackson parse
 public class TF2CSubstituteSlotContainer {
+
     @JsonProperty("data")
     private Set<TF2CSubstituteSlotDTO> substitutionSlot;
 

@@ -1,18 +1,19 @@
 package com.tf2center.discordbot.publish.publishables;
 
+import java.time.Instant;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import discord4j.common.util.Snowflake;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.channel.Channel;
 import discord4j.core.object.entity.channel.GuildMessageChannel;
 import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
-
-import java.time.Instant;
-import java.util.List;
 
 /**
  * This class is responsible for clearing the text channel to where the embeds are posted as not to delete them
@@ -20,6 +21,7 @@ import java.util.List;
  */
 @Component("prePublishActions")
 @Scope("singleton")
+@Deprecated
 public class PrePublishActions {
 
     private final Mono<Channel> textChannel;
