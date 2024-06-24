@@ -1,16 +1,13 @@
 package com.tf2center.discordbot.domain;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tf2center.discordbot.dto.TF2CLobbyDTO;
-import com.tf2center.discordbot.dto.TF2CPlayerCountDTO;
-import com.tf2center.discordbot.dto.TF2CPlayerSlotDTO;
-import com.tf2center.discordbot.dto.json.TF2CSubstituteSlotContainer;
-import com.tf2center.discordbot.dto.json.TF2CSubstituteSlotDTO;
-import com.tf2center.discordbot.dto.json.tf2clobby.TF2CLobbyPreviewDTO;
-import com.tf2center.discordbot.exceptions.TF2CObserverException;
-import com.tf2center.discordbot.utils.TF2CCollectionsUtils;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -21,13 +18,16 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tf2center.discordbot.dto.TF2CLobbyDTO;
+import com.tf2center.discordbot.dto.TF2CPlayerCountDTO;
+import com.tf2center.discordbot.dto.TF2CPlayerSlotDTO;
+import com.tf2center.discordbot.dto.json.TF2CSubstituteSlotContainer;
+import com.tf2center.discordbot.dto.json.TF2CSubstituteSlotDTO;
+import com.tf2center.discordbot.dto.json.tf2clobby.TF2CLobbyPreviewDTO;
+import com.tf2center.discordbot.exceptions.TF2CObserverException;
 
 /**
  * This class parses pure HTML from the website and transforms JSON from this HTML into a POJO.
@@ -46,13 +46,14 @@ public final class TF2CObserverable {
     private static void parseTF2C() throws IOException {
         //Default timeout is 30 seconds
         tf2cWebSite = Jsoup.connect(TF2C_URL).userAgent("Mozilla").get();
-        TF2CWebSite.update(getPlayerCount(), getLobbiesFromTF2Center(), getSubstituteSlots());
+        TF2CWebSite.update(getPlayerCount(), getLobbies(), getSubstituteSlots());
     }
 
-    private static Set<TF2CLobbyDTO> getLobbiesFromTF2Center() {
+    private static Set<TF2CLobbyDTO> getLobbies() {
         //We cut away unnecessary characters and leave pure JSON
-        String parsedJson = TF2CCollectionsUtils.getLastFromList(tf2cWebSite.getElementsByTag("script"))
-                .toString().substring(49);
+        //See innerLobby-red-team in json-state-example for expected values
+        String parsedJson = tf2cWebSite.getElementById("idc").getAllElements().get(55).toString().substring(49);
+
         parsedJson = parsedJson.substring(0, parsedJson.length() - 11);
 
         Set<TF2CLobbyPreviewDTO> lobbies = null;
@@ -109,7 +110,6 @@ public final class TF2CObserverable {
             return substituteSpots.getSubstitutionSlot();
         }
 
-        logger.debug("No substitute spots, returning empty Set.");
         return Collections.emptySet();
     }
 

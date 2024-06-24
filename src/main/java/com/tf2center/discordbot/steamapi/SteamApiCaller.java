@@ -1,11 +1,12 @@
 package com.tf2center.discordbot.steamapi;
 
+import java.io.IOException;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-
-import java.io.IOException;
 
 public class SteamApiCaller {
 
@@ -23,7 +24,7 @@ public class SteamApiCaller {
             json = json.substring(0, json.length() - 3);
             avatarUrl = OBJECT_MAPPER.readTree(json).path("avatarfull").asText();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("STEAM_API exception!",e);
         }
         return avatarUrl;
     }
