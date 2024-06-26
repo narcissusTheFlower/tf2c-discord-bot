@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -27,7 +26,7 @@ public class EmbedsPool {
     private static final Map<TF2CLobbyIdDTO, EmbedCreateSpec> EMBED_LOBBIES_POOL = Collections.synchronizedMap(new HashMap<>(10));
     private static EmbedCreateSpec EMBED_SUBSTITUTION_POOL = EmbedCreateSpec.create();
 
-    @Scheduled(fixedRate = 10_000, initialDelay = 2000)// Order of scheduled events: 2
+    //    @Scheduled(fixedRate = 10_000, initialDelay = 2000)// Order of scheduled events: 2
     public static void updatePool() {
         try {
             EMBED_LOBBIES_POOL.clear();

@@ -3,7 +3,6 @@ package com.tf2center.discordbot.publish;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,7 +19,7 @@ public class DiscordPublisher {
         this.publishables = publishables;
     }
 
-    @Scheduled(fixedRate = 10_000, initialDelay = 2300)// Order of scheduled: 3
+    //    @Scheduled(fixedRate = 10_000, initialDelay = 2300)// Order of scheduled: 3
     private void executePublishers() {
             publishables.forEach(Publishable::publish);
     }

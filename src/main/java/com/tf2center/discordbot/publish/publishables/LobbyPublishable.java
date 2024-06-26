@@ -1,21 +1,10 @@
 package com.tf2center.discordbot.publish.publishables;
 
-import java.time.Instant;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import com.tf2center.discordbot.dto.TF2CLobbyIdDTO;
 import com.tf2center.discordbot.embeds.EmbedActions;
 import com.tf2center.discordbot.embeds.EmbedsPool;
 import com.tf2center.discordbot.publish.Publishable;
 import com.tf2center.discordbot.utils.TF2CStringUtils;
-
 import discord4j.common.util.Snowflake;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.object.entity.Message;
@@ -23,12 +12,23 @@ import discord4j.core.object.entity.channel.Channel;
 import discord4j.core.object.entity.channel.GuildMessageChannel;
 import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.core.spec.MessageCreateSpec;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
+
+import java.time.Instant;
+import java.util.*;
 
 @Component("lobbyPublishable")
 @Scope("singleton")
 public class LobbyPublishable implements Publishable, EmbedActions {
 
+
+    {
+        HashSet<String> test = new HashSet<>();
+
+    }
     private final Mono<Channel> textChannel;
 
     @Autowired

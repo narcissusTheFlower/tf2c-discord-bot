@@ -1,23 +1,5 @@
 package com.tf2center.discordbot.domain;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,6 +10,22 @@ import com.tf2center.discordbot.dto.json.TF2CSubstituteSlotContainer;
 import com.tf2center.discordbot.dto.json.TF2CSubstituteSlotDTO;
 import com.tf2center.discordbot.dto.json.tf2clobby.TF2CLobbyPreviewDTO;
 import com.tf2center.discordbot.exceptions.TF2CObserverException;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 /**
  * This class parses pure HTML from the website and transforms JSON from this HTML into a POJO.
@@ -42,7 +40,7 @@ public final class TF2CObserverable {
     private static Document tf2cWebSite;
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-    @Scheduled(fixedRate = 10_000)// Order of scheduled events: 1
+    //    @Scheduled(fixedRate = 10_000)// Order of scheduled events: 1
     private static void parseTF2C() throws IOException {
         //Default timeout is 30 seconds
         tf2cWebSite = Jsoup.connect(TF2C_URL).userAgent("Mozilla").get();
