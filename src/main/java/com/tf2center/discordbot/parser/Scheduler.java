@@ -1,6 +1,7 @@
 package com.tf2center.discordbot.parser;
 
-import com.tf2center.discordbot.parser.dto.website.MainPageObject;
+import com.tf2center.discordbot.parser.dto.MainPageObject;
+import com.tf2center.discordbot.parser.html.MainPageParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.EnableScheduling;

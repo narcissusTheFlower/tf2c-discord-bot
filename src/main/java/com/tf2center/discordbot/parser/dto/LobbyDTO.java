@@ -1,4 +1,4 @@
-package com.tf2center.discordbot.parser.dto.website;
+package com.tf2center.discordbot.parser.dto;
 
 import com.tf2center.discordbot.dto.TF2CPlayerSlotDTO;
 import com.tf2center.discordbot.dto.json.tf2clobby.TF2CSlotDTO;
@@ -14,7 +14,7 @@ public class LobbyDTO implements MainPageObject {
     private final long leaderSteamId;
     private final String region;
     private final boolean vcRequired;
-    private final String gameType;
+    private final GameType gameType;
     private final boolean isReady;
     private final String map;
     private final String thumbnailURL;
@@ -147,7 +147,7 @@ public class LobbyDTO implements MainPageObject {
         private long leaderSteamId;
         private String region;
         private boolean vcRequired;
-        private String gameType;
+        private GameType gameType;
         private boolean isReady;
         private String map;
         private String thumbnailURL;
@@ -195,7 +195,7 @@ public class LobbyDTO implements MainPageObject {
             return this;
         }
 
-        public Builder gameType(String gameType) {
+        public Builder gameType(GameType gameType) {
             this.gameType = Objects.requireNonNull(gameType, "Game type can't be null. Bad HTML parsing");
             return this;
         }

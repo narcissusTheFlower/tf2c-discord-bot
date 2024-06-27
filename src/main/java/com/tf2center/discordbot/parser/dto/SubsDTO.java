@@ -1,4 +1,4 @@
-package com.tf2center.discordbot.parser.dto.website;
+package com.tf2center.discordbot.parser.dto;
 
 import com.tf2center.discordbot.parser.exceptions.TF2CDTOException;
 
