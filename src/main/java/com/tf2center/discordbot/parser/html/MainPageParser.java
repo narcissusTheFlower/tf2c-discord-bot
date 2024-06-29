@@ -3,10 +3,12 @@ package com.tf2center.discordbot.parser.html;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tf2center.discordbot.parser.dto.GameType;
 import com.tf2center.discordbot.parser.dto.LobbyDTO;
 import com.tf2center.discordbot.parser.dto.MainPageObject;
 import com.tf2center.discordbot.parser.dto.SlotDTO;
 import com.tf2center.discordbot.parser.exceptions.TF2CParsingException;
+import org.apache.commons.lang3.tuple.Pair;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -26,7 +28,11 @@ public class MainPageParser {
     private MainPageParser() {
     }
 
-    public static Map<String, Collection<MainPageObject>> parse() {
+    public static MainPageParser getInstance() {
+        return new MainPageParser();
+    }
+
+    public Map<String, Collection<MainPageObject>> parse() {
         final Map<String, Collection<MainPageObject>> result = new HashMap<>();
 
         try {
@@ -91,7 +97,7 @@ public class MainPageParser {
         return Map.copyOf(result);
     }
 
-    private static Set<MainPageObject> extractLobbies(JsonNode jsonNode) {
+    private Set<MainPageObject> extractLobbies(JsonNode jsonNode) {
         Document innerLobby;
         Set<SlotDTO> slots;
         Set<LobbyDTO> result = new HashSet<>();
@@ -105,8 +111,12 @@ public class MainPageParser {
                 throw new RuntimeException("Encountered an issue while connecting to an inner lobby.");
             }
 
-//            slots = extractPlayers(innerLobby);
-//            Map<String, String> innerLobbyInfo = extractInnerLobbyInformation(innerLobby);
+            slots = extractPlayers(
+                innerLobby,
+                GameType.valueOf(node.findValue("gameType").toString())
+            );
+
+            //Map<String, String> innerLobbyInfo = extractInnerLobbyInformation(innerLobby);
 
             result.add(new LobbyDTO.Builder()
                     .id(
@@ -121,7 +131,7 @@ public class MainPageParser {
                     .vcRequired(
                         Boolean.parseBoolean(node.findValue("mumbleRequired").toString())
                     )
-                    .gameType()
+                    .gameType(GameType.valueOf(node.findValue("gameType").toString()))
 //                    .isReady()
 //                    .map()
 //                    .thumbnailURL()
@@ -145,7 +155,6 @@ public class MainPageParser {
 //                    .leaderName(
 //                            innerLobbyInfo.get("LeaderName")
 //                    )
-//                    .timeOpened()
                     .build()
             );
         }
@@ -153,27 +162,55 @@ public class MainPageParser {
         return Set.copyOf(result);
     }
 
-    private static Set<SlotDTO> extractPlayers(Document page) {
-        Elements lobbySlots = page.getElementsByClass("lobbySlot");
+    private Set<SlotDTO> extractPlayers(Document page, GameType gameType) {
         Set<SlotDTO> result = new HashSet<>();
+        Elements lobbySlots = page.getElementsByClass("lobbySlot");
+
+        switch (gameType) {
+            case SIXES -> {
+                lobbySlots.forEach(element -> {
+                    if (element.attributes().toString().contains("filled")) {
+                        String playerName = element.children().get(1).children().get(0).text();
+                        String steamIdProfile = element.children().get(1).children().get(0).attributes().get("href");
+                        Pair<>
+                        result.add(SlotDTO.of(playerName, steamIdProfile, false, ));
+                    } else {
+                        result.add(SlotDTO.of(true));
+                    }
+
+                });
+            }
+            case HIGHLANDER -> {
+            }
+            case BBALL -> {
+            }
+            case ULTIDUO -> {
+            }
+            case FOURVSFOUR -> {
+            }
+            default -> throw new TF2CParsingException("Bad enum value. Sanity check.");
+        }
 
         lobbySlots.forEach(element -> {
                 if (element.attributes().toString().contains("filled")) {
                     String playerName = element.children().get(1).children().get(0).text();
                     String steamIdProfile = element.children().get(1).children().get(0).attributes().get("href");
-                    //Silly situation cuz there is no way to determine the class untill a certain point, make new method?
-                    result.add(SlotDTO.of(playerName, steamIdProfile, false, null));
+
+                    result.add(SlotDTO.of(playerName, steamIdProfile, false, null, null));
                 } else {
                     result.add(SlotDTO.of(true));
                 }
             }
         );
+
+
         return Set.copyOf(result);
     }
 
-    private static Map<String, String> extractInnerLobbyInformation(Document page) {
+    private Map<String, String> extractInnerLobbyInformation(Document page) {
         Elements headers = page.getElementsByClass("lobbyHeaderOptions");
         Map<String, String> result = new HashMap<>();
+        //
         //Wrapper boolean because I need toString() method.
         result.put("Offclassing", Boolean.valueOf(!headers.get(1).select("span").get(4).attributes().toString().contains("cross")).toString());
         result.put("Config", headers.get(0).select("td").get(3).text());
@@ -192,5 +229,9 @@ public class MainPageParser {
         return Set.copyOf(result);
     }
 
+    private class infoExtractor {
+
+
+    }
 
 }

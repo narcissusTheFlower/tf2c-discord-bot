@@ -2,17 +2,16 @@ package com.tf2center.discordbot.parser.dto;
 
 public enum GameType {
 
-    Sixes("6s"),
-    Highlander("hl"),
-    Ultiduo("Ultiduo"),
-    BBall("BBall"),
-    FourVSFour(""),
-    ThreeVSThree("");
+    SIXES("6v6"),
+    HIGHLANDER("Highlander"),
+    ULTIDUO("Ultiduo"),
+    BBALL("BBall"),
+    FOURVSFOUR("4v4");
 
-    private final String string;
+    private final String value;
 
     GameType(String gameType) {
-        this.string = gameType;
+        this.value = gameType;
     }
 
 }

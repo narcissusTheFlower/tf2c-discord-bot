@@ -1,5 +1,6 @@
 package com.tf2center.discordbot.parser;
 
+import com.tf2center.discordbot.parser.discord.Publisher;
 import com.tf2center.discordbot.parser.dto.MainPageObject;
 import com.tf2center.discordbot.parser.html.MainPageParser;
 import org.slf4j.Logger;
@@ -19,7 +20,7 @@ public class Scheduler {
 
     @Scheduled(fixedRate = 6_000)
     private static void runCycle() {
-        Map<String, Collection<MainPageObject>> mainPageObjects = MainPageParser.parse();
+        Map<String, Collection<MainPageObject>> mainPageObjects = MainPageParser.getInstance().parse();
         logger.info("Scheduler updated with {} lobbies, {} substitution slots",
             mainPageObjects.get("Lobbies").size(),
             mainPageObjects.get("Subs").size());

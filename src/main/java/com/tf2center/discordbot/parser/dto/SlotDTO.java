@@ -9,12 +9,14 @@ public class SlotDTO {
     private final Optional<String> steamId;
     private final boolean isEmpty;
     private final Optional<String> tf2Class;
+    private final Optional<TF2Team> team;
 
-    private SlotDTO(String playerName, String steamId, boolean isEmpty, String tf2Class) {
+    private SlotDTO(String playerName, String steamId, boolean isEmpty, String tf2Class, TF2Team team) {
         this.playerName = Optional.of(playerName);
         this.steamId = Optional.of(steamId);
         this.isEmpty = isEmpty;
         this.tf2Class = Optional.of(tf2Class);
+        this.team = Optional.of(team);
     }
 
     private SlotDTO(boolean isEmpty) {
@@ -22,10 +24,11 @@ public class SlotDTO {
         this.steamId = Optional.empty();
         this.isEmpty = isEmpty;
         this.tf2Class = Optional.empty();
+        this.team = Optional.empty();
     }
 
-    public static SlotDTO of(String playerName, String steamId, boolean isEmpty, String tf2Class) {
-        return new SlotDTO(playerName, steamId, isEmpty, tf2Class);
+    public static SlotDTO of(String playerName, String steamId, boolean isEmpty, String tf2Class, TF2Team team) {
+        return new SlotDTO(playerName, steamId, isEmpty, tf2Class, team);
     }
 
     public static SlotDTO of(boolean isEmpty) {
@@ -46,6 +49,10 @@ public class SlotDTO {
 
     public Optional<String> getTf2Class() {
         return tf2Class;
+    }
+
+    public Optional<TF2Team> getTeam() {
+        return team;
     }
 
     @Override
