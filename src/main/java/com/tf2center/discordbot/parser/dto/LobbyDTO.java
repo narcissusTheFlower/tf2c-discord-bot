@@ -56,6 +56,90 @@ public class LobbyDTO implements MainPageObject {
         this.timeOpened = builder.timeOpened;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public long getLeaderSteamId() {
+        return leaderSteamId;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public boolean isVcRequired() {
+        return vcRequired;
+    }
+
+    public GameType getGameType() {
+        return gameType;
+    }
+
+    public boolean isReady() {
+        return isReady;
+    }
+
+    public String getMap() {
+        return map;
+    }
+
+    public String getThumbnailURL() {
+        return thumbnailURL;
+    }
+
+    public int getPlayersInLobby() {
+        return playersInLobby;
+    }
+
+    public int getPlayersForGame() {
+        return playersForGame;
+    }
+
+    public String getRestrictionsText() {
+        return restrictionsText;
+    }
+
+    public boolean isRegionLocked() {
+        return regionLock;
+    }
+
+    public boolean isBalancedLobby() {
+        return balancedLobby;
+    }
+
+    public boolean isAdvanced() {
+        return advanced;
+    }
+
+    public Map<TF2Team, Collection<SlotDTO>> getTeams() {
+        return teams;
+    }
+
+    public List<TF2CPlayerSlotDTO> getPlayerSlotList() {
+        return playerSlotList;
+    }
+
+    public boolean isOffclassingAllowed() {
+        return offclassingAllowed;
+    }
+
+    public String getConfig() {
+        return config;
+    }
+
+    public String getServer() {
+        return server;
+    }
+
+    public String getLeaderName() {
+        return leaderName;
+    }
+
+    public String getTimeOpened() {
+        return timeOpened;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

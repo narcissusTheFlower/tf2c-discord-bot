@@ -10,11 +10,11 @@ public class SubsDTO implements MainPageObject {
     private final String region;
     private final boolean vcRequired;
     private final String map;
-    private final String team;
+    private final TF2Team team;
     private final String tf2cTeamRole;
     private final String className;
     private final String joinLink;
-    private final String gameType;
+    private final GameType gameType;
     private final boolean regionLock;
     private final boolean advanced;
 
@@ -74,11 +74,11 @@ public class SubsDTO implements MainPageObject {
         private String region;
         private boolean vcRequired;
         private String map;
-        private String team;
+        private TF2Team team;
         private String roleInTeam;
         private String className;
         private String joinLink;
-        private String gameType;
+        private GameType gameType;
         private boolean regionLock;
         private boolean advanced;
 
@@ -109,7 +109,7 @@ public class SubsDTO implements MainPageObject {
             return this;
         }
 
-        public Builder team(String team) {
+        public Builder team(TF2Team team) {
             this.team = Objects.requireNonNull(team, "Team can't be null. Bad HTML parsing");
             return this;
         }
@@ -129,7 +129,7 @@ public class SubsDTO implements MainPageObject {
             return this;
         }
 
-        public Builder gameType(String gameType) {
+        public Builder gameType(GameType gameType) {
             this.gameType = Objects.requireNonNull(gameType, "Game type (6s, highlander etc.) can't be null. Bad HTML parsing.");
             return this;
         }

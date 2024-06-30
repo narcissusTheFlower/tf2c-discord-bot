@@ -12,6 +12,7 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -27,6 +28,51 @@ public class MainPageParser {
 
     public static MainPageParser getInstance() {
         return new MainPageParser();
+    }
+
+    //Where each node is a sub spot
+    private static Set<MainPageObject> extractSubs(JsonNode jsonNode) {
+        Set<MainPageObject> result = new HashSet<>();
+        for (JsonNode node : jsonNode) {
+            result.add(
+                new SubsDTO.Builder()
+                    .lobbyId(
+                        Integer.parseInt(node.findValue("lobbyNo").toString().replaceAll("\"", ""))
+                    )
+                    .region(
+                        node.findValue("region").toString().replaceAll("\"", "")
+                    )
+                    .vcRequired(
+                        Boolean.parseBoolean(node.findValue("mumbleRequired").toString().replaceAll("\"", ""))
+                    )
+                    .map(
+                        node.findValue("map").toString().replaceAll("\"", "")
+                    )
+                    .team(
+                        TF2Team.fromString(node.findValue("team").toString().replaceAll("\"", ""))
+                    )
+                    .roleInTeam(
+                        node.findValue("tf2Class").toString().replaceAll("\"", "")
+                    )
+                    .className(
+                        node.findValue("className").toString().replaceAll("\"", "")
+                    )
+                    .joinLink(
+                        node.findValue("joinLink").toString().replaceAll("\"", "")
+                    )
+                    .gameType(
+                        GameType.fromString(node.findValue("gameType").toString().replaceAll("\"", ""))
+                    )
+                    .regionLock(
+                        Boolean.parseBoolean(node.findValue("regionLock").toString().replaceAll("\"", ""))
+                    )
+                    .advanced(
+                        Boolean.parseBoolean(node.findValue("advanced").toString().replaceAll("\"", ""))
+                    )
+                    .build()
+            );
+        }
+        return Set.copyOf(result);
     }
 
     public Map<String, Collection<MainPageObject>> parse() {
@@ -65,8 +111,11 @@ public class MainPageParser {
         }
 
 //        For local testing with html file
-//        try {tf2cWebSite = Jsoup.parse(new File("/home/user/IdeaProjects/new-discord-bot/json-state-examples/subsFullPage"));
-//        } catch (IOException e) {throw new RuntimeException(e);}
+        try {
+            tf2cWebSite = Jsoup.parse(new File("/home/user/IdeaProjects/new-discord-bot/json-state-examples/subsFullPage"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         //Parse out substitutes from HTML
         String substring = tf2cWebSite.select("script").stream()
@@ -102,92 +151,6 @@ public class MainPageParser {
                     Integer.parseInt(tf2cWebSite.getElementById("auPlayersOnline").text())))
             ));
         return Map.copyOf(result);
-    }
-
-    private Set<MainPageObject> extractLobbies(JsonNode jsonNode) {
-        Document innerLobby;
-        Map<TF2Team, Collection<SlotDTO>> teams;
-        Set<LobbyDTO> result = new HashSet<>();
-
-        //For each node where node is a single lobby.
-        for (JsonNode node : jsonNode) {
-            try {
-                String lobbyId = node.fields().next().toString().substring(3);
-                innerLobby = Jsoup.connect(TF2C_URL + "/" + lobbyId).userAgent("Mozilla").get();
-            } catch (IOException e) {
-                throw new RuntimeException("Encountered an issue while connecting to an inner lobby.");
-            }
-
-            teams = extractPlayers(
-                innerLobby,
-                GameType.fromString(node.findValue("gameType").toString().replaceAll("\"", ""))
-            );
-
-            Map<String, String> innerLobbyInfo = extractInnerLobbyInformation(innerLobby);
-
-            result.add(new LobbyDTO.Builder()
-                    .id(
-                        Integer.parseInt(node.findValue("no").toString().replaceAll("\"", ""))
-                    )
-                    .leaderSteamId(
-                        Long.parseLong(node.findValue("leaderSteamId").toString().replaceAll("\"", ""))
-                    )
-                    .region(
-                        node.findValue("region").toString().replaceAll("\"", "")
-                    )
-                    .vcRequired(
-                        Boolean.parseBoolean(node.findValue("mumbleRequired").toString().replaceAll("\"", ""))
-                    )
-                .gameType(
-                    GameType.fromString(node.findValue("gameType").toString().replaceAll("\"", ""))
-                )
-                .isReady(
-                    Boolean.parseBoolean(node.findValue("inReadyUpMode").toString().replaceAll("\"", ""))
-                )
-                .map(
-                    node.findValue("map").toString().replaceAll("\"", "")
-                )
-                .thumbnailURL(
-                    node.findValue("thumbnailUrl").toString().replaceAll("\"", "")
-                )
-                .playersInLobby(
-                    Integer.parseInt(node.findValue("playersInLobby").toString().replaceAll("\"", ""))
-                )
-                .playersForGame(
-                    Integer.parseInt(node.findValue("playersForGame").toString().replaceAll("\"", ""))
-                )
-                //TODO: implement restrictions for embeds as follows: Join []
-                .restrictionsText(
-                    node.findValue("restrictionsText").toString().replaceAll("\"", "")
-                    )
-                .regionLock(
-                    Boolean.parseBoolean(node.findValue("regionLock").toString().replaceAll("\"", ""))
-                )
-                .balancedLobby(
-                    Boolean.parseBoolean(node.findValue("useBalancer").toString().replaceAll("\"", ""))
-                )
-                .advanced(
-                    Boolean.parseBoolean(node.findValue("advanced").toString().replaceAll("\"", ""))
-                )
-                .teams(
-                    teams
-                )
-                .offclassingAllowed(
-                    Boolean.parseBoolean(innerLobbyInfo.get("Offclassing"))
-                )
-                .config(
-                    innerLobbyInfo.get("Config")
-                )
-                .server(
-                    innerLobbyInfo.get("Server")
-                )
-                .leaderName(
-                    innerLobbyInfo.get("LeaderName")
-                )
-                    .build()
-            );
-        }
-        return Set.copyOf(result);
     }
 
     private Map<TF2Team, Collection<SlotDTO>> extractPlayers(Document page, GameType gameType) {
@@ -266,26 +229,111 @@ public class MainPageParser {
         return Map.copyOf(result);
     }
 
+    private Set<MainPageObject> extractLobbies(JsonNode jsonNode) {
+        Document innerLobby;
+        Map<TF2Team, Collection<SlotDTO>> teams;
+        Set<LobbyDTO> result = new HashSet<>();
+
+        //For each node where node is a single lobby.
+        for (JsonNode node : jsonNode) {
+            try {
+                String lobbyId = node.fields().next().toString().substring(3);
+                innerLobby = Jsoup.connect(TF2C_URL + "/" + lobbyId).userAgent("Mozilla").get();
+            } catch (IOException e) {
+                throw new RuntimeException("Encountered an issue while connecting to an inner lobby.");
+            }
+
+            teams = extractPlayers(
+                innerLobby,
+                GameType.fromString(node.findValue("gameType").toString().replaceAll("\"", ""))
+            );
+
+            Map<String, String> innerLobbyInfo = extractInnerLobbyInformation(innerLobby);
+
+            result.add(new LobbyDTO.Builder()
+                .id(
+                    Integer.parseInt(node.findValue("no").toString().replaceAll("\"", ""))
+                )
+                .leaderSteamId(
+                    Long.parseLong(node.findValue("leaderSteamId").toString().replaceAll("\"", ""))
+                )
+                .region(
+                    node.findValue("region").toString().replaceAll("\"", "")
+                )
+                .vcRequired(
+                    Boolean.parseBoolean(node.findValue("mumbleRequired").toString().replaceAll("\"", ""))
+                )
+                .gameType(
+                    GameType.fromString(node.findValue("gameType").toString().replaceAll("\"", ""))
+                )
+                .isReady(
+                    Boolean.parseBoolean(node.findValue("inReadyUpMode").toString().replaceAll("\"", ""))
+                )
+                .map(
+                    node.findValue("map").toString().replaceAll("\"", "")
+                )
+                .thumbnailURL(
+                    node.findValue("thumbnailUrl").toString().replaceAll("\"", "")
+                )
+                .playersInLobby(
+                    Integer.parseInt(node.findValue("playersInLobby").toString().replaceAll("\"", ""))
+                )
+                .playersForGame(
+                    Integer.parseInt(node.findValue("playersForGame").toString().replaceAll("\"", ""))
+                )
+                //TODO: implement restrictions for embeds as follows: Join []
+                .restrictionsText(
+                    node.findValue("restrictionsText").toString().replaceAll("\"", "")
+                )
+                .regionLock(
+                    Boolean.parseBoolean(node.findValue("regionLock").toString().replaceAll("\"", ""))
+                )
+                .balancedLobby(
+                    Boolean.parseBoolean(node.findValue("useBalancer").toString().replaceAll("\"", ""))
+                )
+                .advanced(
+                    Boolean.parseBoolean(node.findValue("advanced").toString().replaceAll("\"", ""))
+                )
+                .teams(
+                    teams
+                )
+                .offclassingAllowed(
+                    Boolean.parseBoolean(innerLobbyInfo.get("Offclassing"))
+                )
+                .config(
+                    innerLobbyInfo.get("Config")
+                )
+                .server(
+                    innerLobbyInfo.get("Server")
+                )
+                .leaderName(
+                    innerLobbyInfo.get("LeaderName")
+                )
+                .build()
+            );
+        }
+        return Set.copyOf(result);
+    }
+
     private Map<String, String> extractInnerLobbyInformation(Document page) {
         Elements headers = page.getElementsByClass("lobbyHeaderOptions");
         Map<String, String> result = new HashMap<>();
-        //
+
         //Wrapper boolean because I need toString() method.
-        result.put("Offclassing", Boolean.valueOf(!headers.get(1).select("span").get(4).attributes().toString().contains("cross")).toString());
-        result.put("Config", headers.get(0).select("td").get(3).text());
+        result.put(
+            "Offclassing", Boolean.valueOf(!headers.get(1).select("span").get(4).attributes().toString().contains("cross")).toString()
+        );
+        result.put(
+            "Config", headers.get(0).select("td").get(3).text()
+        );
         result.put("Server",
             (headers.get(0).select("tr").get(2).text().isBlank() || headers.get(0).select("tr").get(2).text().equals("Server")) ? "" :
                 headers.get(0).select("tr").get(2).text().substring(7)
         );
-        result.put("LeaderName", headers.get(0).select("td").get(7).text());
+        result.put(
+            "LeaderName", headers.get(0).select("td").get(7).text()
+        );
         return Map.copyOf(result);
-    }
-
-
-    private static Set<MainPageObject> extractSubs(JsonNode jsonNode) {
-        Set<MainPageObject> result = new HashSet<>();
-
-        return Set.copyOf(result);
     }
 
 }

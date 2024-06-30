@@ -2,11 +2,13 @@ package com.tf2center.discordbot.parser.dto;
 
 public enum TF2Team {
 
-    RED("RED"), BLU("BLU");
+    RED, BLU;
 
-    private final String string;
-
-    TF2Team(String string) {
-        this.string = string;
+    public static TF2Team fromString(String source) {
+        if (source.equals("blue")) {
+            return TF2Team.BLU;
+        }
+        return TF2Team.RED;
     }
+
 }
