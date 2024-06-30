@@ -1,11 +1,11 @@
 package com.tf2center.discordbot.parser.dto;
 
 import com.tf2center.discordbot.dto.TF2CPlayerSlotDTO;
-import com.tf2center.discordbot.dto.json.tf2clobby.TF2CSlotDTO;
 import com.tf2center.discordbot.parser.exceptions.TF2CDTOException;
 
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class LobbyDTO implements MainPageObject {
@@ -24,7 +24,7 @@ public class LobbyDTO implements MainPageObject {
     private final boolean regionLock;
     private final boolean balancedLobby;
     private final boolean advanced;
-    private final TF2CSlotDTO[] slots;
+    private final Map<TF2Team, Collection<SlotDTO>> teams;
     private final List<TF2CPlayerSlotDTO> playerSlotList;
     private final boolean offclassingAllowed;
     private final String config;
@@ -47,7 +47,7 @@ public class LobbyDTO implements MainPageObject {
         this.regionLock = builder.regionLock;
         this.balancedLobby = builder.balancedLobby;
         this.advanced = builder.advanced;
-        this.slots = builder.slots;
+        this.teams = builder.slots;
         this.playerSlotList = builder.playerSlotList;
         this.offclassingAllowed = builder.offclassingAllowed;
         this.config = builder.config;
@@ -57,61 +57,19 @@ public class LobbyDTO implements MainPageObject {
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (this == object) {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
         }
-        if (object == null || getClass() != object.getClass()) {
+        if (!(o instanceof LobbyDTO lobbyDTO)) {
             return false;
         }
-        LobbyDTO lobbyDTO = (LobbyDTO) object;
-        return (id == lobbyDTO.id) &&
-            (leaderSteamId == lobbyDTO.leaderSteamId) &&
-            (vcRequired == lobbyDTO.vcRequired) &&
-            (isReady == lobbyDTO.isReady) &&
-            (playersInLobby == lobbyDTO.playersInLobby) &&
-            (playersForGame == lobbyDTO.playersForGame) &&
-            (regionLock == lobbyDTO.regionLock) &&
-            (balancedLobby == lobbyDTO.balancedLobby) &&
-            (advanced == lobbyDTO.advanced) &&
-            (offclassingAllowed == lobbyDTO.offclassingAllowed) &&
-            Objects.equals(region, lobbyDTO.region) &&
-            Objects.equals(gameType, lobbyDTO.gameType) &&
-            Objects.equals(map, lobbyDTO.map) &&
-            Objects.equals(thumbnailURL, lobbyDTO.thumbnailURL) &&
-            Objects.equals(restrictionsText, lobbyDTO.restrictionsText) &&
-            Arrays.equals(slots, lobbyDTO.slots) &&
-            Objects.equals(playerSlotList, lobbyDTO.playerSlotList) &&
-            Objects.equals(config, lobbyDTO.config) &&
-            Objects.equals(server, lobbyDTO.server) &&
-            Objects.equals(leaderName, lobbyDTO.leaderName) &&
-            Objects.equals(timeOpened, lobbyDTO.timeOpened);
+        return (id == lobbyDTO.id) && (leaderSteamId == lobbyDTO.leaderSteamId) && (vcRequired == lobbyDTO.vcRequired) && (isReady == lobbyDTO.isReady) && (playersInLobby == lobbyDTO.playersInLobby) && (playersForGame == lobbyDTO.playersForGame) && (regionLock == lobbyDTO.regionLock) && (balancedLobby == lobbyDTO.balancedLobby) && (advanced == lobbyDTO.advanced) && (offclassingAllowed == lobbyDTO.offclassingAllowed) && Objects.equals(region, lobbyDTO.region) && (gameType == lobbyDTO.gameType) && Objects.equals(map, lobbyDTO.map) && Objects.equals(thumbnailURL, lobbyDTO.thumbnailURL) && Objects.equals(restrictionsText, lobbyDTO.restrictionsText) && Objects.equals(teams, lobbyDTO.teams) && Objects.equals(playerSlotList, lobbyDTO.playerSlotList) && Objects.equals(config, lobbyDTO.config) && Objects.equals(server, lobbyDTO.server) && Objects.equals(leaderName, lobbyDTO.leaderName) && Objects.equals(timeOpened, lobbyDTO.timeOpened);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id,
-            leaderSteamId,
-            region,
-            vcRequired,
-            gameType,
-            isReady,
-            map,
-            thumbnailURL,
-            playersInLobby,
-            playersForGame,
-            restrictionsText,
-            regionLock,
-            balancedLobby,
-            advanced,
-            playerSlotList,
-            offclassingAllowed,
-            config,
-            server,
-            leaderName,
-            timeOpened);
-        result = 31 * result + Arrays.hashCode(slots);
-        return result;
+        return Objects.hash(id, leaderSteamId, region, vcRequired, gameType, isReady, map, thumbnailURL, playersInLobby, playersForGame, restrictionsText, regionLock, balancedLobby, advanced, teams, playerSlotList, offclassingAllowed, config, server, leaderName, timeOpened);
     }
 
     @Override
@@ -121,7 +79,7 @@ public class LobbyDTO implements MainPageObject {
             ", leaderSteamId=" + leaderSteamId +
             ", region='" + region + '\'' +
             ", vcRequired=" + vcRequired +
-            ", gameType='" + gameType + '\'' +
+            ", gameType=" + gameType +
             ", isReady=" + isReady +
             ", map='" + map + '\'' +
             ", thumbnailURL='" + thumbnailURL + '\'' +
@@ -131,7 +89,7 @@ public class LobbyDTO implements MainPageObject {
             ", regionLock=" + regionLock +
             ", balancedLobby=" + balancedLobby +
             ", advanced=" + advanced +
-            ", slots=" + Arrays.toString(slots) +
+            ", teams=" + teams +
             ", playerSlotList=" + playerSlotList +
             ", offclassingAllowed=" + offclassingAllowed +
             ", config='" + config + '\'' +
@@ -157,7 +115,7 @@ public class LobbyDTO implements MainPageObject {
         private boolean regionLock;
         private boolean balancedLobby;
         private boolean advanced;
-        private TF2CSlotDTO[] slots;
+        private Map<TF2Team, Collection<SlotDTO>> slots;
         private List<TF2CPlayerSlotDTO> playerSlotList;
         private boolean offclassingAllowed;
         private String config;
@@ -248,8 +206,8 @@ public class LobbyDTO implements MainPageObject {
             return this;
         }
 
-        public Builder slots(TF2CSlotDTO[] slots) {
-            this.slots = Objects.requireNonNull(slots, "Array can't be null. Badly built array, bad HTML parsing.");
+        public Builder teams(Map<TF2Team, Collection<SlotDTO>> teams) {
+            this.slots = Objects.requireNonNull(teams, "Map can't be null. Bad HTML parsing.");
             return this;
         }
 

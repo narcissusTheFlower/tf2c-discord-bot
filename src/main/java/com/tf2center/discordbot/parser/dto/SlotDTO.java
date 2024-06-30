@@ -1,21 +1,23 @@
 package com.tf2center.discordbot.parser.dto;
 
+import com.tf2center.discordbot.parser.dto.tf2classes.TF2Class;
+
 import java.util.Objects;
 import java.util.Optional;
 
 public class SlotDTO {
 
-    private final Optional<String> playerName;
-    private final Optional<String> steamId;
-    private final boolean isEmpty;
-    private final Optional<String> tf2Class;
-    private final Optional<TF2Team> team;
+    private Optional<String> playerName;
+    private Optional<String> steamId;
+    private boolean isEmpty;
+    private Optional<TF2Class> tf2Class;
+    private Optional<TF2Team> team;
 
-    private SlotDTO(String playerName, String steamId, boolean isEmpty, String tf2Class, TF2Team team) {
+    private SlotDTO(String playerName, String steamId, boolean isEmpty, TF2Team team) {
         this.playerName = Optional.of(playerName);
         this.steamId = Optional.of(steamId);
         this.isEmpty = isEmpty;
-        this.tf2Class = Optional.of(tf2Class);
+        this.tf2Class = Optional.empty();
         this.team = Optional.of(team);
     }
 
@@ -27,8 +29,8 @@ public class SlotDTO {
         this.team = Optional.empty();
     }
 
-    public static SlotDTO of(String playerName, String steamId, boolean isEmpty, String tf2Class, TF2Team team) {
-        return new SlotDTO(playerName, steamId, isEmpty, tf2Class, team);
+    public static SlotDTO of(String playerName, String steamId, boolean isEmpty, TF2Team team) {
+        return new SlotDTO(playerName, steamId, isEmpty, team);
     }
 
     public static SlotDTO of(boolean isEmpty) {
@@ -47,12 +49,32 @@ public class SlotDTO {
         return isEmpty;
     }
 
-    public Optional<String> getTf2Class() {
+    public Optional<TF2Class> getTf2Class() {
         return tf2Class;
     }
 
     public Optional<TF2Team> getTeam() {
         return team;
+    }
+
+    public void setTf2Class(Optional<TF2Class> tf2Class) {
+        this.tf2Class = tf2Class;
+    }
+
+    public void setPlayerName(Optional<String> playerName) {
+        this.playerName = playerName;
+    }
+
+    public void setSteamId(Optional<String> steamId) {
+        this.steamId = steamId;
+    }
+
+    public void setEmpty(boolean empty) {
+        isEmpty = empty;
+    }
+
+    public void setTeam(Optional<TF2Team> team) {
+        this.team = team;
     }
 
     @Override

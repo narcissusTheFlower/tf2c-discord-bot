@@ -1,17 +1,13 @@
 package com.tf2center.discordbot.parser.dto.tf2classes;
 
-public enum SixesClasses {
+public enum SixesClasses implements TF2Class {
 
-    SCOUT1("scout"),
-    SCOUT2("scout"),
-    SOLDIER_ROAMER("soldier_roamer"),
-    SOLDIER_POCKET("soldier_pocket"),
-    DEMOMAN("demoman"),
-    MEDIC("medic");
+    SCOUT1,
+    SCOUT2,
+    SOLDIER_ROAMER,
+    SOLDIER_POCKET,
+    DEMOMAN,
+    MEDIC;
 
-    private final String value;
 
-    SixesClasses(String value) {
-        this.value = value;
-    }
 }

@@ -3,12 +3,9 @@ package com.tf2center.discordbot.parser.html;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tf2center.discordbot.parser.dto.GameType;
-import com.tf2center.discordbot.parser.dto.LobbyDTO;
-import com.tf2center.discordbot.parser.dto.MainPageObject;
-import com.tf2center.discordbot.parser.dto.SlotDTO;
+import com.tf2center.discordbot.parser.dto.*;
+import com.tf2center.discordbot.parser.dto.tf2classes.*;
 import com.tf2center.discordbot.parser.exceptions.TF2CParsingException;
-import org.apache.commons.lang3.tuple.Pair;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -67,10 +64,9 @@ public class MainPageParser {
             result.put("Lobbies", extractLobbies(jsonNodeLobbies));
         }
 
+//        For local testing with html file
 //        try {tf2cWebSite = Jsoup.parse(new File("/home/user/IdeaProjects/new-discord-bot/json-state-examples/subsFullPage"));
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+//        } catch (IOException e) {throw new RuntimeException(e);}
 
         //Parse out substitutes from HTML
         String substring = tf2cWebSite.select("script").stream()
@@ -94,12 +90,23 @@ public class MainPageParser {
             result.put("Subs", extractSubs(jsonNodeSubs));
         }
 
+        //Put player numbers in the result Map
+
+
+        result.put(
+            "Players",
+            List.of(PlayerCount.of(Integer.parseInt(tf2cWebSite.getElementById("euPlayersOnline").text()) +
+                Integer.parseInt(tf2cWebSite.getElementById("naPlayersOnline").text()) +
+                Integer.parseInt(tf2cWebSite.getElementById("playersOnline").text()) +
+                Integer.parseInt(tf2cWebSite.getElementById("otherPlayersOnline").text() +
+                    Integer.parseInt(tf2cWebSite.getElementById("auPlayersOnline").text())))
+            ));
         return Map.copyOf(result);
     }
 
     private Set<MainPageObject> extractLobbies(JsonNode jsonNode) {
         Document innerLobby;
-        Set<SlotDTO> slots;
+        Map<TF2Team, Collection<SlotDTO>> teams;
         Set<LobbyDTO> result = new HashSet<>();
 
         //For each node where node is a single lobby.
@@ -111,100 +118,152 @@ public class MainPageParser {
                 throw new RuntimeException("Encountered an issue while connecting to an inner lobby.");
             }
 
-            slots = extractPlayers(
+            teams = extractPlayers(
                 innerLobby,
-                GameType.valueOf(node.findValue("gameType").toString())
+                GameType.fromString(node.findValue("gameType").toString().replaceAll("\"", ""))
             );
 
-            //Map<String, String> innerLobbyInfo = extractInnerLobbyInformation(innerLobby);
+            Map<String, String> innerLobbyInfo = extractInnerLobbyInformation(innerLobby);
 
             result.add(new LobbyDTO.Builder()
                     .id(
-                        Integer.parseInt(node.findValue("no").toString())
+                        Integer.parseInt(node.findValue("no").toString().replaceAll("\"", ""))
                     )
                     .leaderSteamId(
-                        Long.parseLong(node.findValue("leaderSteamId").toString())
+                        Long.parseLong(node.findValue("leaderSteamId").toString().replaceAll("\"", ""))
                     )
                     .region(
-                        node.findValue("region").toString()
+                        node.findValue("region").toString().replaceAll("\"", "")
                     )
                     .vcRequired(
-                        Boolean.parseBoolean(node.findValue("mumbleRequired").toString())
+                        Boolean.parseBoolean(node.findValue("mumbleRequired").toString().replaceAll("\"", ""))
                     )
-                    .gameType(GameType.valueOf(node.findValue("gameType").toString()))
-//                    .isReady()
-//                    .map()
-//                    .thumbnailURL()
-//                    .playersInLobby()
-//                    .playersForGame()
-//                    .restrictionsText()
-//                    .regionLock()
-//                    .balancedLobby()
-//                    .advanced()
-//                    .slots(slots)
-//                    .playerSlotList()
-//                    .offclassingAllowed(
-//                            innerLobbyInfo.get("Offclassing")
-//                    )
-//                    .config(
-//                            innerLobbyInfo.get("Config")
-//                    )
-//                    .server(
-//                            innerLobbyInfo.get("Server")
-//                    )
-//                    .leaderName(
-//                            innerLobbyInfo.get("LeaderName")
-//                    )
+                .gameType(
+                    GameType.fromString(node.findValue("gameType").toString().replaceAll("\"", ""))
+                )
+                .isReady(
+                    Boolean.parseBoolean(node.findValue("inReadyUpMode").toString().replaceAll("\"", ""))
+                )
+                .map(
+                    node.findValue("map").toString().replaceAll("\"", "")
+                )
+                .thumbnailURL(
+                    node.findValue("thumbnailUrl").toString().replaceAll("\"", "")
+                )
+                .playersInLobby(
+                    Integer.parseInt(node.findValue("playersInLobby").toString().replaceAll("\"", ""))
+                )
+                .playersForGame(
+                    Integer.parseInt(node.findValue("playersForGame").toString().replaceAll("\"", ""))
+                )
+                //TODO: implement restrictions for embeds as follows: Join []
+                .restrictionsText(
+                    node.findValue("restrictionsText").toString().replaceAll("\"", "")
+                    )
+                .regionLock(
+                    Boolean.parseBoolean(node.findValue("regionLock").toString().replaceAll("\"", ""))
+                )
+                .balancedLobby(
+                    Boolean.parseBoolean(node.findValue("useBalancer").toString().replaceAll("\"", ""))
+                )
+                .advanced(
+                    Boolean.parseBoolean(node.findValue("advanced").toString().replaceAll("\"", ""))
+                )
+                .teams(
+                    teams
+                )
+                .offclassingAllowed(
+                    Boolean.parseBoolean(innerLobbyInfo.get("Offclassing"))
+                )
+                .config(
+                    innerLobbyInfo.get("Config")
+                )
+                .server(
+                    innerLobbyInfo.get("Server")
+                )
+                .leaderName(
+                    innerLobbyInfo.get("LeaderName")
+                )
                     .build()
             );
         }
-
         return Set.copyOf(result);
     }
 
-    private Set<SlotDTO> extractPlayers(Document page, GameType gameType) {
-        Set<SlotDTO> result = new HashSet<>();
+    private Map<TF2Team, Collection<SlotDTO>> extractPlayers(Document page, GameType gameType) {
+        Map<TF2Team, Collection<SlotDTO>> result = new HashMap<>();
         Elements lobbySlots = page.getElementsByClass("lobbySlot");
+        List<SlotDTO> blu = new ArrayList<>();
+        List<SlotDTO> red = new ArrayList<>();
 
+        for (int i = 0; i < lobbySlots.size(); i++) {
+            String playerName = lobbySlots.get(i).children().get(1).children().get(0).text();
+            String steamIdProfile = lobbySlots.get(i).children().get(1).children().get(0).attributes().get("href");
+            //Decide if add to blu team or red. Start with blu then red
+            if (i < lobbySlots.size() / 2) {
+                //Decide if slot is empty
+                if (lobbySlots.get(i).attributes().toString().contains("filled")) {
+                    blu.add(SlotDTO.of(playerName, steamIdProfile, false, TF2Team.BLU));
+                } else {
+                    blu.add(SlotDTO.of(true));
+                }
+            } else {
+                //Decide if slot is empty
+                if (lobbySlots.get(i).attributes().toString().contains("filled")) {
+                    red.add(SlotDTO.of(playerName, steamIdProfile, false, TF2Team.BLU));
+                } else {
+                    red.add(SlotDTO.of(true));
+                }
+            }
+        }
+        Iterator<SlotDTO> bluIterator = blu.iterator();
+        Iterator<SlotDTO> redIterator = red.iterator();
         switch (gameType) {
             case SIXES -> {
-                lobbySlots.forEach(element -> {
-                    if (element.attributes().toString().contains("filled")) {
-                        String playerName = element.children().get(1).children().get(0).text();
-                        String steamIdProfile = element.children().get(1).children().get(0).attributes().get("href");
-                        Pair<>
-                        result.add(SlotDTO.of(playerName, steamIdProfile, false, ));
-                    } else {
-                        result.add(SlotDTO.of(true));
+                for (SixesClasses clazz : SixesClasses.values()) {
+                    if (bluIterator.hasNext() && redIterator.hasNext()) {
+                        bluIterator.next().setTf2Class(Optional.of(clazz));
+                        redIterator.next().setTf2Class(Optional.of(clazz));
                     }
-
-                });
+                }
             }
             case HIGHLANDER -> {
+                for (HighlanderClasses clazz : HighlanderClasses.values()) {
+                    if (bluIterator.hasNext() && redIterator.hasNext()) {
+                        bluIterator.next().setTf2Class(Optional.of(clazz));
+                        redIterator.next().setTf2Class(Optional.of(clazz));
+                    }
+                }
             }
             case BBALL -> {
+                for (BBallClasses clazz : BBallClasses.values()) {
+                    if (bluIterator.hasNext() && redIterator.hasNext()) {
+                        bluIterator.next().setTf2Class(Optional.of(clazz));
+                        redIterator.next().setTf2Class(Optional.of(clazz));
+                    }
+                }
             }
             case ULTIDUO -> {
+                for (UltiduoClasses clazz : UltiduoClasses.values()) {
+                    if (bluIterator.hasNext() && redIterator.hasNext()) {
+                        bluIterator.next().setTf2Class(Optional.of(clazz));
+                        redIterator.next().setTf2Class(Optional.of(clazz));
+                    }
+                }
             }
             case FOURVSFOUR -> {
+                for (FoursClasses clazz : FoursClasses.values()) {
+                    if (bluIterator.hasNext() && redIterator.hasNext()) {
+                        bluIterator.next().setTf2Class(Optional.of(clazz));
+                        redIterator.next().setTf2Class(Optional.of(clazz));
+                    }
+                }
             }
             default -> throw new TF2CParsingException("Bad enum value. Sanity check.");
         }
-
-        lobbySlots.forEach(element -> {
-                if (element.attributes().toString().contains("filled")) {
-                    String playerName = element.children().get(1).children().get(0).text();
-                    String steamIdProfile = element.children().get(1).children().get(0).attributes().get("href");
-
-                    result.add(SlotDTO.of(playerName, steamIdProfile, false, null, null));
-                } else {
-                    result.add(SlotDTO.of(true));
-                }
-            }
-        );
-
-
-        return Set.copyOf(result);
+        result.put(TF2Team.BLU, blu);
+        result.put(TF2Team.RED, red);
+        return Map.copyOf(result);
     }
 
     private Map<String, String> extractInnerLobbyInformation(Document page) {
@@ -227,11 +286,6 @@ public class MainPageParser {
         Set<MainPageObject> result = new HashSet<>();
 
         return Set.copyOf(result);
-    }
-
-    private class infoExtractor {
-
-
     }
 
 }

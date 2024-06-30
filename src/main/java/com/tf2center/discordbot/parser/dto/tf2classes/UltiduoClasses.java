@@ -1,13 +1,8 @@
 package com.tf2center.discordbot.parser.dto.tf2classes;
 
-public enum UltiduoClasses {
+public enum UltiduoClasses implements TF2Class {
 
-    SOLDIER("soldier"),
-    MEDIC("medic");
+    SOLDIER,
+    MEDIC;
 
-    private final String value;
-
-    UltiduoClasses(String value) {
-        this.value = value;
-    }
 }
