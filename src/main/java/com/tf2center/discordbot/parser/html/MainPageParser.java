@@ -12,7 +12,6 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -111,11 +110,11 @@ public class MainPageParser {
         }
 
 //        For local testing with html file
-        try {
-            tf2cWebSite = Jsoup.parse(new File("/home/user/IdeaProjects/new-discord-bot/json-state-examples/subsFullPage"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            tf2cWebSite = Jsoup.parse(new File("/home/user/IdeaProjects/new-discord-bot/json-state-examples/subsFullPage"));
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
 
         //Parse out substitutes from HTML
         String substring = tf2cWebSite.select("script").stream()
@@ -140,8 +139,6 @@ public class MainPageParser {
         }
 
         //Put player numbers in the result Map
-
-
         result.put(
             "Players",
             List.of(PlayerCount.of(Integer.parseInt(tf2cWebSite.getElementById("euPlayersOnline").text()) +
@@ -153,8 +150,8 @@ public class MainPageParser {
         return Map.copyOf(result);
     }
 
-    private Map<TF2Team, Collection<SlotDTO>> extractPlayers(Document page, GameType gameType) {
-        Map<TF2Team, Collection<SlotDTO>> result = new HashMap<>();
+    private Map<String, Collection<SlotDTO>> extractPlayers(Document page, GameType gameType) {
+        Map<String, Collection<SlotDTO>> result = new HashMap<>();
         Elements lobbySlots = page.getElementsByClass("lobbySlot");
         List<SlotDTO> blu = new ArrayList<>();
         List<SlotDTO> red = new ArrayList<>();
@@ -168,14 +165,14 @@ public class MainPageParser {
                 if (lobbySlots.get(i).attributes().toString().contains("filled")) {
                     blu.add(SlotDTO.of(playerName, steamIdProfile, false, TF2Team.BLU));
                 } else {
-                    blu.add(SlotDTO.of(true));
+                    blu.add(SlotDTO.of(true, TF2Team.BLU));
                 }
             } else {
                 //Decide if slot is empty
                 if (lobbySlots.get(i).attributes().toString().contains("filled")) {
-                    red.add(SlotDTO.of(playerName, steamIdProfile, false, TF2Team.BLU));
+                    red.add(SlotDTO.of(playerName, steamIdProfile, false, TF2Team.RED));
                 } else {
-                    red.add(SlotDTO.of(true));
+                    red.add(SlotDTO.of(true, TF2Team.RED));
                 }
             }
         }
@@ -224,14 +221,14 @@ public class MainPageParser {
             }
             default -> throw new TF2CParsingException("Bad enum value. Sanity check.");
         }
-        result.put(TF2Team.BLU, blu);
-        result.put(TF2Team.RED, red);
+        result.put("Blu", blu);
+        result.put("Red", red);
         return Map.copyOf(result);
     }
 
     private Set<MainPageObject> extractLobbies(JsonNode jsonNode) {
         Document innerLobby;
-        Map<TF2Team, Collection<SlotDTO>> teams;
+        Map<String, Collection<SlotDTO>> teams;
         Set<LobbyDTO> result = new HashSet<>();
 
         //For each node where node is a single lobby.
@@ -318,11 +315,15 @@ public class MainPageParser {
     private Map<String, String> extractInnerLobbyInformation(Document page) {
         Elements headers = page.getElementsByClass("lobbyHeaderOptions");
         Map<String, String> result = new HashMap<>();
+        try {
+            result.put(
+                "Offclassing", Boolean.valueOf(!headers.get(1).select("span").get(4).attributes().toString().contains("cross")).toString()
+            );
+        } catch (Exception e) {
+            e.fillInStackTrace().toString();
+            throw new TF2CParsingException("Bad Offclassing index again");
+        }
 
-        //Wrapper boolean because I need toString() method.
-        result.put(
-            "Offclassing", Boolean.valueOf(!headers.get(1).select("span").get(4).attributes().toString().contains("cross")).toString()
-        );
         result.put(
             "Config", headers.get(0).select("td").get(3).text()
         );

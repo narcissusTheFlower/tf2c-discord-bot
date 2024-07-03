@@ -24,7 +24,7 @@ public class LobbyDTO implements MainPageObject {
     private final boolean regionLock;
     private final boolean balancedLobby;
     private final boolean advanced;
-    private final Map<TF2Team, Collection<SlotDTO>> teams;
+    private final Map<String, Collection<SlotDTO>> teams;
     private final List<TF2CPlayerSlotDTO> playerSlotList;
     private final boolean offclassingAllowed;
     private final String config;
@@ -112,7 +112,7 @@ public class LobbyDTO implements MainPageObject {
         return advanced;
     }
 
-    public Map<TF2Team, Collection<SlotDTO>> getTeams() {
+    public Map<String, Collection<SlotDTO>> getTeams() {
         return teams;
     }
 
@@ -199,7 +199,7 @@ public class LobbyDTO implements MainPageObject {
         private boolean regionLock;
         private boolean balancedLobby;
         private boolean advanced;
-        private Map<TF2Team, Collection<SlotDTO>> slots;
+        private Map<String, Collection<SlotDTO>> slots;
         private List<TF2CPlayerSlotDTO> playerSlotList;
         private boolean offclassingAllowed;
         private String config;
@@ -290,7 +290,7 @@ public class LobbyDTO implements MainPageObject {
             return this;
         }
 
-        public Builder teams(Map<TF2Team, Collection<SlotDTO>> teams) {
+        public Builder teams(Map<String, Collection<SlotDTO>> teams) {
             this.slots = Objects.requireNonNull(teams, "Map can't be null. Bad HTML parsing.");
             return this;
         }

@@ -21,20 +21,20 @@ public class SlotDTO {
         this.team = Optional.of(team);
     }
 
-    private SlotDTO(boolean isEmpty) {
+    private SlotDTO(boolean isEmpty, TF2Team team) {
         this.playerName = Optional.empty();
         this.steamId = Optional.empty();
         this.isEmpty = isEmpty;
         this.tf2Class = Optional.empty();
-        this.team = Optional.empty();
+        this.team = Optional.of(team);
     }
 
     public static SlotDTO of(String playerName, String steamId, boolean isEmpty, TF2Team team) {
         return new SlotDTO(playerName, steamId, isEmpty, team);
     }
 
-    public static SlotDTO of(boolean isEmpty) {
-        return new SlotDTO(isEmpty);
+    public static SlotDTO of(boolean isEmpty, TF2Team team) {
+        return new SlotDTO(isEmpty, team);
     }
 
     public Optional<String> getPlayerName() {

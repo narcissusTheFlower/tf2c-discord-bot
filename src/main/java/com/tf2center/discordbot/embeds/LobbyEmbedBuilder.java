@@ -131,7 +131,7 @@ public final class LobbyEmbedBuilder {
             teamRed[i] = EmbedCreateFields.Field.of(
                     red.get(i - 1).getTf2Class(),
                     red.get(i - 1).getPlayerName().equals("empty") ?
-                            buildJoinLink("red", blu.get(i - 1).getTf2Class()) :
+                        buildJoinLink("red", red.get(i - 1).getTf2Class()) :
                             red.get(i - 1).getPlayerName(),
                     true);
         }

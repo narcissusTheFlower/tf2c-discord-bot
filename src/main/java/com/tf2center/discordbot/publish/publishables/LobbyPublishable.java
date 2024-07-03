@@ -18,17 +18,15 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 import java.time.Instant;
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Component("lobbyPublishable")
 @Scope("singleton")
 public class LobbyPublishable implements Publishable, EmbedActions {
 
-
-    {
-        HashSet<String> test = new HashSet<>();
-
-    }
     private final Mono<Channel> textChannel;
 
     @Autowired

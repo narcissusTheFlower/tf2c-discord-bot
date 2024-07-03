@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono;
  * a getName() method to provide the case-sensitive name of the command.
  * and a handle() method which will house all the logic for processing each command.
  */
-@Deprecated
+
 public interface SlashCommand {
 
     String getName();

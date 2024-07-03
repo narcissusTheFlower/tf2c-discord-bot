@@ -32,6 +32,50 @@ public class SubsDTO implements MainPageObject {
         this.advanced = builder.advanced;
     }
 
+    public int getLobbyId() {
+        return lobbyId;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public boolean isVcRequired() {
+        return vcRequired;
+    }
+
+    public String getMap() {
+        return map;
+    }
+
+    public TF2Team getTeam() {
+        return team;
+    }
+
+    public String getTf2cTeamRole() {
+        return tf2cTeamRole;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public String getJoinLink() {
+        return joinLink;
+    }
+
+    public GameType getGameType() {
+        return gameType;
+    }
+
+    public boolean isRegionLock() {
+        return regionLock;
+    }
+
+    public boolean isAdvanced() {
+        return advanced;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) {

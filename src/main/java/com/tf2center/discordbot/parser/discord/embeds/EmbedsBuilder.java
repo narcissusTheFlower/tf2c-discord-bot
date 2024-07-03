@@ -1,13 +1,12 @@
 package com.tf2center.discordbot.parser.discord.embeds;
 
-import com.tf2center.discordbot.dto.json.TF2CSubstituteSlotDTO;
-import com.tf2center.discordbot.parser.dto.GameType;
-import com.tf2center.discordbot.parser.dto.LobbyDTO;
-import com.tf2center.discordbot.parser.dto.MainPageObject;
+import com.tf2center.discordbot.parser.dto.*;
+import com.tf2center.discordbot.parser.dto.tf2classes.TF2Class;
 import com.tf2center.discordbot.steamapi.SteamApiCaller;
 import discord4j.core.spec.EmbedCreateFields;
 import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.rest.util.Color;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.*;
 
@@ -27,7 +26,7 @@ public class EmbedsBuilder {
         Collection<MainPageObject> subs = mainPageObjects.get("Subs");
 
         allEmbeds.put("EmbedLobbies", buildLobbies(lobbies));
-//        allEmbeds.put("EmbedSubs", buildSubs(subs));
+        allEmbeds.put("EmbedSubs", Set.of(buildSubs(subs)));
         return allEmbeds;
     }
 
@@ -50,16 +49,14 @@ public class EmbedsBuilder {
                         "https://tf2center.com/lobbies/" + lobbyDTO.getId()
                     )
                     .description(
-                        String.valueOf(
-                            buildDescription(lobbyDTO)
-                        )
+                        buildDescription(lobbyDTO)
                     )
                     .thumbnail(
                         buildThumbnail(lobbyDTO.getRegion())
                     )
-//                    .addFields(
-//                        buildTeams(json.getPlayerSlotList())
-//                    )
+                    .addFields(
+                        buildTeams(lobbyDTO)
+                    )
                     .image(
                         "https://tf2center.com" + lobbyDTO.getThumbnailURL()
                     )
@@ -78,7 +75,7 @@ public class EmbedsBuilder {
             avatarUrl);
     }
 
-    private StringBuffer buildDescription(LobbyDTO lobbyDTO) {
+    private String buildDescription(LobbyDTO lobbyDTO) {
         String blueX = "\uD83c\uDDFD";
         String greenCheck = "✅";
         String offclassing = "Offclassing allowed: " + (lobbyDTO.isOffclassingAllowed() ? greenCheck : blueX) + "\n";
@@ -87,9 +84,9 @@ public class EmbedsBuilder {
         String balancing = "Balanced lobby: " + (lobbyDTO.isBalancedLobby() ? greenCheck : blueX) + "\n";
         String region = "Region lock: " + (lobbyDTO.isRegionLocked() ? greenCheck : blueX);
         if (lobbyDTO.getGameType().equals(GameType.SIXES)) {
-            return new StringBuffer().append(offclassing).append(voice).append(advanced).append(balancing).append(region);
+            return new StringBuffer().append(offclassing).append(voice).append(advanced).append(balancing).append(region).toString();
         }
-        return new StringBuffer().append(voice).append(advanced).append(balancing).append(region);
+        return new StringBuffer().append(voice).append(advanced).append(balancing).append(region).toString();
     }
 
     private String buildThumbnail(String region) {
@@ -105,48 +102,102 @@ public class EmbedsBuilder {
         return String.format("Lobby #%d | %s\n%s", lobbyDTO.getId(), lobbyDTO.getMap(), readyState);
     }
 
+    private EmbedCreateFields.Field[] buildTeams(LobbyDTO lobbyDTO) {
+        Map<String, Collection<SlotDTO>> slots = lobbyDTO.getTeams();
 
-    public EmbedCreateSpec buildSubs(Collection<MainPageObject> mainPageObjectsSubs) {
-        EmbedCreateSpec test = EmbedCreateSpec.builder()
-            .color(Color.of(133, 63, 63)) //From tf2c colour pallet. Redish
-            .title("Substitute slots to join.")
-//            .description(substituteSlots.isEmpty() ? "No substitute slots at this moment" : "")
-//            .addFields(buildFields())
-            //TODO chacge source of the image
-            .image("https://raw.githubusercontent.com/narcissusTheFlower/tf2-stats-browser-extension/c13a5552564c58fd06b1dcaa19357b419f4761b9/discord-bot-firestarter.png")
-            .build();
-        return test;
+        //Blu team
+        List<EmbedCreateFields.Field> tempBLU = new ArrayList<>();
+        for (SlotDTO bluSlot : slots.get("Blu")) {
+            tempBLU.add(
+                EmbedCreateFields.Field.of(
+                    bluSlot.getTf2Class().get().getDiscordClassValue(),
+                    bluSlot.isEmpty() ? buildLobbyJoinLink(String.valueOf(lobbyDTO.getId()), bluSlot) : bluSlot.getPlayerName().get(),
+                    true)
+            );
+        }
+        tempBLU.add(EmbedCreateFields.Field.of("\u200B", "\u200B", false));
+
+        EmbedCreateFields.Field[] teamBlu = new EmbedCreateFields.Field[(slots.get("Blu").size()) + 2]; //+2 cuz header with "BLU TEAM" and "\u200B"
+        teamBlu[0] = EmbedCreateFields.Field.of("📘BLU TEAM", "", false);
+        for (int i = 1; i < teamBlu.length; i++) {
+            teamBlu[i] = tempBLU.get(i - 1);
+        }
+
+        //Red team
+        List<EmbedCreateFields.Field> tempRED = new ArrayList<>();
+        for (SlotDTO redSlot : slots.get("Red")) {
+            tempRED.add(
+                EmbedCreateFields.Field.of(
+                    redSlot.getTf2Class().get().getDiscordClassValue(),
+                    redSlot.isEmpty() ? buildLobbyJoinLink(String.valueOf(lobbyDTO.getId()), redSlot) : redSlot.getPlayerName().get(),
+                    true)
+            );
+        }
+
+        EmbedCreateFields.Field[] teamRed = new EmbedCreateFields.Field[(slots.get("Red").size()) + 1];//+1 cuz header with "RED TEAM"
+        teamRed[0] = EmbedCreateFields.Field.of("📕RED TEAM", "", false);
+        for (int i = 1; i < teamRed.length; i++) {
+            teamRed[i] = tempRED.get(i - 1);
+        }
+        return ArrayUtils.addAll(teamBlu, teamRed);
     }
 
-//    private EmbedCreateFields.Field[] buildFields() {
-//        EmbedCreateFields.Field[] subs = new EmbedCreateFields.Field[substituteSlots.size()];
-//        int counter = 0;
-//        for (TF2CSubstituteSlotDTO substituteSlot : substituteSlots) {
-//            subs[counter] = EmbedCreateFields.Field.of(
-//                buildName(substituteSlot),
-//                buildJoinLink(substituteSlot),
-//                false);
-//            counter++;
-//        }
-//        return ArrayUtils.addAll(subs);
-//    }
-
-    private String buildName(TF2CSubstituteSlotDTO slot) {
+    private String buildLobbyJoinLink(String lobbyId, SlotDTO bluSlot) {
+        TF2Class tf2Class = bluSlot.getTf2Class().get();
         return new StringBuilder()
-            .append(slot.getClassName())
-            .append(" | ")
-            .append(slot.getRegion())
-            .append(" | ")
-            .append(slot.getGameType())
-            .append(" | ")
-            .append(slot.getMap())
+            .append("[Join](https://tf2center.com/join/lobby/")
+            .append(lobbyId)
+            .append("/")
+            .append(bluSlot.getTeam().get().getTeamString())
+            .append("/")
+            .append(tf2Class.getDiscordClassKey())
+            .append(")")
             .toString();
     }
 
-    private String buildJoinLink(TF2CSubstituteSlotDTO slot) {
+    public EmbedCreateSpec buildSubs(Collection<MainPageObject> mainPageObjectsSubs) {
+        return EmbedCreateSpec.builder()
+            .color(Color.of(133, 63, 63)) //From tf2c colour pallet. Redish
+            .title("Substitute slots to join.")
+            .description(mainPageObjectsSubs.isEmpty() ? "No substitute slots at this time" : "")
+            .addFields(
+                buildFields(mainPageObjectsSubs)
+            )
+            //TODO change source of the image
+            .image("https://raw.githubusercontent.com/narcissusTheFlower/tf2-stats-browser-extension/c13a5552564c58fd06b1dcaa19357b419f4761b9/discord-bot-firestarter.png")
+            .build();
+    }
+
+    private EmbedCreateFields.Field[] buildFields(Collection<MainPageObject> mainPageObjectsSubs) {
+        EmbedCreateFields.Field[] subs = new EmbedCreateFields.Field[mainPageObjectsSubs.size()];
+        int counter = 0;
+        for (MainPageObject mainPageObjectsSub : mainPageObjectsSubs) {
+            SubsDTO subsDTO = (SubsDTO) mainPageObjectsSub;
+            subs[counter] = EmbedCreateFields.Field.of(
+                buildName(subsDTO),
+                buildSubsJoinLink(subsDTO),
+                false);
+            counter++;
+        }
+        return ArrayUtils.addAll(subs);
+    }
+
+    private String buildName(SubsDTO subSlot) {
+        return new StringBuilder()
+            .append(subSlot.getClassName())
+            .append(" | ")
+            .append(subSlot.getRegion())
+            .append(" | ")
+            .append(subSlot.getGameType())
+            .append(" | ")
+            .append(subSlot.getMap())
+            .toString();
+    }
+
+    private String buildSubsJoinLink(SubsDTO subSlot) {
         return new StringBuilder()
             .append("[Join](https://tf2center.com")
-            .append(slot.getJoinLink())
+            .append(subSlot.getJoinLink())
             .append(")")
             .toString();
     }
