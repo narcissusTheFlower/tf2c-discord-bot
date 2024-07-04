@@ -1,6 +1,6 @@
-package com.tf2center.discordbot.listeners;
+package com.tf2center.discordbot.parser.discord.listeners;
 
-import com.tf2center.discordbot.commands.SlashCommand;
+import com.tf2center.discordbot.parser.discord.listeners.commands.SlashCommand;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import org.springframework.beans.factory.annotation.Autowired;

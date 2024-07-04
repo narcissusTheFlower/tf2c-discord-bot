@@ -1,4 +1,4 @@
-package com.tf2center.discordbot.parser.discord;
+package com.tf2center.discordbot.parser.discord.embeds;
 
 import discord4j.common.util.Snowflake;
 import discord4j.core.GatewayDiscordClient;
@@ -25,7 +25,7 @@ public class MessageActions {
         );
     }
 
-    public void publishEmbed(EmbedCreateSpec embed) {
+    void publishEmbed(EmbedCreateSpec embed) {
         textChannel.ofType(GuildMessageChannel.class)
             .flatMap(channel -> channel.createMessage(MessageCreateSpec.builder()
                 .addEmbed(embed)
@@ -33,14 +33,14 @@ public class MessageActions {
             )).block();
     }
 
-    public void deleteEmbed(Snowflake snowflake) {
+    void deleteEmbed(Snowflake snowflake) {
         textChannel.ofType(GuildMessageChannel.class)
             .flatMap(channel -> channel.getMessageById(snowflake).block()
                 .delete())
             .subscribe();
     }
 
-    public void editEmbed(EmbedCreateSpec embed, Snowflake snowflake) {
+    void editEmbed(EmbedCreateSpec embed, Snowflake snowflake) {
         textChannel.ofType(GuildMessageChannel.class)
             .flatMap(channel -> channel.getMessageById(snowflake).block()
                 .edit()

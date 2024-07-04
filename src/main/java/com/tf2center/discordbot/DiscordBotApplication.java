@@ -28,6 +28,8 @@ public class DiscordBotApplication {
 
 	@Bean
 	public RestClient discordRestClient(GatewayDiscordClient client) {
+//		client.on(GatewayLifecycleEvent.class);
+//		client.logout().subscribe();
 		return client.getRestClient();
 	}
 }

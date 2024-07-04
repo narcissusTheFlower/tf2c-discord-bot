@@ -1,4 +1,4 @@
-package com.tf2center.discordbot.exceptions;
+package com.tf2center.discordbot.parser.exceptions;
 
 public class TF2CUtilsException extends RuntimeException{
 

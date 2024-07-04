@@ -15,13 +15,12 @@ import java.util.List;
 
 @Component
 @Scope("singleton")
-public class LogChannelParser {
+public class AuthLogChannelParser {
 
     private final Mono<Channel> textChannel;
-    //also inject dataAccess bean
 
     @Autowired
-    public LogChannelParser(GatewayDiscordClient client) {
+    public AuthLogChannelParser(GatewayDiscordClient client) {
         textChannel = client.getChannelById(
             Snowflake.of(Long.parseLong(System.getenv("TF2CAUTH")))
         );
@@ -31,23 +30,24 @@ public class LogChannelParser {
         return null;
     }
 
+    private static boolean writeCSV(){
+        return false;
+    }
+
     //    @Scheduled
     public void parseLogChannel() {
-        //update static in memory csv file
         //csv = readCSV();
         List<Message> messages = textChannel.ofType(GuildMessageChannel.class)
             .map(channel -> channel.getMessagesBefore(Snowflake.of(Instant.now()))
-                .take(5)
+                .take(1)
                 .collectList()
                 .block()
             ).block();
-//      Map<String,String> steamDiscordIds = parseIds(messages);
 
-        /*
-        if(csv.containsThisSteamId){
-
-        }
-         */
+        //if(csvCollection.contains(steamId) || csvCollection.contains(discordId)){
+        // return;
+        //}
+        //writeCSV();
     }
 
 }

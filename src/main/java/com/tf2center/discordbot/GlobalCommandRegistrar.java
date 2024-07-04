@@ -1,40 +1,37 @@
 package com.tf2center.discordbot;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
+import discord4j.common.JacksonResources;
+import discord4j.discordjson.json.ApplicationCommandRequest;
+import discord4j.rest.RestClient;
+import discord4j.rest.service.ApplicationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
 
-import discord4j.common.JacksonResources;
-import discord4j.discordjson.json.ApplicationCommandRequest;
-import discord4j.rest.RestClient;
-import discord4j.rest.service.ApplicationService;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
-@Deprecated
+@Scope("singleton")
 public class GlobalCommandRegistrar implements ApplicationRunner {
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     private final RestClient client;
 
-    //Use the rest client provided by our Bean
     @Autowired
     public GlobalCommandRegistrar(RestClient client) {
         this.client = client;
     }
 
-    //This method will run only once on each start up and is automatically called with Spring so blocking is okay.
     @Override
     public void run(ApplicationArguments args) throws IOException {
-        //Create an ObjectMapper that supported Discord4J classes
         final JacksonResources d4jMapper = JacksonResources.create();
 
         // Convenience variables for the sake of easier to read code below.
@@ -51,9 +48,6 @@ public class GlobalCommandRegistrar implements ApplicationRunner {
             commands.add(request);
         }
 
-        /* Bulk overwrite commands. This is now idempotent, so it is safe to use this even when only 1 command
-        is changed/added/removed
-        */
         applicationService.bulkOverwriteGuildApplicationCommand(
                         applicationId,
                         Long.parseLong(System.getenv("TF2CENTER_GUILD")),

@@ -1,4 +1,4 @@
-package com.tf2center.discordbot.parser.html;
+package com.tf2center.discordbot.parser;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -109,7 +109,7 @@ public class MainPageParser {
             result.put("Lobbies", extractLobbies(jsonNodeLobbies));
         }
 
-//        For local testing with html file
+//        For local testing with a html file
 //        try {
 //            tf2cWebSite = Jsoup.parse(new File("/home/user/IdeaProjects/new-discord-bot/json-state-examples/subsFullPage"));
 //        } catch (IOException e) {
@@ -278,7 +278,7 @@ public class MainPageParser {
                 .playersForGame(
                     Integer.parseInt(node.findValue("playersForGame").toString().replaceAll("\"", ""))
                 )
-                //TODO: implement restrictions for embeds as follows: Join []
+                //TODO: implement restrictions for embeds as follows: Join [10/1000] where 10 = lobbies and 1000 = hours
                 .restrictionsText(
                     node.findValue("restrictionsText").toString().replaceAll("\"", "")
                 )

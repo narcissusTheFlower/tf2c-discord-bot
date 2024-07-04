@@ -1,4 +1,4 @@
-package com.tf2center.discordbot.parser.discord;
+package com.tf2center.discordbot.parser.discord.embeds;
 
 import com.tf2center.discordbot.utils.TF2CStringUtils;
 import discord4j.common.util.Snowflake;

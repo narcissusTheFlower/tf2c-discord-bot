@@ -12,9 +12,7 @@ import java.util.*;
 
 public class EmbedsBuilder {
 
-
-    private EmbedsBuilder() {
-    }
+    private EmbedsBuilder() {}
 
     public static EmbedsBuilder getInstance() {
         return new EmbedsBuilder();
@@ -98,7 +96,7 @@ public class EmbedsBuilder {
     }
 
     private String buildTitle(LobbyDTO lobbyDTO) {
-        String readyState = lobbyDTO.isVcRequired() ? "Ready UP 🔥\n" : "Has not started yet 🕜\n";
+        String readyState = lobbyDTO.isReady() ? "Ready UP 🔥\n" : "Has not started yet 🕜\n";
         return String.format("Lobby #%d | %s\n%s", lobbyDTO.getId(), lobbyDTO.getMap(), readyState);
     }
 
@@ -155,7 +153,7 @@ public class EmbedsBuilder {
             .toString();
     }
 
-    public EmbedCreateSpec buildSubs(Collection<MainPageObject> mainPageObjectsSubs) {
+    private EmbedCreateSpec buildSubs(Collection<MainPageObject> mainPageObjectsSubs) {
         return EmbedCreateSpec.builder()
             .color(Color.of(133, 63, 63)) //From tf2c colour pallet. Redish
             .title("Substitute slots to join.")

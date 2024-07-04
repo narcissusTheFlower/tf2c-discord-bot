@@ -1,4 +1,4 @@
-package com.tf2center.discordbot.commands;
+package com.tf2center.discordbot.parser.discord.listeners.commands;
 
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import reactor.core.publisher.Mono;
