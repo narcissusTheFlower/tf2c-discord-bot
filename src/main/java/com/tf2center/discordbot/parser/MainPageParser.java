@@ -321,7 +321,7 @@ public class MainPageParser {
             );
         } catch (Exception e) {
             e.fillInStackTrace().toString();
-            throw new TF2CParsingException("Bad Offclassing index again");
+            throw new TF2CParsingException("Bad Offclassing index, again!");
         }
 
         result.put(

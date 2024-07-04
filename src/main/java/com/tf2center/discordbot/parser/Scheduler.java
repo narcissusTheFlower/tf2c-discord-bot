@@ -1,7 +1,7 @@
 package com.tf2center.discordbot.parser;
 
-import com.tf2center.discordbot.parser.discord.embeds.EmbedsPublisher;
 import com.tf2center.discordbot.parser.discord.embeds.EmbedsBuilder;
+import com.tf2center.discordbot.parser.discord.embeds.EmbedsPublisher;
 import com.tf2center.discordbot.parser.discord.notifications.NotificationManager;
 import com.tf2center.discordbot.parser.dto.MainPageObject;
 import discord4j.core.spec.EmbedCreateSpec;
@@ -26,6 +26,7 @@ public class Scheduler {
 
     private EmbedsPublisher embedsPublisher;
     private NotificationManager notificationManager;
+
     @Autowired
     public Scheduler(EmbedsPublisher embedsPublisher, NotificationManager notificationManager) {
         this.embedsPublisher = embedsPublisher;
@@ -38,7 +39,7 @@ public class Scheduler {
         logger.info("Scheduler updated with {} lobbies, {} substitution slots", mainPageObjects.get("Lobbies").size(), mainPageObjects.get("Subs").size());
         Map<String, Set<EmbedCreateSpec>> embeds = EmbedsBuilder.getInstance().build(mainPageObjects);
         embedsPublisher.run(embeds);
-        notificationManager.manage();
+//        notificationManager.manage();
     }
 
 
