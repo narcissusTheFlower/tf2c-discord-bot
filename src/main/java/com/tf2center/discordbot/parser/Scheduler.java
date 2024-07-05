@@ -39,7 +39,7 @@ public class Scheduler {
         logger.info("Scheduler updated with {} lobbies, {} substitution slots", mainPageObjects.get("Lobbies").size(), mainPageObjects.get("Subs").size());
         Map<String, Set<EmbedCreateSpec>> embeds = EmbedsBuilder.getInstance().build(mainPageObjects);
         embedsPublisher.run(embeds);
-//        notificationManager.manage();
+        notificationManager.manage(mainPageObjects.get("Lobbies"));
     }
 
 

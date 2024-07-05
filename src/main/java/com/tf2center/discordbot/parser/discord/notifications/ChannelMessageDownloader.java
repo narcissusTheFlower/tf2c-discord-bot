@@ -28,7 +28,7 @@ public class ChannelMessageDownloader {
 
     private final Mono<Channel> textChannel;
 
-    private static final String SAMPLE_CSV_FILE = "/home/user/IdeaProjects/new-discord-bot/test.csv";
+    private static final String CSV_FILE = "/home/user/IdeaProjects/new-discord-bot/test.csv";
 
     @Autowired
     public ChannelMessageDownloader(GatewayDiscordClient client) {
@@ -47,7 +47,7 @@ public class ChannelMessageDownloader {
             ).block();
 
         Map<String, String> steamDiscordIds = parseIds(messages);
-        writetoCSV(steamDiscordIds);
+        writeToCSV(steamDiscordIds);
     }
 
     private Map<String, String> parseIds(List<Message> messages) {
@@ -59,14 +59,17 @@ public class ChannelMessageDownloader {
                 List<Embed.Field> fields = message.getEmbeds().get(0).getFields(); //Get fields with discord and steamid
                 steamDiscordIds.put(
                     fields.get(1).getValue(),
-                    fields.get(0).getValue().replace("<", "").replace(">", "").replace("@", ""));
+                    fields.get(0).getValue()
+                        .replace("<", "")
+                        .replace(">", "")
+                        .replace("@", ""));
             });
         return steamDiscordIds;
     }
 
-    private void writetoCSV(Map<String, String> steamDiscordIds) {
+    private void writeToCSV(Map<String, String> steamDiscordIds) {
         try (
-            BufferedWriter writer = Files.newBufferedWriter(Paths.get(SAMPLE_CSV_FILE));
+            BufferedWriter writer = Files.newBufferedWriter(Paths.get(CSV_FILE));
 
             CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT
                 .withHeader("SteamID", "DiscordId"));

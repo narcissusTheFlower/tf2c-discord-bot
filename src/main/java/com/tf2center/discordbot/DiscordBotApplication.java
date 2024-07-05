@@ -32,4 +32,6 @@ public class DiscordBotApplication {
 //		client.logout().subscribe();
 		return client.getRestClient();
 	}
+
+
 }

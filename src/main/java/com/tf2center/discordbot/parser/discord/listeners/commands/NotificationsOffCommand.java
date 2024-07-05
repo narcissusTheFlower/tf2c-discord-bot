@@ -27,7 +27,9 @@ public class NotificationsOffCommand implements SlashCommand {
 
     @Override
     public Mono<Void> handle(ChatInputInteractionEvent event) {
-        //updateCSV();
+        //event.getUserId;
+        String discordId = "";
+        CSVController.deleteFromSubscribers(discordId);
         return event.reply()
                 .withContent("Notifications are Off.")
                 .withEphemeral(false);
