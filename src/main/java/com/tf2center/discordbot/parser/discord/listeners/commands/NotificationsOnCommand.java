@@ -30,8 +30,8 @@ public class NotificationsOnCommand implements SlashCommand {
         //Person asks for notifs
         //I take their discord id look it up in the main csv and see steamid
         //I take that pair of steamid and discordid and put in the subscribers csv
-        String discordId = "";
-        CSVController.appendToSubscribers(discordId);
+//        String discordId = "";
+//        CSVController.appendToSubscribers(discordId);
         return event.reply()
                 .withContent("Notifications are ON.")
                 .withEphemeral(false);

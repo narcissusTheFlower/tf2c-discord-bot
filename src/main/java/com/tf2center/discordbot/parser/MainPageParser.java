@@ -8,6 +8,7 @@ import com.tf2center.discordbot.parser.dto.tf2classes.*;
 import com.tf2center.discordbot.parser.exceptions.TF2CParsingException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -83,16 +84,12 @@ public class MainPageParser {
             throw new RuntimeException(e);
         }
 
+
         //Get the lobbies information
-        String json = tf2cWebSite.getElementById("idc")
-            .getElementsByTag("script")
-            .toString();
-        if (!json.contains("replaceAllLobbies")) {
-            throw new TF2CParsingException("Parsed wrong HTML tag. Looking for tag with lobbies, but found something else.");
-        }
+        Optional<Element> any = tf2cWebSite.getElementsByTag("script").stream().filter(e -> e.toString().contains("replaceAllLobbies")).findAny();
 
         //Parse out lobbies from HTML
-        String lobbiesJson = json.substring(49);
+        String lobbiesJson = any.get().toString().substring(49);
         lobbiesJson = lobbiesJson.substring(0, lobbiesJson.length() - 11);
 
         JsonNode jsonNodeLobbies = null;
@@ -109,13 +106,6 @@ public class MainPageParser {
             result.put("Lobbies", extractLobbies(jsonNodeLobbies));
         }
 
-//        For local testing with a html file
-//        try {
-//            tf2cWebSite = Jsoup.parse(new File("/home/user/IdeaProjects/new-discord-bot/json-state-examples/subsFullPage"));
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-
         //Parse out substitutes from HTML
         String substring = tf2cWebSite.select("script").stream()
             .filter(node -> node.toString().contains("refresh-substitutes"))
@@ -131,6 +121,12 @@ public class MainPageParser {
             throw new TF2CParsingException("Failed to parse subs json. Probably invalid json tree/structure.");
         }
 
+//        For local testing with a html file
+//        try {
+//            tf2cWebSite = Jsoup.parse(new File("/home/user/IdeaProjects/new-discord-bot/json-state-examples/subsFullPage"));
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
         //Put subs in the result Map
         if (jsonNodeSubs.isEmpty()) {
             result.put("Subs", Collections.emptySet());
@@ -315,13 +311,17 @@ public class MainPageParser {
     private Map<String, String> extractInnerLobbyInformation(Document page) {
         Elements headers = page.getElementsByClass("lobbyHeaderOptions");
         Map<String, String> result = new HashMap<>();
-        try {
-            result.put(
-                "Offclassing", Boolean.valueOf(!headers.get(1).select("span").get(4).attributes().toString().contains("cross")).toString()
-            );
-        } catch (Exception e) {
-            e.fillInStackTrace().toString();
-            throw new TF2CParsingException("Bad Offclassing index, again!");
+        if (headers.isEmpty()) {
+            result.put("Offclassing", "false");
+        } else {
+            try {
+                result.put(
+                    "Offclassing", Boolean.valueOf(!headers.get(1).select("span").get(4).attributes().toString().contains("cross")).toString()
+                );
+            } catch (Exception e) {
+                String string = e.fillInStackTrace().toString();
+                throw new TF2CParsingException("Bad Offclassing index, again!");
+            }
         }
 
         result.put(

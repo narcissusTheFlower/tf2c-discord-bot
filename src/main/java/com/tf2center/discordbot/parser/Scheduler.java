@@ -25,6 +25,7 @@ public class Scheduler {
     private static final Logger logger = LoggerFactory.getLogger(Scheduler.class);
 
     private EmbedsPublisher embedsPublisher;
+
     private NotificationManager notificationManager;
 
     @Autowired
