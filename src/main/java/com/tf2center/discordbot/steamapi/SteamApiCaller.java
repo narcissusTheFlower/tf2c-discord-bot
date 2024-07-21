@@ -1,19 +1,18 @@
 package com.tf2center.discordbot.steamapi;
 
-import java.io.IOException;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+
+import java.io.IOException;
 
 public class SteamApiCaller {
 
     private static final OkHttpClient CLIENT = new OkHttpClient();
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private static final String STEAM_API_KEY = System.getenv("STEAM_API_KEY");
-    private static String url = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + STEAM_API_KEY + "&steamids=";
+    private static final String url = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + STEAM_API_KEY + "&steamids=";
 
     public static String getPlayerAvatar(long steamId) {
         String json = null;

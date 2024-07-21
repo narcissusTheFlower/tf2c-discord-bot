@@ -1,23 +1,16 @@
 package com.tf2center.discordbot.parser.discord.notifications;
 
-import com.tf2center.discordbot.parser.exceptions.TF2CCSVException;
 import discord4j.common.util.Snowflake;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.object.Embed;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.channel.Channel;
 import discord4j.core.object.entity.channel.GuildMessageChannel;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVPrinter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -25,12 +18,10 @@ import java.util.Map;
 
 @Component
 @Scope("singleton")
-//TODO: Move this into a separate program
 public class AuthLogChannelParser {
 
     private final Mono<Channel> textChannel;
 
-    private static final String CSV_FILE = "/home/user/IdeaProjects/new-discord-bot/test.csv";
     @Autowired
     public AuthLogChannelParser(GatewayDiscordClient client) {
         textChannel = client.getChannelById(
@@ -38,27 +29,30 @@ public class AuthLogChannelParser {
         );
     }
 
-    private static Map<String, String> readCSV() {
-        Map<String, String> result = new LinkedHashMap<>();
-        return result;
-    }
-
     //    @Scheduled(fixedRate = 30_000)
     public void parseLogChannel() {
-        Map<String, String> existingSteamDiscordIds = readCSV();
-        List<Message> messages = textChannel.ofType(GuildMessageChannel.class)
-            .map(channel -> channel.getMessagesBefore(Snowflake.of(Instant.now()))
-                .take(5)
-                .collectList()
-                .block()
-            ).block();
+//        List<Message> messages = textChannel.ofType(GuildMessageChannel.class)
+//            .map(channel -> channel.getMessagesBefore(Snowflake.of(Instant.now()))
+//                .take(5)
+//                .collectList()
+//                .block()
+//            ).block();
 
-        Map<String, String> steamDiscordIds = parseIds(messages);
+        Map<String, String> steamDiscordIds = parseIds(
+            textChannel.ofType(GuildMessageChannel.class)
+                .map(channel -> channel.getMessagesBefore(Snowflake.of(Instant.now()))
+                    .take(5)
+                    .collectList()
+                    .block()
+                ).block()
+        );
+        Map<String, String> steamDiscordIdsFromCSV = CSVActions.readAll();
 
-        //if(csvCollection.contains(steamId) || csvCollection.contains(discordId)){
-        // return;
-        //}
-        //writeCSV();
+        steamDiscordIds.forEach((steamId, discordId) -> {
+            if (steamDiscordIdsFromCSV.containsKey(steamId)) {
+                CSVActions.appendToAll(steamId, discordId);
+            }
+        });
     }
 
     private Map<String, String> parseIds(List<Message> messages) {
@@ -77,29 +71,4 @@ public class AuthLogChannelParser {
             });
         return steamDiscordIds;
     }
-
-    //TODO: Make sure its appending
-    private void writeToCSV(Map<String, String> steamDiscordIds) {
-        try (
-            BufferedWriter writer = Files.newBufferedWriter(Paths.get(CSV_FILE));
-
-            CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT
-                .withHeader("SteamID", "DiscordId"));
-        ) {
-            steamDiscordIds.forEach((steamId, discordId) -> {
-                try {
-                    csvPrinter.printRecord(steamId, discordId);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            });
-            csvPrinter.flush();
-        } catch (IOException e) {
-            throw new TF2CCSVException("Failed to write IDs to the .csv file.", e);
-        }
-    }
-
-
-
-
 }

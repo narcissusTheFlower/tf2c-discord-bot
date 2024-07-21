@@ -7,8 +7,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 class DiscordBotApplicationTests {
 
     @Test
-    public void tf2cIsWorking(){
-
+    public void filesInPlaceTest() {
+        //Check for subscribers, allplayers and archive files
     }
+
 
 }

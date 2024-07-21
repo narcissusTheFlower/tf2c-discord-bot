@@ -17,8 +17,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-@EnableScheduling
 @Component
+@EnableScheduling
 @Scope("singleton")
 public class Scheduler {
 
@@ -34,13 +34,16 @@ public class Scheduler {
         this.notificationManager = notificationManager;
     }
 
+    /**
+     * Main loop of the Discord bot. <b>The application starts and ends here.</b>
+     */
     @Scheduled(fixedRate = 6_000)
     private void runCycle() {
         Map<String, Collection<MainPageObject>> mainPageObjects = MainPageParser.getInstance().parse();
         logger.info("Scheduler updated with {} lobbies, {} substitution slots", mainPageObjects.get("Lobbies").size(), mainPageObjects.get("Subs").size());
         Map<String, Set<EmbedCreateSpec>> embeds = EmbedsBuilder.getInstance().build(mainPageObjects);
         embedsPublisher.run(embeds);
-        notificationManager.manage(mainPageObjects.get("Lobbies"));
+//        notificationManager.manage(mainPageObjects.get("Lobbies"));
     }
 
 

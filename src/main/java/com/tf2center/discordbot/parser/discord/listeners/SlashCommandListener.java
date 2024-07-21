@@ -23,6 +23,7 @@ public class SlashCommandListener {
     }
 
     private Mono<Void> handle(ChatInputInteractionEvent event) {
+        event.createFollowup();
         return Flux.fromIterable(commands)
                 //Filter out all commands that don't match the name this event is for
                 .filter(javaCommand -> javaCommand.getName().equals(event.getCommandName()))

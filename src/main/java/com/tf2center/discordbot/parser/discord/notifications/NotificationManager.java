@@ -5,11 +5,10 @@ import com.tf2center.discordbot.parser.dto.MainPageObject;
 import com.tf2center.discordbot.parser.dto.SlotDTO;
 import discord4j.common.util.Snowflake;
 import discord4j.core.GatewayDiscordClient;
-import discord4j.core.object.entity.channel.Channel;
+import discord4j.core.object.entity.channel.MessageChannel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,55 +19,44 @@ import java.util.Map;
 @Scope("singleton")
 public class NotificationManager {
 
-    private final Mono<Channel> textChannel;
+    private final GatewayDiscordClient client;
 
     @Autowired
     public NotificationManager(GatewayDiscordClient client) {
-        textChannel = client.getChannelById(
-            Snowflake.of(Long.parseLong(System.getenv("TF2CAUTH")))
-        );
+        this.client = client;
     }
 
     public void manage(Collection<MainPageObject> lobbies) {
-        //use reflection to edit objects
-        List<LobbyDTO> readyLobbies = lobbies.stream()
-            .map(e -> (LobbyDTO) e)
-//            .filter(LobbyDTO::isReady)  undo when done with testing
-            .toList();
+        //Variable for readability
+        Map<String, List<String>> subscribersSteamDiscordChatIds = CSVActions.readSubscribers();
 
-//        if (readyLobbies.isEmpty()) {
-//            return;
-//        }
-
-        Map<String, List<String>> subscribersSteamDiscordIds = CSVController.readSubscribers();
-        Map<String, String> allPlayersSteamDiscordIds = CSVController.readAllPlayers();
         List<SlotDTO> allPlayersInLobby = new ArrayList<>();
-        readyLobbies.forEach(lobby -> {
-            //add steamid not empty filter
-            lobby.getTeams().values().forEach(allPlayersInLobby::addAll);
-        });
-        List<SlotDTO> list = allPlayersInLobby.stream().filter(slotDTO -> slotDTO.getSteamId().isPresent()).toList();
-        System.out.println();
+        lobbies.stream()
+            .map(e -> (LobbyDTO) e)
+            .filter(LobbyDTO::isReady)
+            .forEach(lobby -> lobby.getTeams().values().forEach(allPlayersInLobby::addAll));
 
+        if (allPlayersInLobby.isEmpty()) return;
 
-//            allPlayersInLobby.stream()
-//                .filter(subscribers::contains)
-//                .forEach(subscriber -> sendNotification(steamDiscordIds.get(subscriber.getSteamId().get()), "Your lobby is ready!"));
-//
-//            stringStringMap.forEach(subscriber -> sendNotification());
+        allPlayersInLobby.stream()
+            .filter(slotDTO -> slotDTO.getSteamId().isPresent())
+            .filter(slotDTO -> subscribersSteamDiscordChatIds.containsKey(slotDTO.getSteamId().get()))
+            .forEach(player -> {
+                if (NotifiedUsers.getConcurrentHashMapSteamDiscordId().containsKey(player.getSteamId().get())) {
+                    return;
+                }
+
+                client.getChannelById(Snowflake.of(
+                        subscribersSteamDiscordChatIds.get(player.getSteamId().get()).get(1)
+                    ))
+                    .ofType(MessageChannel.class)
+                    .flatMap(channel -> channel.createMessage("Your lobby is ready❗"))
+                    .block();
+
+                NotifiedUsers.getConcurrentHashMapSteamDiscordId().put(
+                    player.getSteamId().get(),
+                    subscribersSteamDiscordChatIds.get(player.getSteamId().get()).get(0));
+            });
     }
-
-//    private void sendNotification(Set<String> discordIDs, String notificationText) {
-//        discordIDs.forEach(discordId ->{
-//
-//
-//            client.getChannelById(event.getMessage().getChannelId())
-//                .ofType(MessageChannel.class)
-//                .flatMap(channel -> channel.createMessage("You are unsubscribed from notifications ❗"))
-//                .subscribe();
-//            }
-//        );
-//
-//    }
 
 }

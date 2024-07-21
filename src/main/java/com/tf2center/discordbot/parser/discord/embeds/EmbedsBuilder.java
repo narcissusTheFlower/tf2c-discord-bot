@@ -9,10 +9,12 @@ import discord4j.rest.util.Color;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class EmbedsBuilder {
 
-    private EmbedsBuilder() {}
+    private EmbedsBuilder() {
+    }
 
     public static EmbedsBuilder getInstance() {
         return new EmbedsBuilder();
@@ -29,39 +31,35 @@ public class EmbedsBuilder {
     }
 
     private Set<EmbedCreateSpec> buildLobbies(Collection<MainPageObject> mainPageObjectsLobbies) {
-        Set<EmbedCreateSpec> embedLobbies = new HashSet<>();
-        for (MainPageObject mainPageObject : mainPageObjectsLobbies) {
-            LobbyDTO lobbyDTO = (LobbyDTO) mainPageObject;
-            embedLobbies.add(
-                EmbedCreateSpec.builder()
-                    .author(
-                        buildAuthor(lobbyDTO.getLeaderName(), lobbyDTO.getLeaderSteamId())
-                    )
-                    .color(
-                        Color.GREEN
-                    )
-                    .title(
-                        buildTitle(lobbyDTO)
-                    )
-                    .url(
-                        "https://tf2center.com/lobbies/" + lobbyDTO.getId()
-                    )
-                    .description(
-                        buildDescription(lobbyDTO)
-                    )
-                    .thumbnail(
-                        buildThumbnail(lobbyDTO.getRegion())
-                    )
-                    .addFields(
-                        buildTeams(lobbyDTO)
-                    )
-                    .image(
-                        "https://tf2center.com" + lobbyDTO.getThumbnailURL()
-                    )
-                    .build()
-            );
-        }
-        return embedLobbies;
+        return mainPageObjectsLobbies.stream()
+            .map(obj -> (LobbyDTO) obj)
+            .map(lobbyDTO -> EmbedCreateSpec.builder()
+                .author(
+                    buildAuthor(lobbyDTO.getLeaderName(), lobbyDTO.getLeaderSteamId())
+                )
+                .color(
+                    Color.GREEN
+                )
+                .title(
+                    buildTitle(lobbyDTO)
+                )
+                .url(
+                    "https://tf2center.com/lobbies/" + lobbyDTO.getId()
+                )
+                .description(
+                    buildDescription(lobbyDTO)
+                )
+                .thumbnail(
+                    buildThumbnail(lobbyDTO.getRegion())
+                )
+                .addFields(
+                    buildTeams(lobbyDTO)
+                )
+                .image(
+                    "https://tf2center.com" + lobbyDTO.getThumbnailURL()
+                )
+                .build())
+            .collect(Collectors.toSet());
     }
 
     private EmbedCreateFields.Author buildAuthor(String leaderName, long leaderSteamId) {
@@ -82,9 +80,9 @@ public class EmbedsBuilder {
         String balancing = "Balanced lobby: " + (lobbyDTO.isBalancedLobby() ? greenCheck : blueX) + "\n";
         String region = "Region lock: " + (lobbyDTO.isRegionLocked() ? greenCheck : blueX);
         if (lobbyDTO.getGameType().equals(GameType.SIXES)) {
-            return new StringBuffer().append(offclassing).append(voice).append(advanced).append(balancing).append(region).toString();
+            return offclassing + voice + advanced + balancing + region;
         }
-        return new StringBuffer().append(voice).append(advanced).append(balancing).append(region).toString();
+        return voice + advanced + balancing + region;
     }
 
     private String buildThumbnail(String region) {
@@ -105,14 +103,13 @@ public class EmbedsBuilder {
 
         //Blu team
         List<EmbedCreateFields.Field> tempBLU = new ArrayList<>();
-        for (SlotDTO bluSlot : slots.get("Blu")) {
-            tempBLU.add(
+        slots.get("Blu").forEach(bluSlot -> tempBLU.add(
                 EmbedCreateFields.Field.of(
                     bluSlot.getTf2Class().get().getDiscordClassValue(),
                     bluSlot.isEmpty() ? buildLobbyJoinLink(String.valueOf(lobbyDTO.getId()), bluSlot) : bluSlot.getPlayerName().get(),
                     true)
-            );
-        }
+        ));
+
         tempBLU.add(EmbedCreateFields.Field.of("\u200B", "\u200B", false));
 
         EmbedCreateFields.Field[] teamBlu = new EmbedCreateFields.Field[(slots.get("Blu").size()) + 2]; //+2 cuz header with "BLU TEAM" and "\u200B"
@@ -123,14 +120,12 @@ public class EmbedsBuilder {
 
         //Red team
         List<EmbedCreateFields.Field> tempRED = new ArrayList<>();
-        for (SlotDTO redSlot : slots.get("Red")) {
-            tempRED.add(
+        slots.get("Red").forEach(redSlot -> tempRED.add(
                 EmbedCreateFields.Field.of(
                     redSlot.getTf2Class().get().getDiscordClassValue(),
                     redSlot.isEmpty() ? buildLobbyJoinLink(String.valueOf(lobbyDTO.getId()), redSlot) : redSlot.getPlayerName().get(),
                     true)
-            );
-        }
+        ));
 
         EmbedCreateFields.Field[] teamRed = new EmbedCreateFields.Field[(slots.get("Red").size()) + 1];//+1 cuz header with "RED TEAM"
         teamRed[0] = EmbedCreateFields.Field.of("📕RED TEAM", "", false);
@@ -181,23 +176,11 @@ public class EmbedsBuilder {
     }
 
     private String buildName(SubsDTO subSlot) {
-        return new StringBuilder()
-            .append(subSlot.getClassName())
-            .append(" | ")
-            .append(subSlot.getRegion())
-            .append(" | ")
-            .append(subSlot.getGameType())
-            .append(" | ")
-            .append(subSlot.getMap())
-            .toString();
+        return subSlot.getClassName() + " | " + subSlot.getRegion() + " | " + subSlot.getGameType() + " | " + subSlot.getMap();
     }
 
     private String buildSubsJoinLink(SubsDTO subSlot) {
-        return new StringBuilder()
-            .append("[Join](https://tf2center.com")
-            .append(subSlot.getJoinLink())
-            .append(")")
-            .toString();
+        return "[Join](https://tf2center.com" + subSlot.getJoinLink() + ")";
     }
 
 

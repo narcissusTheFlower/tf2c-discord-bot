@@ -31,5 +31,4 @@ public class DiscordBotApplication {
 		return client.getRestClient();
 	}
 
-
 }
