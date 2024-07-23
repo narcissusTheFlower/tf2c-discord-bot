@@ -1,5 +1,6 @@
 package com.tf2center.discordbot.parser.discord.listeners.commands;
 
+import com.tf2center.discordbot.parser.discord.notifications.CSVActions;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import org.slf4j.Logger;
@@ -22,17 +23,17 @@ public class NotificationsOnCommand implements SlashCommand {
 
     @Override
     public String getName() {
-        return "notificationsOn";
+        return "notifications_on";
     }
 
     @Override
     public Mono<Void> handle(ChatInputInteractionEvent event) {
-//        CSVActions.appendToSubscribers(
-//                event.getMessage().getAuthor().get().getId(),
-//                event.getMessage().getChannelId()
-//        );
+        CSVActions.appendToSubscribers(
+            event.getInteraction().getUser().getId(),
+            event.getInteraction().getChannelId()
+        );
         return event.reply()
-                .withContent("Notifications are ON.")
-                .withEphemeral(false);
+            .withContent("Notifications are ON.")
+            .withEphemeral(false);
     }
 }
