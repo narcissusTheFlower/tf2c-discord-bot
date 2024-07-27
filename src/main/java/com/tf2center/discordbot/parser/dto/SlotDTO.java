@@ -12,13 +12,15 @@ public class SlotDTO {
     private boolean isEmpty;
     private Optional<TF2Class> tf2Class;
     private Optional<TF2Team> team;
+    private Optional<Boolean> personIsReady;
 
-    private SlotDTO(String playerName, String steamId, boolean isEmpty, TF2Team team) {
+    private SlotDTO(String playerName, String steamId, boolean isEmpty, TF2Team team, boolean personIsReady) {
         this.playerName = Optional.of(playerName);
         this.steamId = Optional.of(steamId);
         this.isEmpty = isEmpty;
         this.tf2Class = Optional.empty();
         this.team = Optional.of(team);
+        this.personIsReady = Optional.of(personIsReady);
     }
 
     private SlotDTO(boolean isEmpty, TF2Team team) {
@@ -29,8 +31,8 @@ public class SlotDTO {
         this.team = Optional.of(team);
     }
 
-    public static SlotDTO of(String playerName, String steamId, boolean isEmpty, TF2Team team) {
-        return new SlotDTO(playerName, steamId, isEmpty, team);
+    public static SlotDTO of(String playerName, String steamId, boolean isEmpty, TF2Team team, boolean personIsReady) {
+        return new SlotDTO(playerName, steamId, isEmpty, team, personIsReady);
     }
 
     public static SlotDTO of(boolean isEmpty, TF2Team team) {
@@ -77,6 +79,14 @@ public class SlotDTO {
         this.team = team;
     }
 
+    public Optional<Boolean> getPersonIsReady() {
+        return personIsReady;
+    }
+
+    public void setPersonIsReady(Optional<Boolean> personIsReady) {
+        this.personIsReady = personIsReady;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) {
@@ -86,11 +96,11 @@ public class SlotDTO {
             return false;
         }
         SlotDTO slotDTO = (SlotDTO) object;
-        return Objects.equals(playerName, slotDTO.playerName) && Objects.equals(steamId, slotDTO.steamId) && Objects.equals(isEmpty, slotDTO.isEmpty) && Objects.equals(tf2Class, slotDTO.tf2Class);
+        return Objects.equals(playerName, slotDTO.playerName) && Objects.equals(steamId, slotDTO.steamId) && Objects.equals(isEmpty, slotDTO.isEmpty) && Objects.equals(tf2Class, slotDTO.tf2Class) && Objects.equals(personIsReady, slotDTO.personIsReady);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(playerName, steamId, isEmpty, tf2Class);
+        return Objects.hash(playerName, steamId, isEmpty, tf2Class, personIsReady);
     }
 }

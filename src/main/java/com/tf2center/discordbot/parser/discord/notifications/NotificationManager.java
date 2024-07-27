@@ -12,11 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.*;
 
 @Component
 @Scope("singleton")
@@ -25,20 +21,23 @@ public class NotificationManager {
 
     private final GatewayDiscordClient client;
 
-    private static final Map<String, String> notifiedPlayers = new ConcurrentHashMap<>();
+    private static final Set<NotifiedPlayerDestructor> NOTIFIED_PLAYERS = Collections.synchronizedSet(new HashSet<>());
 
     @Autowired
     public NotificationManager(GatewayDiscordClient client) {
         this.client = client;
     }
 
-    @Scheduled(fixedRate = 35_000)
+    @Scheduled(fixedRate = 30_000)
     private void emptyReadyPlayers() {
-        notifiedPlayers.clear();
+        NOTIFIED_PLAYERS.clear();
     }
 
     public void manage(Collection<MainPageObject> lobbies) {
-        //Variable for readability
+        //Variable for readability, name describes data:
+        //Key = steamId
+        //List.get(0) = discordId
+        //List.get(1) = discordChatId
         Map<String, List<String>> subscribersSteamDiscordChatIds = CSVActions.readSubscribers();
 
         List<SlotDTO> allPlayersInLobby = new ArrayList<>();
@@ -46,19 +45,25 @@ public class NotificationManager {
 
         lobbies.stream()
             .map(e -> (LobbyDTO) e)
-//            .filter(LobbyDTO::isReady)
+            .filter(LobbyDTO::isReady)
             .forEach(lobby -> lobby.getTeams().values().forEach(allPlayersInLobby::addAll));
 
         if (allPlayersInLobby.isEmpty()) return;
 
         allPlayersInLobby.stream()
-            .filter(slotDTO -> slotDTO.getSteamId().isPresent()) //will throw exception without this
-            .filter(slotDTO -> subscribersSteamDiscordChatIds.containsKey(slotDTO.getSteamId().get()))//empty?
+            .filter(slotDTO -> slotDTO.getSteamId().isPresent()) //will throw an exception without this. WORKS
+            //If subscribed
+            .filter(slotDTO -> subscribersSteamDiscordChatIds.containsKey(
+                    slotDTO.getSteamId().get().substring(9)
+                )
+            )//WORKS
+            //If an individual has not pressed Ready! yet
+            .filter(slotDTO -> !slotDTO.getPersonIsReady().get())
+            //If not notified via Discord yet
+            .filter(slotDTO -> !NOTIFIED_PLAYERS.contains
+                (new NotifiedPlayerDestructor(slotDTO.getSteamId().get()))
+            )
             .forEach(player -> {
-                if (notifiedPlayers.containsKey(player.getSteamId().get())) {
-                    return;
-                }
-
                 client.getChannelById(Snowflake.of(
                         subscribersSteamDiscordChatIds.get(player.getSteamId().get()).get(1)
                     ))
@@ -66,9 +71,10 @@ public class NotificationManager {
                     .flatMap(channel -> channel.createMessage("Your lobby is ready❗"))
                     .block();
 
-                notifiedPlayers.put(
-                    player.getSteamId().get(),
-                    subscribersSteamDiscordChatIds.get(player.getSteamId().get()).get(0));
+                NOTIFIED_PLAYERS.add(
+                    new NotifiedPlayerDestructor(player.getSteamId().get(), NOTIFIED_PLAYERS)
+                );
+
             });
     }
 }

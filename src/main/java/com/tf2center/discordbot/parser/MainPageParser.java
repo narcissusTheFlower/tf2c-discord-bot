@@ -124,6 +124,16 @@ public class MainPageParser {
             throw new TF2CParsingException("Failed to parse subs json. Probably invalid json tree/structure.");
         }
 
+
+        //                    For local testing with a html file
+//        try {
+//            Document innerLobby = Jsoup.parse(new File("/home/user/IdeaProjects/new-discord-bot/json-state-examples/readyUp.html"));
+//            //innerLobby.getElementsByClass("slotIconOuter")
+//            System.out.println();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+
 //        For local testing with a html file
 //        try {
 //            tf2cWebSite = Jsoup.parse(new File("/home/user/IdeaProjects/new-discord-bot/json-state-examples/subsFullPage"));
@@ -163,6 +173,7 @@ public class MainPageParser {
             } catch (IOException e) {
                 throw new RuntimeException("Encountered an issue while connecting to an inner lobby.");
             }
+
 
             teams = extractPlayers(
                 innerLobby,
@@ -245,18 +256,25 @@ public class MainPageParser {
         for (int i = 0; i < lobbySlots.size(); i++) {
             String playerName = lobbySlots.get(i).children().get(1).children().get(0).text();
             String steamIdProfile = lobbySlots.get(i).children().get(1).children().get(0).attributes().get("href");
+
+            List<Element> slotIconOuter = lobbySlots.get(0)
+                .stream()
+                .filter(text -> text.toString().contains("icons slot ready"))
+                .toList();
+
+            boolean playerIsReady = !slotIconOuter.isEmpty();
             //Decide if add to blu team or red. Start with blu then red
             if (i < lobbySlots.size() / 2) {
                 //Decide if slot is empty
                 if (lobbySlots.get(i).attributes().toString().contains("filled")) {
-                    blu.add(SlotDTO.of(playerName, steamIdProfile, false, TF2Team.BLU));
+                    blu.add(SlotDTO.of(playerName, steamIdProfile, false, TF2Team.BLU, playerIsReady));
                 } else {
                     blu.add(SlotDTO.of(true, TF2Team.BLU));
                 }
             } else {
                 //Decide if slot is empty
                 if (lobbySlots.get(i).attributes().toString().contains("filled")) {
-                    red.add(SlotDTO.of(playerName, steamIdProfile, false, TF2Team.RED));
+                    red.add(SlotDTO.of(playerName, steamIdProfile, false, TF2Team.RED, playerIsReady));
                 } else {
                     red.add(SlotDTO.of(true, TF2Team.RED));
                 }
