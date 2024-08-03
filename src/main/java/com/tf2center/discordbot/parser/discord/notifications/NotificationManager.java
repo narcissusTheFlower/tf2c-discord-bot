@@ -44,16 +44,10 @@ public class NotificationManager {
         //Optional[/profile/76561198042755731]
         //allPlayersInLobby.add(SlotDTO.of("narcissus","/profile/76561198106563151",false, TF2Team.BLU, false));
 
-        List<LobbyDTO> list = lobbies.stream()
+        lobbies.stream()
             .map(e -> (LobbyDTO) e)
             .filter(LobbyDTO::isReady)
-            .toList();
-
-//        if (!list.isEmpty()){
-//            System.out.println();
-//        }
-
-        list.forEach(lobby -> lobby.getTeams().values().forEach(allPlayersInLobby::addAll));
+            .forEach(lobby -> lobby.getTeams().values().forEach(allPlayersInLobby::addAll));
 
         if (allPlayersInLobby.isEmpty()) return;
 

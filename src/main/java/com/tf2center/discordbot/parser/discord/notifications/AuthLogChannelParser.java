@@ -6,9 +6,6 @@ import discord4j.core.object.Embed;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.channel.Channel;
 import discord4j.core.object.entity.channel.GuildMessageChannel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 import java.time.Instant;
@@ -16,13 +13,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@Component
-@Scope("singleton")
+//@Component
+//@Scope("singleton")
 public class AuthLogChannelParser {
 
     private final Mono<Channel> textChannel;
 
-    @Autowired
+//    @Autowired
     public AuthLogChannelParser(GatewayDiscordClient client) {
         textChannel = client.getChannelById(
             Snowflake.of(Long.parseLong(System.getenv("TF2CAUTH")))

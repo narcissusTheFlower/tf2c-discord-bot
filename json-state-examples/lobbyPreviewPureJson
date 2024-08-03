@@ -1,0 +1,453 @@
+[
+  {
+    "no": 1252693,
+    "leaderSteamId": "76561199059105791",
+    "region": "EU",
+    "mumbleRequired": false,
+    "gameType": "Highlander",
+    "inReadyUpMode": false,
+    "map": "koth_product_final",
+    "thumbnailUrl": "/assets/images/maps/koth_pro_viaduct.jpg",
+    "playersInLobby": 6,
+    "playersForGame": 18,
+    "restrictionsText": "None",
+    "regionLock": false,
+    "useBalancer": false,
+    "advanced": false,
+    "slots": [
+      {
+        "tf2Class": "scout",
+        "availableSlots": [
+          {
+            "team": "blue",
+            "reserved": false,
+            "restrictions": {}
+          }
+        ],
+        "availableReservedSlots": []
+      },
+      {
+        "tf2Class": "solly",
+        "availableSlots": [
+          {
+            "team": "red",
+            "reserved": false,
+            "restrictions": {}
+          },
+          {
+            "team": "blue",
+            "reserved": false,
+            "restrictions": {}
+          }
+        ],
+        "availableReservedSlots": []
+      },
+      {
+        "tf2Class": "pyro",
+        "availableSlots": [
+          {
+            "team": "red",
+            "reserved": false,
+            "restrictions": {}
+          },
+          {
+            "team": "blue",
+            "reserved": false,
+            "restrictions": {}
+          }
+        ],
+        "availableReservedSlots": []
+      },
+      {
+        "tf2Class": "demo",
+        "availableSlots": [
+          {
+            "team": "red",
+            "reserved": false,
+            "restrictions": {}
+          },
+          {
+            "team": "blue",
+            "reserved": false,
+            "restrictions": {}
+          }
+        ],
+        "availableReservedSlots": []
+      },
+      {
+        "tf2Class": "heavy",
+        "availableSlots": [
+          {
+            "team": "red",
+            "reserved": false,
+            "restrictions": {}
+          },
+          {
+            "team": "blue",
+            "reserved": false,
+            "restrictions": {}
+          }
+        ],
+        "availableReservedSlots": []
+      },
+      {
+        "tf2Class": "engie",
+        "availableSlots": [],
+        "availableReservedSlots": []
+      },
+      {
+        "tf2Class": "med",
+        "availableSlots": [
+          {
+            "team": "red",
+            "reserved": false,
+            "restrictions": {
+              "games": 10
+            }
+          },
+          {
+            "team": "blue",
+            "reserved": false,
+            "restrictions": {
+              "games": 10
+            }
+          }
+        ],
+        "availableReservedSlots": []
+      },
+      {
+        "tf2Class": "sniper",
+        "availableSlots": [],
+        "availableReservedSlots": []
+      },
+      {
+        "tf2Class": "spy",
+        "availableSlots": [
+          {
+            "team": "blue",
+            "reserved": false,
+            "restrictions": {}
+          }
+        ],
+        "availableReservedSlots": []
+      }
+    ]
+  },
+  {
+    "no": 1252268,
+    "leaderSteamId": "76561198051814654",
+    "region": "EU",
+    "mumbleRequired": false,
+    "gameType": "6v6",
+    "inReadyUpMode": true,
+    "map": "cp_process_f12",
+    "thumbnailUrl": "/assets/images/maps/cp_process.jpg",
+    "playersInLobby": 11,
+    "playersForGame": 12,
+    "restrictionsText": "None",
+    "regionLock": false,
+    "useBalancer": false,
+    "advanced": false,
+    "slots": [
+      {
+        "tf2Class": "scout",
+        "availableSlots": [],
+        "availableReservedSlots": []
+      },
+      {
+        "tf2Class": "roamer",
+        "availableSlots": [],
+        "availableReservedSlots": []
+      },
+      {
+        "tf2Class": "pocket",
+        "availableSlots": [],
+        "availableReservedSlots": []
+      },
+      {
+        "tf2Class": "demo",
+        "availableSlots": [
+          {
+            "team": "blue",
+            "reserved": false,
+            "restrictions": {}
+          }
+        ],
+        "availableReservedSlots": []
+      },
+      {
+        "tf2Class": "med",
+        "availableSlots": [],
+        "availableReservedSlots": []
+      }
+    ]
+  },
+  {
+    "no": 1252271,
+    "leaderSteamId": "76561198091242337",
+    "region": "EU",
+    "mumbleRequired": false,
+    "gameType": "6v6",
+    "inReadyUpMode": false,
+    "map": "cp_process_f10",
+    "thumbnailUrl": "/assets/images/maps/cp_process.jpg",
+    "playersInLobby": 9,
+    "playersForGame": 12,
+    "restrictionsText": "None",
+    "regionLock": false,
+    "useBalancer": false,
+    "advanced": false,
+    "slots": [
+      {
+        "tf2Class": "scout",
+        "availableSlots": [],
+        "availableReservedSlots": []
+      },
+      {
+        "tf2Class": "roamer",
+        "availableSlots": [],
+        "availableReservedSlots": []
+      },
+      {
+        "tf2Class": "pocket",
+        "availableSlots": [],
+        "availableReservedSlots": []
+      },
+      {
+        "tf2Class": "demo",
+        "availableSlots": [
+          {
+            "team": "red",
+            "reserved": false,
+            "restrictions": {}
+          }
+        ],
+        "availableReservedSlots": []
+      },
+      {
+        "tf2Class": "med",
+        "availableSlots": [
+          {
+            "team": "red",
+            "reserved": false,
+            "restrictions": {
+              "games": 10
+            }
+          },
+          {
+            "team": "blue",
+            "reserved": false,
+            "restrictions": {
+              "games": 10
+            }
+          }
+        ],
+        "availableReservedSlots": []
+      }
+    ]
+  },
+  {
+    "no": 1252269,
+    "leaderSteamId": "76561198800637336",
+    "region": "EU",
+    "mumbleRequired": true,
+    "gameType": "6v6",
+    "inReadyUpMode": false,
+    "map": "cp_snakewater_final1",
+    "thumbnailUrl": "/assets/images/maps/cp_snakewater.jpg",
+    "playersInLobby": 11,
+    "playersForGame": 12,
+    "restrictionsText": "None",
+    "regionLock": true,
+    "useBalancer": true,
+    "advanced": true,
+    "slots": [
+      {
+        "tf2Class": "scout",
+        "availableSlots": [
+          {
+            "team": "blue",
+            "reserved": false,
+            "restrictions": {}
+          }
+        ],
+        "availableReservedSlots": []
+      },
+      {
+        "tf2Class": "roamer",
+        "availableSlots": [],
+        "availableReservedSlots": []
+      },
+      {
+        "tf2Class": "pocket",
+        "availableSlots": [],
+        "availableReservedSlots": []
+      },
+      {
+        "tf2Class": "demo",
+        "availableSlots": [],
+        "availableReservedSlots": []
+      },
+      {
+        "tf2Class": "med",
+        "availableSlots": [],
+        "availableReservedSlots": []
+      }
+    ]
+  }
+]
+
+
+
+
+[
+  {
+    "no": 1252913,
+    "leaderSteamId": "76561198034442999",
+    "region": "EU",
+    "mumbleRequired": false,
+    "gameType": "6v6",
+    "inReadyUpMode": false,
+    "map": "cp_process_f12",
+    "thumbnailUrl": "/assets/images/maps/cp_process.jpg",
+    "playersInLobby": 4,
+    "playersForGame": 12,
+    "restrictionsText": "None",
+    "regionLock": false,
+    "useBalancer": false,
+    "advanced": false,
+    "slots": [
+      {
+        "tf2Class": "scout",
+        "availableSlots": [
+          {
+            "team": "red",
+            "reserved": false,
+            "restrictions": {}
+          },
+          {
+            "team": "blue",
+            "reserved": false,
+            "restrictions": {}
+          }
+        ],
+        "availableReservedSlots": []
+      },
+      {
+        "tf2Class": "roamer",
+        "availableSlots": [],
+        "availableReservedSlots": []
+      },
+      {
+        "tf2Class": "pocket",
+        "availableSlots": [
+          {
+            "team": "red",
+            "reserved": false,
+            "restrictions": {}
+          },
+          {
+            "team": "blue",
+            "reserved": false,
+            "restrictions": {}
+          }
+        ],
+        "availableReservedSlots": []
+      },
+      {
+        "tf2Class": "demo",
+        "availableSlots": [
+          {
+            "team": "red",
+            "reserved": false,
+            "restrictions": {}
+          },
+          {
+            "team": "blue",
+            "reserved": false,
+            "restrictions": {}
+          }
+        ],
+        "availableReservedSlots": []
+      },
+      {
+        "tf2Class": "med",
+        "availableSlots": [
+          {
+            "team": "red",
+            "reserved": false,
+            "restrictions": {
+              "games": 10
+            }
+          },
+          {
+            "team": "blue",
+            "reserved": false,
+            "restrictions": {
+              "games": 10
+            }
+          }
+        ],
+        "availableReservedSlots": []
+      }
+    ]
+  },
+  {
+    "no": 1252912,
+    "leaderSteamId": "76561197999215868",
+    "region": "NA",
+    "mumbleRequired": true,
+    "gameType": "6v6",
+    "inReadyUpMode": false,
+    "map": "cp_sunshine",
+    "thumbnailUrl": "/assets/images/maps/cp_sunshine.jpg",
+    "playersInLobby": 10,
+    "playersForGame": 12,
+    "restrictionsText": "None",
+    "regionLock": false,
+    "useBalancer": false,
+    "advanced": false,
+    "slots": [
+      {
+        "tf2Class": "scout",
+        "availableSlots": [],
+        "availableReservedSlots": []
+      },
+      {
+        "tf2Class": "roamer",
+        "availableSlots": [],
+        "availableReservedSlots": []
+      },
+      {
+        "tf2Class": "pocket",
+        "availableSlots": [],
+        "availableReservedSlots": []
+      },
+      {
+        "tf2Class": "demo",
+        "availableSlots": [],
+        "availableReservedSlots": []
+      },
+      {
+        "tf2Class": "med",
+        "availableSlots": [
+          {
+            "team": "red",
+            "reserved": false,
+            "restrictions": {
+              "games": 10
+            }
+          },
+          {
+            "team": "blue",
+            "reserved": false,
+            "restrictions": {
+              "games": 10
+            }
+          }
+        ],
+        "availableReservedSlots": []
+      }
+    ]
+  }
+]

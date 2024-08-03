@@ -1,0 +1,97 @@
+package ru.quicksilver.rest.json;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.time.LocalDateTime;
+
+/**
+ * JsonMetaInfo
+ */
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class JsonMetaInfo {
+
+  private Long userCreator;
+
+  private LocalDateTime creationDate;
+
+  private Long userEditor;
+
+  private LocalDateTime changeDate;
+
+  public Long getUserCreator() {
+    return userCreator;
+  }
+
+  public void setUserCreator(Long userCreator) {
+    this.userCreator = userCreator;
+  }
+
+  public LocalDateTime getCreationDate() {
+    return creationDate;
+  }
+
+  public void setCreationDate(LocalDateTime creationDate) {
+    this.creationDate = creationDate;
+  }
+
+  public Long getUserEditor() {
+    return userEditor;
+  }
+
+  public void setUserEditor(Long userEditor) {
+    this.userEditor = userEditor;
+  }
+
+  public LocalDateTime getChangeDate() {
+    return changeDate;
+  }
+
+  public void setChangeDate(LocalDateTime changeDate) {
+    this.changeDate = changeDate;
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static final class Builder {
+    private Long userCreator;
+    private LocalDateTime creationDate;
+    private Long userEditor;
+    private LocalDateTime changeDate;
+
+    private Builder() {
+    }
+
+    public Builder userCreator(Long userCreator) {
+      this.userCreator = userCreator;
+      return this;
+    }
+
+    public Builder creationDate(LocalDateTime creationDate) {
+      this.creationDate = creationDate;
+      return this;
+    }
+
+    public Builder userEditor(Long userEditor) {
+      this.userEditor = userEditor;
+      return this;
+    }
+
+    public Builder changeDate(LocalDateTime changeDate) {
+      this.changeDate = changeDate;
+      return this;
+    }
+
+    public JsonMetaInfo build() {
+      JsonMetaInfo jsonMetaInfo = new JsonMetaInfo();
+      jsonMetaInfo.setUserCreator(userCreator);
+      jsonMetaInfo.setCreationDate(creationDate);
+      jsonMetaInfo.setUserEditor(userEditor);
+      jsonMetaInfo.setChangeDate(changeDate);
+      return jsonMetaInfo;
+    }
+  }
+}
+

@@ -1,0 +1,1757 @@
+<!DOCTYPE html>
+<html>
+	<head><script type="text/javascript" src="../wicket/resource/org.apache.wicket.resource.JQueryResourceReference/jquery/jquery-1.10.1.min-ver-33D85132F0154466FC017DD05111873D.js"></script>
+<script type="text/javascript" src="../wicket/resource/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/res/js/wicket-event-jquery.min-ver-7CAD6BF2722869D1E7ABE327EA2BCB30.js"></script>
+<script type="text/javascript" src="../wicket/resource/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/res/js/wicket-ajax-jquery.min-ver-FABC28B4BE0DA912EFAC52C869A18D35.js"></script>
+<script type="text/javascript" id="wicket-ajax-base-url">
+/*<![CDATA[*/
+Wicket.Ajax.baseUrl="lobbies/1252332";
+/*]]>*/
+</script>
+<script type="text/javascript" src="../wicket/resource/org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow/res/modal.min-ver-817E55A61A8BA95CAED6316959B50EED.js"></script>
+<link rel="stylesheet" type="text/css" href="../wicket/resource/org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow/res/modal.min-ver-78F168E51786694AF792949CE008D5D1.css" />
+
+		<title>Lobby #1252332 - TF2Center</title>
+		<meta http-equiv="Content-Type"	content="text/html;	charset=UTF-8">
+		<link rel="stylesheet" href="../assets/yaml/core/base.css" type="text/css"/>
+        
+        <link rel="stylesheet" href="../assets/css/jquery.jgrowl.min.css"/>
+		
+        <script type="text/javascript" src="../assets/javascript/jscrollpane/jquery.jscrollpane.min.js"></script>
+        <script type="text/javascript" src="../assets/javascript/jscrollpane/jquery.mousewheel.js"></script>
+        <script type="text/javascript" src="../assets/javascript/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="../assets/javascript/jquery.jgrowl.min.js"></script> 
+        <script type="text/javascript" src="../assets/javascript/jquery.titlealert.min.js"></script>            
+        <script type="text/javascript" src="../assets/javascript/jquery.jgrowl.min.js"></script>     
+        <script type="text/javascript" src="../assets/javascript/jquery.titlealert.min.js"></script> 
+        <script type="text/javascript" src="../assets/javascript/fancyform-v1.4.1/jquery.fancyform.min.js"></script>
+        <script type="text/javascript" src="../assets/javascript/jquery.cookie.js"></script>    
+        <script type="text/javascript" src="../assets/javascript/countdown.js"></script>
+        <script type="text/javascript" src="../assets/javascript/bxslider/jquery.bxslider.min.js"></script>    
+        <script type="text/javascript" src="../assets/javascript/calendar/jquery.pickmeup.min.js"></script>
+        
+        <script type="text/javascript" src="../assets/javascript/js.cookie-2.1.1.min.js"></script>
+		<script type="text/javascript" src="../assets/javascript/desktop-notify-min.js" charset="utf-8"></script>
+        
+        <script type="text/javascript">
+const friendsJsonStr='["76561197994082239","76561197994147052","76561198003212528","76561198019704170","76561198025692751","76561198039284334","76561198047718315","76561198051908860","76561198052618363","76561198053000721","76561198061716207","76561198063267127","76561198071138622","76561198072082280","76561198091107370","76561198107528840","76561198115055524","76561198124140431","76561198125598305","76561198127508395","76561198129658530","76561198130347174","76561198131543585","76561198152230966","76561198153038901","76561198153343578","76561198155165701","76561198164844000","76561198172635194","76561198200935938","76561198214336561","76561198228235956","76561198230417896","76561198283997808","76561198288732848","76561198293627438","76561198307262344","76561198320690389","76561198340683326","76561198360382650","76561198382730985","76561198421632201","76561198426012372","76561198798518737","76561198837965592","76561198870638316","76561198882249004","76561199147939995","76561199523831700"]';
+const canOverrideRestrictedSlots=false;
+const mySteamId='76561198106563151';
+const myTotalHoursPlayed=4417;
+const myLobbiesPlayed=1607;
+const myRegion='EU';
+const noAds=false;
+const notificationsJsonStr='[{"id":279887702,"created":1445688707744,"dateDay":"24","dateMonth":"OCT","level":"REGULAR","title":"Rules updated!","message":"Hi guys,\\r\\n&lt;br&gt;&lt;br&gt;\\r\\nWe have worked hard on a more specific set of rules. Take a look: &lt;a href=&quot;http:\\/\\/tf2center.com\\/rules&quot; target=&quot;_blank&quot;&gt;Updated rules&lt;\\/a&gt;","author":"TF2Center"},{"id":277367562,"created":1444995949164,"dateDay":"16","dateMonth":"OCT","level":"REGULAR","title":"forums migrated","message":"Hi guys,\\r\\n&lt;br&gt;&lt;br&gt;\\r\\nDue to some hardware failure, we had to move our &lt;a href=&quot;http:\\/\\/forums.tf2center.com&quot; target=&quot;_blank&quot;&gt;forums&lt;\\/a&gt; over to another server. The IP has changed, so your DNS may take longer to update. If you&amp;#39;re having trouble reaching our forums, try &lt;a href=&quot;http:\\/\\/forums2.tf2center.com&quot; target=&quot;_blank&quot;&gt;forum2.tf2center.com&lt;\\/a&gt;","author":"TF2Center"},{"id":276354995,"created":1444680672092,"dateDay":"12","dateMonth":"OCT","level":"REGULAR","title":"DDOS issues fixed!","message":"Hi guys,\\r\\n&lt;br&gt;&lt;br&gt;\\r\\nJust letting you guys know the DDOS issues are &lt;a href=&quot;http:\\/\\/steamcommunity.com\\/groups\\/tf2-center#announcements\\/detail\\/106190694891794470&quot; target=&quot;_blank&quot;&gt;fixed&lt;\\/a&gt; and with the &lt;a href=&quot;https:\\/\\/tf2center.com\\/changelog#2015-09-25&quot; target=&quot;_blank&quot;&gt;new updating system&lt;\\/a&gt;, we&amp;#39;re running smoother than ever!","author":"TF2Center"},{"id":263298164,"created":1441382905578,"dateDay":"04","dateMonth":"SEP","level":"REGULAR","title":"Forums fixed!","message":"Hi guys!&lt;br&gt;&lt;br&gt;\\r\\n\\r\\nThere have been some problems logging in for the last few days, that&amp;#39;s &lt;a href=&quot;http:\\/\\/forums.tf2center.com\\/topic\\/6743-forums-successfully-migrated\\/&quot; target=&quot;_blank&quot;&gt;fixed now!&lt;\\/a&gt;","author":"TF2Center"},{"id":253818842,"created":1439356219119,"dateDay":"12","dateMonth":"AUG","level":"REGULAR","title":"Medic reviews!","message":"Hi to all medics!&lt;br&gt;&lt;br&gt;\\r\\n \\r\\nWe have a gold main medic offering his help on improving your game! Make sure to upload some of your demos...\\r\\n&amp;nbsp;&amp;nbsp;&amp;nbsp;\\r\\n&lt;a href=&quot;http:\\/\\/forums.tf2center.com\\/topic\\/6495-medic-reviews\\/&quot; target=&quot;_blank&quot;&gt;More info&lt;\\/a&gt;","author":"TF2Center"},{"id":234291236,"created":1435493311157,"dateDay":"28","dateMonth":"JUN","level":"REGULAR","title":"AL manual qualifications","message":"For those of you wanting in on &lt;a href=&quot;\\/al&quot; target=&quot;_blank&quot;&gt;Advanced Lobbies&lt;\\/a&gt; and not being on the whitelist, fill out a manual application and find out if you can participate soon ;-)\\r\\n&lt;br&gt;&lt;br&gt;\\r\\n&lt;a href=&quot;http:\\/\\/forums.tf2center.com\\/topic\\/5719-superthread-advanced-lobby-manual-qualification-issues\\/&quot; target=&quot;_blank&quot;&gt;More details about manual applications&lt;\\/a&gt;","author":"TF2Center"},{"id":229762762,"created":1434667439261,"dateDay":"19","dateMonth":"JUN","level":"REGULAR","title":"AL show matches","message":"Hi guys,\\r\\n&lt;br&gt;&lt;br&gt;\\r\\nHere&amp;#39;s the latest info regarding Advanced Lobbies:\\r\\n&lt;br&gt;&lt;br&gt;\\r\\n&lt;a href=&quot;http:\\/\\/forums.tf2center.com\\/topic\\/5398-advanced-lobbies-launch\\/&quot; target=&quot;_blank&quot;&gt;Advanced Lobbies Launch&lt;\\/a&gt;","author":"TF2Center"},{"id":227762568,"created":1434228338981,"dateDay":"13","dateMonth":"JUN","level":"REGULAR","title":"Advanced Lobbies","message":"Hi folks! Check out &lt;a href=&quot;\\/al&quot; target=&quot;_blank&quot;&gt;Advanced Lobbies&lt;\\/a&gt; now!\\r\\n&lt;br&gt;&lt;br&gt;\\r\\nAlso, the first 4 Advanced Lobbies will be casted by TeamFortress.tv next Saturday; after that it will be available for everyone who signed up!","author":"TF2Center"},{"id":217625295,"created":1432302194852,"dateDay":"22","dateMonth":"MAY","level":"REGULAR","title":"TF2C update","message":"Check our &lt;a href=&quot;http:\\/\\/tf2center.com\\/changelog#2015-05-22&quot; target=&quot;_blank&quot;&gt;latest update&lt;\\/a&gt; ;-)","author":"TF2Center"},{"id":215018968,"created":1431803466889,"dateDay":"16","dateMonth":"MAY","level":"REGULAR","title":"TF2C survey","message":"Hi guys! Wanna help us out and get a chance of &lt;b style=&quot;color: #155d6f&quot;&gt;winning a year free donator status&lt;\\/b&gt;? Tell us what you think of our services. It&amp;#39;s &lt;b style=&quot;color: #155d6f&quot;&gt;completely anonymous&lt;\\/b&gt;, so feel free to say anything that&amp;#39;s on your mind ;-)\\r\\n&lt;br&gt;&lt;br&gt;\\r\\n&lt;a href=&quot;https:\\/\\/tf2center.typeform.com\\/to\\/WRwSWe&quot; target=&quot;_blank&quot;&gt;Survey&lt;\\/a&gt;","author":"TF2Center"},{"id":203242357,"created":1429355400017,"dateDay":"18","dateMonth":"APR","level":"REGULAR","title":"Looking for new devs!","message":"In order to extend our activities we&amp;#39;re looking for new meat in our dev team. You think you have what it takes?\\r\\n&lt;br&gt;&lt;br&gt;\\r\\n&lt;a href=&quot;http:\\/\\/forums.tf2center.com\\/topic\\/4556-tf2c-is-looking-for-new-devs\\/&quot; target=&quot;_blank&quot;&gt;Read more&lt;\\/a&gt;","author":"TF2Center"},{"id":195357464,"created":1427731209041,"dateDay":"30","dateMonth":"MAR","level":"REGULAR","title":"Update","message":"Check out TF2C&amp;#39;s latest &lt;a href=&quot;http:\\/\\/tf2center.com\\/changelog#2015-03-30&quot; target=&quot;_blank&quot;&gt;update&lt;\\/a&gt;...","author":"TF2Center"},{"id":152764560,"created":1419241256058,"dateDay":"22","dateMonth":"DEC","level":"REGULAR","title":"Notifications added","message":"As of today we will be able to message you all when important events happen, such as a new update, a tournament, etc...\\r\\n\\r\\n&lt;br&gt;&lt;br&gt;\\r\\n\\r\\nIf you haven&amp;#39;t noticed yet, we have a &lt;a href=&quot;http:\\/\\/forums.tf2center.com&quot; target=&quot;_blank&quot;&gt;forum&lt;\\/a&gt; to manage community feedback. Go take a look! ;-)","author":"TF2Center"}]';
+const hasJustStarted=false;
+const permissions='[]';
+const advancedLobbiesReleased=true;
+const stripePublicKey='pk_live_fx8E6L0sra9yAket3Zm66SQb';
+</script>
+        <script type="text/javascript">
+var notificationLastRead=1697049100698;
+</script>
+        
+        <script type="text/javascript">
+/*<![CDATA[*/
+try {Wicket.Window.unloadConfirmation = false;} catch(e){}
+/*]]>*/
+</script>
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-58172687-1"></script>
+		<script>
+/*<![CDATA[*/
+
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+
+			gtag('config', 'UA-58172687-1');
+		
+/*]]>*/
+</script>
+		<script data-cfasync="false">
+/*<![CDATA[*/
+window.nitroAds=window.nitroAds||{createAd:function(){return new Promise(e=>{window.nitroAds.queue.push(["createAd",arguments,e])})},addUserToken:function(){window.nitroAds.queue.push(["addUserToken",arguments])},queue:[]};
+/*]]>*/
+</script>
+		<script data-cfasync="false" async src="https://s.nitropay.com/ads-1354.js"></script>
+	<script type="text/javascript" src="../assets/javascript/advert.js"></script>
+<link rel="stylesheet" type="text/css" href="../assets/css/style.min.css?ts=20231106-210658" />
+<script type="text/javascript" src="../assets/javascript/script.min.js?ts=20231106-210658"></script>
+<script type="text/javascript" >
+/*<![CDATA[*/
+Wicket.Event.add(window, "domready", function(event) { 
+Wicket.Ajax.ajax({"c":"id14e","u":"./1252332?14-1.IBehaviorListener.1-lobbyPanel-lobbySlotsPanel-balanceContainer-blueTeamSlotPanel-container-slots-5-slot-block","e":"click"});;
+Wicket.Ajax.ajax({"c":"id14f","u":"./1252332?14-1.IBehaviorListener.1-lobbyPanel-lobbySlotsPanel-balanceContainer-blueTeamSlotPanel-container-slots-6-slot-block","e":"click"});;
+Wicket.Ajax.ajax({"c":"id150","u":"./1252332?14-1.IBehaviorListener.1-lobbyPanel-lobbySlotsPanel-balanceContainer-redTeamSlotPanel-container-slots-5-slot-block","e":"click"});;
+Wicket.Ajax.ajax({"c":"id151","u":"./1252332?14-1.IBehaviorListener.1-lobbyPanel-lobbySlotsPanel-balanceContainer-redTeamSlotPanel-container-slots-6-slot-block","e":"click"});;
+Wicket.Ajax.ajax({"c":"id152","u":"./1252332?14-1.IBehaviorListener.0-lobbyPanel"});;
+$(document).trigger("tf2center.refresh-players-online", {"data":[{"steamId":"76561199245527664","playerName":"earbuds"},{"steamId":"76561198169153665","playerName":"EXIT LIFE"},{"steamId":"76561198261198393","playerName":"kaldoz"},{"steamId":"76561198032871139","playerName":"yanyul"},{"steamId":"76561198215004651","playerName":"Yupsilon"},{"steamId":"76561198241447874","playerName":"mugen"},{"steamId":"76561198323411853","playerName":"1-800 HELP"},{"steamId":"76561198996990047","playerName":"m1nd_"},{"steamId":"76561198084804183","playerName":"£blz"},{"steamId":"76561198395987423","playerName":"Itchy and Greasy"},{"steamId":"76561198943553112","playerName":"huh"},{"steamId":"76561198417116497","playerName":"fraftti"},{"steamId":"76561198040154461","playerName":"obi #gun"},{"steamId":"76561198173537027","playerName":"shr1mple"},{"steamId":"76561198989078420","playerName":"Fwan(Im on 6 hours of sleep)"},{"steamId":"76561199015973136","playerName":"toast"},{"steamId":"76561198409744393","playerName":"netflicks"},{"steamId":"76561198128284680","playerName":"Sea-Watch"},{"steamId":"76561198811639784","playerName":"h4ri"},{"steamId":"76561199530648122","playerName":"Adena"},{"steamId":"76561198261386193","playerName":"spooky"},{"steamId":"76561198058824478","playerName":"Fish12 Swipr"},{"steamId":"76561198106563151","playerName":"narcissus"},{"steamId":"76561197982427900","playerName":"TheMasterOfDisaster"},{"steamId":"76561197994147052","playerName":"Tranduill"}]});;
+Wicket.Ajax.ajax({"c":"id153","u":"./1252332?14-1.IBehaviorListener.0-navBar-playerInfo-menu-preferencesLink","e":"click"});;
+$('.lobbyHeaderOptions .getQuickHelp, .lobbyHeader .getQuickHelp, .lobbyHeaderButtons button').tooltip({show: 200, hide: 200});;
+setTimeout(function(){var v=$('#chatInput').val(); if (v==''||typeof v=='undefined'){$.get('/refresh'+window.location.pathname);window.location.reload();}}, 270000000);
+window.settings = getSettings();
+;});
+/*]]>*/
+</script>
+</head>
+	<body>
+		<a href=".././faq#adblock" target="_blank"><div class="youShallNotPass">AdBlocker plugins detected. TF2Center may not function correctly.</div></a>
+		
+		
+		
+		
+        
+    	<div class="contentWrapper youShallNotPassEnabled">
+	        <div class="contentWrapper">
+	            <div>
+			<div id="nav-bar">
+				<div class="ym-wrapper">
+					<div class="ym-grid">
+						<div class="ym-g1220-4 ym-gl logoTop">
+							<a href="../lobbies"><img src="../assets/images/tf2center_logo.png" height="32" alt="TF2Center"/></a>
+							<div class="notificationButton enabled">
+								<div id="notificationUnreadCounter" class="icons notify red">0</div>
+							</div>
+						</div>
+						<div class="ym-g1220-4 ym-gl playerTopMenu">
+
+	<div id="id154" style="display:none">
+	<div id="id155" style="display:none"></div>
+</div>
+
+	<div class="trigger">
+	    <img src="https://avatars.steamstatic.com/3bb259b60b9b2f91a24c7bff1e2a0f352d3a74e0.jpg" width="32" height="32" alt=""/>
+	    <div class="playerTopName">narcissus</div>
+	    <div class="icons carrot grey down"></div>
+	</div>
+	<ul>
+	  <li><div class="icons navbarmenu profile"></div><a target="_blank" href="/profile/76561198106563151">Profile</a></li>
+	  
+	  	<li><div class="icons navbarmenu prefs"></div><a id="id153" href="#">Preferences</a></li>
+	  
+	  <li><div class="icons navbarmenu logout"></div><a href="/logout">Logout</a></li>
+	</ul>
+</div>
+						<div class="ym-g1220-11 ym-gl omega siteTopMenu">
+							<ul>
+								<li><a href="../lobbies">Lobbies</a></li>
+								<li><a target="_blank" href="https://discord.tf2center.com">Discord</a></li>
+								<li id="wrap_menu1">
+									<a href="../" id="trigg_menu1">About<div class="icons carrot micro down"></div></a>
+									<div id="drop_menu1" class="ym-g1220-4 ym-gl dropdownMenu">
+										<ul>
+											<li><a href="/" target="_blank">Getting Started</a></li>
+											<li><a target="_blank" href="../al">Advanced Lobbies</a></li>
+											<li><a target="_blank" href="../rules">Rules</a></li>
+											<li><a target="_blank" href="../faq">FAQ</a></li>
+											<li><a target="_blank" href="../about">TF2C Team</a></li>
+											<li><a target="_blank" href="../changelog">Changelog</a></li>
+											<li><a target="_blank" href="../privacy">Privacy Policy</a></li>
+										</ul>
+									</div>
+								</li>
+								<li><a target="_blank" href="../halloffame">Hall of Fame</a></li>
+								<li><a target="_blank" class="newMenuItem" href="../freemium">Freemium<i class="icons news"></i></a></li>
+								<li><a target="_blank" href="../donate">Donate</a></li>
+							</ul>
+						</div>
+						<div class="ym-g1220-1 ym-gr omega">
+							<a class="getQuickHelp" href="/">&nbsp;?</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+				<header id="id156">
+			<div id="id157" style="display:none">
+	<div id="id158" style="display:none"></div>
+</div>
+			<div id="mainHeader">
+				<div class="backgroundLeft"></div>
+				<div class="ym-wrapper">
+					<div class="ym-grid mainHeaderContainer">
+						<div class="backgroundMain"></div>
+						<div class="classImage scout"></div>
+						<div class="ym-g1220-8 ym-gl">
+							<div class="speechBubble">
+								<div class="speechBubbleText">When reporting bugs, please let us know as much detail as you can. Even just an approximate time and lobby number can make a big difference.</div>
+								<div class="notificationCalendar"></div>
+								<div class="notificationToday"><a href="#">Today</a></div>
+							</div>
+						</div>
+						
+						<div class="notificationClose icons cross white" style="display: none"></div>
+			
+						<!-- template used by notifications.js -->
+						<div class="notificationBox" id="notificationTemplate" style="display: none">
+							<span class="id" style="display: none"></span>
+							<div class="ym-g1220-1 ym-gl notificationDateBox">
+								<div class="date"></div>
+								<div class="month"></div>
+							</div>
+							<div class="ym-g1220-9 ym-gl omega notificationHeader">
+								<h1></h1>
+							</div>
+							<div class="ym-clearfix"></div>
+							<div class="ym-g1220-10	ym-gl omega	notificationText"></div>
+						</div>
+									  
+						<div class="ym-g1220-12	ym-gl" id="notificationSlider"></div>
+						
+						<div class="ym-g1220-12 ym-gr omega lobbyHeader">
+							<div class="ym-grid">
+								<div class="ym-g1220-3 ym-gl omega">
+									<div class="lobbyHeaderRegion">
+										<div>EU</div>
+										<div class="icons flags large eu"></div>
+										
+									</div>
+									<div class="lobbyHeaderID manual">#1252332</div>
+									<div class="lobbyHeaderMapIcon">
+										<img width="155" height="104" alt="" src="/assets/images/maps/default_koth.gif"/>
+									</div>
+								</div>
+								<div class="ym-g1220-9 ym-gr lobbyHeaderInfo">
+																
+									<div class="lobbyHeaderButtons">
+                                        
+                                        
+										
+	                                	
+                                    </div>
+                                    <h1>Highlander</h1>
+                                   	
+                                   	
+
+	<div class="lobbyHeaderOptions">
+		<table>
+			<tbody>
+				<tr>
+					<td class="optionName">Map</td>
+					<td><p><a target="_blank" href="https://fakkelbrigade.eu/maps/koth_cascade.bsp">koth_cascade</a></p></td>
+				</tr>
+				<tr>
+					<td class="optionName">Config</td>
+					<td>ETF2L</td>
+				</tr>
+				<tr>
+					<td class="optionName">Server</td>
+					<td><p>#FakkelBrigade, Paris</p></td>
+				</tr>
+				
+				
+					<tr>
+						<td class="optionName">Leader</td>
+						<td><p><a target="_blank" href="/profile/76561198173537027"><span>shr1mple</span></a></p></td>
+					</tr>
+				
+			</tbody>
+		</table>
+	</div>
+
+	<div class="lobbyHeaderOptions">
+		<table>
+			<tbody>
+				<tr>
+					<td class="optionName">Mumble required</td>
+					<td><span class="icons cross bright-red"></span></td>
+					<td><span class="getQuickHelp" title="Mumble required means that all players participating must join Mumble and communicate during the game. Violaters will be subject to an auto ban.">&nbsp;?</span></td>
+				</tr><tr>
+					<td class="optionName">Region lock</td>
+					<td><span class="icons cross bright-red"></span></td>
+					<td><span class="getQuickHelp" title="The region lock option gives leaders the ability to only allow players from their specific region to compete. E.g. to prevent NA players from joining EU Lobbies. If you have problems joining region locked Lobbies make sure to have the correct region set on your Steam profile.">&nbsp;?</span></td>
+				</tr><tr>
+					<td class="optionName">Class restrictions</td>
+					<td><span class="icons cross bright-red"></span></td>
+					<td><span class="getQuickHelp" title="Lobby leaders have the ability to set restrictions for joining classes in their Lobby. These restrictions can be based on minimum hours played in TF2 or minimum number of Lobbies played on TF2Center">&nbsp;?</span></td>
+				</tr><tr>
+					<td class="optionName">Balancing</td>
+					<td><span class="icons cross bright-red"></span></td>
+					<td><span class="getQuickHelp" title="Players in a class slot will be automatically assigned to a team after everyone readies up by using a balancing algorithm">&nbsp;?</span></td>
+				</tr>
+				
+			</tbody>
+		</table>
+	</div>
+
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="info-bar">
+				<div class="ym-wrapper">
+					<ul class="ym-grid">
+						<li class="ym-g1220-4 ym-gl omega playersOnline infoPanel">
+							<span>Players</span>
+							<span class="counter" id="playersOnline" title="Guests: 4">95</span>
+	                        <span class="playersRegion">
+	                            <div><i id="euPlayersOnline" title="Potential: 61 | 61 (M) | 26 (AL)">82</i> EU</div>
+	                            <div><i id="naPlayersOnline" title="Potential: 6 | 6 (M) | 1 (AL)">6</i> NA</div>
+	                        </span>
+	                        <span class="playersRegion">
+	                            <div><i id="auPlayersOnline" title="Potential: 0 | 0 (M) | 0 (AL)">0</i> AU</div>
+	                            <div><i id="otherPlayersOnline">7</i> Others</div>
+	                        </span>
+						</li>
+						<li class="ym-g1220-4 ym-gl omega friendsOnline infoPanel">
+							<span>Friends online</span>
+							<span id="friendsOnline" class="counter">0</span>
+						</li>
+						<li class="ym-g1220-12 ym-gl omega launchStatus" id="statusPanel581499033">
+	
+		<div class="done">Setup</div><div class="spacer green"></div>
+		<div class="done">Open</div><div class="spacer green-brown"></div>	
+		<div>Ready up!</div><div class="spacer brown"></div>
+		<div>Launched</div>
+
+	</li>
+					</ul>
+				</div>
+			</div>
+
+		</header>
+				<div id="mainContent" class="ym-wrapper">
+					
+	    	
+				<div class="_containerVer">
+					<div id="lobby-left"></div>
+					<script>
+/*<![CDATA[*/
+
+						window['nitroAds'].createAd('lobby-left', {
+							"refreshLimit": 10,
+							"refreshTime": 30,
+							"renderVisibleOnly": true,
+							"refreshVisibleOnly": true,
+							"sizes": [
+								["160","600"]
+							],
+							"report": {
+								"enabled": true,
+								"icon": true,
+								"wording": "Report Ad",
+								"position": "bottom-left"
+							}
+						});
+					
+/*]]>*/
+</script>
+				</div>
+			
+			
+				<div class="_containerVerRight">
+					<div id="lobby-right"></div>
+					<script>
+/*<![CDATA[*/
+
+						window['nitroAds'].createAd('lobby-right', {
+							"refreshLimit": 10,
+							"refreshTime": 30,
+							"renderVisibleOnly": true,
+							"refreshVisibleOnly": true,
+							"sizes": [
+								["160","600"]
+							],
+							"report": {
+								"enabled": true,
+								"icon": true,
+								"wording": "Report Ad",
+								"position": "bottom-right"
+							}
+						});
+					
+/*]]>*/
+</script>
+				</div>
+			
+    		<div id="mainContainer" class="ym-grid">    		
+                <div class="ym-g1220-8 ym-gl alpha">
+    				<div id="chat" class="chatPanel">
+	<div class="chatScrollContainer scrollable">
+		<ul class="chatContainer">
+		    
+			    
+
+<li>
+	<span class="date">18:59:09</span>
+	
+	
+	
+	<a class="author" target="_blank" href="/profile/TF2Center">
+		<span class="icons person"></span>
+		<span class="name admin">TF2Center</span>:
+	</a>
+	<span class="message admin">Lobby open; leader: <a href="/profile/76561198173537027" target="_blank">shr1mple</a></span>
+</li>
+	
+
+		    
+		    
+		</ul>
+		<ul class="chatLinePanel templateHolder" style="display: none" id="chatLinePanel">
+
+<li>
+	<span class="date"></span>
+	<a class="advancedLink" target="_blank" href="../al"><span class="icons playerRank blue"></span></a>
+	<a class="donateLink" target="_blank" href="../donate"><span class="icons donator"></span></a>
+	<a class="freemiumLink" target="_blank" href="../freemium"><span class="icons freemium"></span></a>
+	<a class="author" target="_blank" href="/profile/">
+		<span class="icons person"></span>
+		<span class="name"></span>:
+	</a>
+	<span class="message"></span>
+</li>
+	
+</ul>
+	</div>
+	
+	<textarea id="chatInput" class="chatInput" maxlength="450" ></textarea>
+    <div class="ym-g1220-2 ym-gl chatButtons">
+        <button id="chatSayBtn" class="btn size108x32 blue">
+            <span class="label">Say It Loud</span>
+        </button>
+    </div>
+
+    <div class="ym-g1220-3 ym-gl chatButtons">
+        <a target="_blank" href="https://forums.tf2center.com/forum/14-bug-reports/"><button class="btn size32x32 red" title="Report a bug in our forums"><span class="icons bug"></span></button></a>
+        <a target="_blank" href="https://forums.tf2center.com/forum/5-requests-suggestions/"><button class="btn size32x32 green" title="Suggest an idea or new feature in our forums"><span class="icons idea"></span></button></a>
+        <a target="_blank" href="../faq"><button class="btn size32x32 ochre" title="Need help? Visit the FAQ"><span class="icons help"></span></button></a>
+    </div>
+	
+
+</div>
+    			</div>
+    			
+				<div class="ym-g1220-12 ym-gl omega">
+					
+					
+						<div class="_containerHor">
+							<div id="lobby-banner"></div>
+							<script>
+/*<![CDATA[*/
+
+								window['nitroAds'].createAd('lobby-banner', {
+									"refreshLimit": 10,
+									"refreshTime": 30,
+									"renderVisibleOnly": true,
+									"refreshVisibleOnly": true,
+									"sizes": [
+										["728","90"]
+									],
+									"report": {
+										"enabled": true,
+										"icon": true,
+										"wording": "Report Ad",
+										"position": "bottom-left"
+									}
+								});
+							
+/*]]>*/
+</script>
+						</div>
+					
+				
+	    			<div class="ym-g1220-12 ym-gl omega" id="id152">
+
+	<div id="id159">
+
+    <div id="connectionPanel" class="ym-g1220-12 ym-gl omega">
+        <div class="ym-grid connectionHeader">
+            <div class="ym-g1220-6 ym-gl omega serverInfo">
+                <span class="mumbleInvite">Mumble usage isn&#039;t mandatory, but we encourage you to use it for a better gaming experience.</span>
+            </div>
+            <div class="ym-g1220-6 ym-gr omega mumbleInfo">
+                <span>Mumble Info</span>
+                <span class="icons carrot grey down"></span>
+                <a href="mumble://narcissus@mumble.tf2center.com/%231252332?version=1.2.0" onclick="document.getElementById(&#039;iframe&#039;).src=this.href; return false">
+                    <button class="btn size140x32 green"><div class="icons connection mumble"></div>Join Mumble</button>
+                </a>
+            </div>
+        </div>
+        <div class="ym-grid connectionDetails" style="display: none;">
+            <div class="ym-g1220-6 ym-gl omega serverInfo">
+                <span class="mumbleDownload">Mumble is a very popular low-latency client for voice communication in games. If you don't have it installed yet, <a href="http://wiki.mumble.info/wiki/Main_Page" target="_blank">download the latest version here.</a></span>
+            </div>
+            <div class="ym-g1220-6 ym-gr omega mumbleInfo">
+                <div class="params">
+                    <div>Server address</div>
+                    <div>Port</div>
+                    <div>Channel</div>
+                </div>
+                <div>
+                    <div>mumble.tf2center.com</div>
+                    <div>64738</div>
+                    <div>#1252332</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+	
+    <div id="id15a">
+
+		<div id="lobbyPanel" class="ym-g1220-12 ym-gl omega">
+			<div class="ym-grid">
+				<div class="ym-g1220-12 ym-gl omega balanceContainer">
+
+					
+
+		<div class="blue-team">
+			<div class="ym-gl playerSlot header">
+				<div class="counter" id="id15b">7</div>
+			</div>
+			
+			<div id="id15c">
+				
+
+	<div class="ym-gl playerSlot lobbySlot filled">
+	    <a target="_blank" href="/profile/76561198943553112"><img class="slotIconInner avatar" src="https://avatars.steamstatic.com/94d69e40620b144beb3efb70cd915aa5d2f7effe.jpg"></a>
+	    <div class="details">
+			<a target="_blank" href="/profile/76561198943553112">
+				<span class="name">
+					<i>
+						
+						
+						huh
+					</i>
+				</span>
+			</a>
+			
+
+	<div class="statsContainer">
+		
+		
+			<span class="icons stats small lobbies darkgrey"></span>
+			<span class="darkgrey">35</span>
+		
+		
+			<span class="icons stats small hours darkgrey"></span>
+			<span class="darkgrey">1876</span>
+		
+	</div>
+
+
+	    </div>
+		<div class="showOnHover">
+			
+			
+			
+		</div>
+		<div class="showAlways">
+			
+			<div id="id15d">
+				
+				
+			</div>
+		</div>
+		
+	</div>
+
+
+			</div><div id="id15e">
+				
+
+	<div class="ym-gl playerSlot lobbySlot filled">
+	    <a target="_blank" href="/profile/76561198084804183"><img class="slotIconInner avatar" src="https://avatars.steamstatic.com/b28428af15d60cbadc0d9af27320cf7b0619d8b8.jpg"></a>
+	    <div class="details">
+			<a target="_blank" href="/profile/76561198084804183">
+				<span class="name">
+					<i>
+						
+						
+						&pound;blz
+					</i>
+				</span>
+			</a>
+			
+
+	<div class="statsContainer">
+		
+		
+			<span class="icons stats small lobbies darkgrey"></span>
+			<span class="darkgrey">6870</span>
+		
+		
+			<span class="icons stats small hours darkgrey"></span>
+			<span class="darkgrey">6246</span>
+		
+	</div>
+
+
+	    </div>
+		<div class="showOnHover">
+			
+			
+			
+		</div>
+		<div class="showAlways">
+			
+			<div id="id15f">
+				
+				
+			</div>
+		</div>
+		
+	</div>
+
+
+			</div><div id="id160">
+				
+
+	<div class="ym-gl playerSlot lobbySlot filled">
+	    <a target="_blank" href="/profile/76561198128284680"><img class="slotIconInner avatar" src="https://avatars.steamstatic.com/b4429c2b9b8e8255d992a02e5db81e16efa9c565.jpg"></a>
+	    <div class="details">
+			<a target="_blank" href="/profile/76561198128284680">
+				<span class="name">
+					<i>
+						
+						
+						Sea-Watch
+					</i>
+				</span>
+			</a>
+			
+
+	<div class="statsContainer">
+		
+		
+			<span class="icons stats small lobbies darkgrey"></span>
+			<span class="darkgrey">385</span>
+		
+		
+			<span class="icons stats small hours darkgrey"></span>
+			<span class="darkgrey">3324</span>
+		
+	</div>
+
+
+	    </div>
+		<div class="showOnHover">
+			
+			
+			
+		</div>
+		<div class="showAlways">
+			
+			<div id="id161">
+				
+				
+			</div>
+		</div>
+		
+	</div>
+
+
+			</div><div id="id162">
+				
+
+	<div class="ym-gl playerSlot lobbySlot filled">
+	    <a target="_blank" href="/profile/76561198989078420"><img class="slotIconInner avatar" src="https://avatars.steamstatic.com/1309315592afdb52b58e4a9a94e8ab9524ea6fbb.jpg"></a>
+	    <div class="details">
+			<a target="_blank" href="/profile/76561198989078420">
+				<span class="name">
+					<i>
+						
+						
+						Fwan(Im on 6 hours of sleep)
+					</i>
+				</span>
+			</a>
+			
+
+	<div class="statsContainer">
+		
+		
+			<span class="icons stats small lobbies darkgrey"></span>
+			<span class="darkgrey">6</span>
+		
+		
+			<span class="icons stats small hours darkgrey"></span>
+			<span class="darkgrey">1191</span>
+		
+	</div>
+
+
+	    </div>
+		<div class="showOnHover">
+			
+			
+			
+		</div>
+		<div class="showAlways">
+			
+			<div id="id163">
+				
+				
+			</div>
+		</div>
+		
+	</div>
+
+
+			</div><div id="id164">
+				
+
+	<div class="ym-gl playerSlot lobbySlot filled">
+	    <a target="_blank" href="/profile/76561198241447874"><img class="slotIconInner avatar" src="https://avatars.steamstatic.com/a318168dda2b0a6254c0db47e3bfa4ef4f505149.jpg"></a>
+	    <div class="details">
+			<a target="_blank" href="/profile/76561198241447874">
+				<span class="name">
+					<i>
+						
+						
+						mugen
+					</i>
+				</span>
+			</a>
+			
+
+	<div class="statsContainer">
+		
+		
+			<span class="icons stats small lobbies darkgrey"></span>
+			<span class="darkgrey">202</span>
+		
+		
+			<span class="icons stats small hours darkgrey"></span>
+			<span class="darkgrey">1879</span>
+		
+	</div>
+
+
+	    </div>
+		<div class="showOnHover">
+			
+			
+			
+		</div>
+		<div class="showAlways">
+			
+			<div id="id165">
+				
+				
+			</div>
+		</div>
+		
+	</div>
+
+
+			</div><div id="id166">
+				
+
+	<div class="ym-gl playerSlot lobbySlot empty" id="id14e">
+		
+		<span class="slotIconInner hoverSlotIcon icons slot join green"></span>
+		
+		
+	</div>
+	
+
+			</div><div id="id167">
+				
+
+	<div class="ym-gl playerSlot lobbySlot available restricted" id="id14f">
+		
+			<span class="slotIconInner icons slot available"></span>
+		
+		<span class="slotIconInner hoverSlotIcon icons slot join green"></span>
+		
+			<div class="details">
+				
+
+	<div class="statsContainer">
+		
+		
+			<span class="icons stats small lobbies green"></span>
+			<span class="green">10</span>
+		
+		
+			<span class="icons stats small hours green"></span>
+			<span class="green">0</span>
+		
+	</div>
+
+
+			</div>
+		
+		
+	</div>
+	
+
+			</div><div id="id168">
+				
+
+	<div class="ym-gl playerSlot lobbySlot filled">
+	    <a target="_blank" href="/profile/76561198261198393"><img class="slotIconInner avatar" src="https://avatars.steamstatic.com/ebc5c2366f1ad934cb7ada4a33c75b74433c4770.jpg"></a>
+	    <div class="details">
+			<a target="_blank" href="/profile/76561198261198393">
+				<span class="name">
+					<i>
+						
+						
+						kaldoz
+					</i>
+				</span>
+			</a>
+			
+
+	<div class="statsContainer">
+		
+		
+			<span class="icons stats small lobbies darkgrey"></span>
+			<span class="darkgrey">6</span>
+		
+		
+			<span class="icons stats small hours darkgrey"></span>
+			<span class="darkgrey">4775</span>
+		
+	</div>
+
+
+	    </div>
+		<div class="showOnHover">
+			
+			
+			
+		</div>
+		<div class="showAlways">
+			
+			<div id="id169">
+				
+				
+			</div>
+		</div>
+		
+	</div>
+
+
+			</div><div id="id16a">
+				
+
+	<div class="ym-gl playerSlot lobbySlot filled">
+	    <a target="_blank" href="/profile/76561198173537027"><img class="slotIconInner avatar" src="https://avatars.steamstatic.com/b933e82dc28b688ab78e726aa63fe9342bfac5d4.jpg"></a>
+	    <div class="details">
+			<a target="_blank" href="/profile/76561198173537027">
+				<span class="name">
+					<i>
+						
+						
+						shr1mple
+					</i>
+				</span>
+			</a>
+			
+
+	<div class="statsContainer">
+		
+		
+			<span class="icons stats small lobbies darkgrey"></span>
+			<span class="darkgrey">216</span>
+		
+		
+			<span class="icons stats small hours darkgrey"></span>
+			<span class="darkgrey">1376</span>
+		
+	</div>
+
+
+	    </div>
+		<div class="showOnHover">
+			
+			
+			
+		</div>
+		<div class="showAlways">
+			
+			<div id="id16b">
+				
+				
+			</div>
+		</div>
+		
+	</div>
+
+
+			</div>
+		</div>
+
+	
+
+					<div class="team-seperator">
+						<div id="fightLogo"></div>
+						<div class="slot-icons">
+							<div class="classIcon">
+								<span class="icons classes scout"></span>
+							</div><div class="classIcon">
+								<span class="icons classes soldier"></span>
+							</div><div class="classIcon">
+								<span class="icons classes pyro"></span>
+							</div><div class="classIcon">
+								<span class="icons classes demoman"></span>
+							</div><div class="classIcon">
+								<span class="icons classes heavy"></span>
+							</div><div class="classIcon">
+								<span class="icons classes engineer"></span>
+							</div><div class="classIcon">
+								<span class="icons classes medic"></span>
+							</div><div class="classIcon">
+								<span class="icons classes sniper"></span>
+							</div><div class="classIcon">
+								<span class="icons classes spy"></span>
+							</div>
+						</div>
+					</div>
+
+					
+
+		<div class="red-team">
+			<div class="ym-gl playerSlot header">
+				<div class="counter" id="id16c">7</div>
+			</div>
+			
+			<div id="id16d">
+				
+
+	<div class="ym-gl playerSlot lobbySlot filled">
+	    <a target="_blank" href="/profile/76561197982427900"><img class="slotIconInner avatar" src="https://avatars.steamstatic.com/d48b16e3bfd9f31cc5950ade43b0fdca8506210d.jpg"></a>
+	    <div class="details">
+			<a target="_blank" href="/profile/76561197982427900">
+				<span class="name">
+					<i>
+						
+						
+						TheMasterOfDisaster
+					</i>
+				</span>
+			</a>
+			
+
+	<div class="statsContainer">
+		
+		
+			<span class="icons stats small lobbies darkgrey"></span>
+			<span class="darkgrey">8786</span>
+		
+		
+			<span class="icons stats small hours darkgrey"></span>
+			<span class="darkgrey">14648</span>
+		
+	</div>
+
+
+	    </div>
+		<div class="showOnHover">
+			
+			
+			
+		</div>
+		<div class="showAlways">
+			
+			<div id="id16e">
+				
+				
+			</div>
+		</div>
+		
+	</div>
+
+
+			</div><div id="id16f">
+				
+
+	<div class="ym-gl playerSlot lobbySlot filled">
+	    <a target="_blank" href="/profile/76561198215004651"><img class="slotIconInner avatar" src="https://avatars.steamstatic.com/dd79c24db40b4f1d5a01d1f63cff5635ad07419e.jpg"></a>
+	    <div class="details">
+			<a target="_blank" href="/profile/76561198215004651">
+				<span class="name">
+					<i>
+						
+						
+						Yupsilon
+					</i>
+				</span>
+			</a>
+			
+
+	<div class="statsContainer">
+		
+		
+			<span class="icons stats small lobbies darkgrey"></span>
+			<span class="darkgrey">1366</span>
+		
+		
+			<span class="icons stats small hours darkgrey"></span>
+			<span class="darkgrey">4017</span>
+		
+	</div>
+
+
+	    </div>
+		<div class="showOnHover">
+			
+			
+			
+		</div>
+		<div class="showAlways">
+			
+			<div id="id170">
+				
+				
+			</div>
+		</div>
+		
+	</div>
+
+
+			</div><div id="id171">
+				
+
+	<div class="ym-gl playerSlot lobbySlot filled">
+	    <a target="_blank" href="/profile/76561198032871139"><img class="slotIconInner avatar" src="https://avatars.steamstatic.com/575e0694bcaa74daf2c49177b93b6c19bdd93b25.jpg"></a>
+	    <div class="details">
+			<a target="_blank" href="/profile/76561198032871139">
+				<span class="name">
+					<i>
+						
+						
+						yanyul
+					</i>
+				</span>
+			</a>
+			
+
+	<div class="statsContainer">
+		
+		
+			<span class="icons stats small lobbies darkgrey"></span>
+			<span class="darkgrey">3679</span>
+		
+		
+			<span class="icons stats small hours darkgrey"></span>
+			<span class="darkgrey">7084</span>
+		
+	</div>
+
+
+	    </div>
+		<div class="showOnHover">
+			
+			
+			
+		</div>
+		<div class="showAlways">
+			
+			<div id="id172">
+				
+				
+			</div>
+		</div>
+		
+	</div>
+
+
+			</div><div id="id173">
+				
+
+	<div class="ym-gl playerSlot lobbySlot filled">
+	    <a target="_blank" href="/profile/76561199530648122"><img class="slotIconInner avatar" src="https://avatars.steamstatic.com/15636a051afdbcb3a9415c5e527671d545475720.jpg"></a>
+	    <div class="details">
+			<a target="_blank" href="/profile/76561199530648122">
+				<span class="name">
+					<i>
+						
+						
+						Adena
+					</i>
+				</span>
+			</a>
+			
+
+	<div class="statsContainer">
+		
+		
+			<span class="icons stats small lobbies darkgrey"></span>
+			<span class="darkgrey">104</span>
+		
+		
+			<span class="icons stats small hours darkgrey"></span>
+			<span class="darkgrey">666</span>
+		
+	</div>
+
+
+	    </div>
+		<div class="showOnHover">
+			
+			
+			
+		</div>
+		<div class="showAlways">
+			
+			<div id="id174">
+				
+				
+			</div>
+		</div>
+		
+	</div>
+
+
+			</div><div id="id175">
+				
+
+	<div class="ym-gl playerSlot lobbySlot filled">
+	    <a target="_blank" href="/profile/76561198409744393"><img class="slotIconInner avatar" src="https://avatars.steamstatic.com/29cc04af127a16548dd1bfba3a6805f682ef0593.jpg"></a>
+	    <div class="details">
+			<a target="_blank" href="/profile/76561198409744393">
+				<span class="name">
+					<i>
+						
+						
+						netflicks
+					</i>
+				</span>
+			</a>
+			
+
+	<div class="statsContainer">
+		
+		
+			<span class="icons stats small lobbies darkgrey"></span>
+			<span class="darkgrey">448</span>
+		
+		
+			<span class="icons stats small hours darkgrey"></span>
+			<span class="darkgrey">3355</span>
+		
+	</div>
+
+
+	    </div>
+		<div class="showOnHover">
+			
+			
+			
+		</div>
+		<div class="showAlways">
+			
+			<div id="id176">
+				
+				
+			</div>
+		</div>
+		
+	</div>
+
+
+			</div><div id="id177">
+				
+
+	<div class="ym-gl playerSlot lobbySlot empty" id="id150">
+		
+		<span class="slotIconInner hoverSlotIcon icons slot join green"></span>
+		
+		
+	</div>
+	
+
+			</div><div id="id178">
+				
+
+	<div class="ym-gl playerSlot lobbySlot available restricted" id="id151">
+		
+			<span class="slotIconInner icons slot available"></span>
+		
+		<span class="slotIconInner hoverSlotIcon icons slot join green"></span>
+		
+			<div class="details">
+				
+
+	<div class="statsContainer">
+		
+		
+			<span class="icons stats small lobbies green"></span>
+			<span class="green">10</span>
+		
+		
+			<span class="icons stats small hours green"></span>
+			<span class="green">0</span>
+		
+	</div>
+
+
+			</div>
+		
+		
+	</div>
+	
+
+			</div><div id="id179">
+				
+
+	<div class="ym-gl playerSlot lobbySlot filled">
+	    <a target="_blank" href="/profile/76561198996990047"><img class="slotIconInner avatar" src="https://avatars.steamstatic.com/2510a1f5069f0c50964cbda32a91111697a474e9.jpg"></a>
+	    <div class="details">
+			<a target="_blank" href="/profile/76561198996990047">
+				<span class="name">
+					<i>
+						
+						
+						m1nd_
+					</i>
+				</span>
+			</a>
+			
+
+	<div class="statsContainer">
+		
+		
+			<span class="icons stats small lobbies darkgrey"></span>
+			<span class="darkgrey">4</span>
+		
+		
+			<span class="icons stats small hours darkgrey"></span>
+			<span class="darkgrey">670</span>
+		
+	</div>
+
+
+	    </div>
+		<div class="showOnHover">
+			
+			
+			
+		</div>
+		<div class="showAlways">
+			
+			<div id="id17a">
+				
+				
+			</div>
+		</div>
+		
+	</div>
+
+
+			</div><div id="id17b">
+				
+
+	<div class="ym-gl playerSlot lobbySlot filled">
+	    <a target="_blank" href="/profile/76561198040154461"><img class="slotIconInner avatar" src="https://avatars.steamstatic.com/6e3b19b12cd1046adcf0ed0d0a1946485be74d8c.jpg"></a>
+	    <div class="details">
+			<a target="_blank" href="/profile/76561198040154461">
+				<span class="name">
+					<i>
+						
+						
+						obi #gun
+					</i>
+				</span>
+			</a>
+			
+
+	<div class="statsContainer">
+		
+		
+			<span class="icons stats small lobbies darkgrey"></span>
+			<span class="darkgrey">435</span>
+		
+		
+			<span class="icons stats small hours darkgrey"></span>
+			<span class="darkgrey">4529</span>
+		
+	</div>
+
+
+	    </div>
+		<div class="showOnHover">
+			
+			
+			
+		</div>
+		<div class="showAlways">
+			
+			<div id="id17c">
+				
+				
+			</div>
+		</div>
+		
+	</div>
+
+
+			</div>
+		</div>
+
+	
+				</div>
+			</div>
+		</div>
+
+	</div>
+    
+	<div id="id17d" style="display:none">
+	<div id="id17e" style="display:none"></div>
+</div>
+	
+	<div id="id17f" style="display:none">
+	<div id="id180" style="display:none"></div>
+</div>
+	
+</div>
+	    			<div class="ym-g1220-12 ym-gl" id="specsPanel">
+
+<div id="spectatorContainer" style="display:none"></div>
+
+<div class="ym-grid">
+    <div class="ym-g1220-12 ym-gl omega specsHeader">
+        <div class="specsLabel">Spectators</div>
+        <div id="spectatorCount" class="specsCounter">11</div>
+    </div>
+
+    <div  class="ym-g1220-12 ym-gl omega specsRow">
+	    <div class="ym-grid">
+		    <div id="friends">
+		        <div>
+		            <div id="id76561197994147052" class="friend friend">
+
+<div class="ym-g1220-4 ym-gl omega playerSlot">
+    <a target="_blank" href="/profile/76561197994147052">
+	    <img class="slotIconInner avatar" src="https://avatars.steamstatic.com/83f9e78f7448b76b65b6c48ad633e76f5e09da7d.jpg"/>
+	    <div class="details">
+	        <span class="name friend">
+	        	
+	        	
+	        	<span class="icons person friend"></span>
+	        	<i>Tranduill</i>
+	        </span>
+	        
+
+	<div class="statsContainer">
+		
+		
+			<span class="icons stats small lobbies darkgrey"></span>
+			<span class="darkgrey">3308</span>
+		
+		
+			<span class="icons stats small hours darkgrey"></span>
+			<span class="darkgrey">6664</span>
+		
+	</div>
+
+
+	    </div>
+    </a>
+</div>
+
+</div>
+		        </div>
+		    </div>
+		    
+		    <div id="players">
+		        <div>
+		            <div id="id76561199245527664" class="">
+
+<div class="ym-g1220-4 ym-gl omega playerSlot">
+    <a target="_blank" href="/profile/76561199245527664">
+	    <img class="slotIconInner avatar" src="https://avatars.steamstatic.com/c718b0c234a3f5ff5fc8f0b99c3f64f0de4ccefe.jpg"/>
+	    <div class="details">
+	        <span class="name">
+	        	
+	        	
+	        	
+	        	<i>earbuds</i>
+	        </span>
+	        
+
+	<div class="statsContainer">
+		
+		
+			<span class="icons stats small lobbies darkgrey"></span>
+			<span class="darkgrey">0</span>
+		
+		
+			<span class="icons stats small hours darkgrey"></span>
+			<span class="darkgrey">1224</span>
+		
+	</div>
+
+
+	    </div>
+    </a>
+</div>
+
+</div>
+		        </div><div>
+		            <div id="id76561198169153665" class="">
+
+<div class="ym-g1220-4 ym-gl omega playerSlot">
+    <a target="_blank" href="/profile/76561198169153665">
+	    <img class="slotIconInner avatar" src="https://avatars.steamstatic.com/d55e0b9c082dfb11cd8193fb423fc92f77de3761.jpg"/>
+	    <div class="details">
+	        <span class="name">
+	        	
+	        	
+	        	
+	        	<i>EXIT LIFE</i>
+	        </span>
+	        
+
+	<div class="statsContainer">
+		
+		
+			<span class="icons stats small lobbies darkgrey"></span>
+			<span class="darkgrey">839</span>
+		
+		
+			<span class="icons stats small hours darkgrey"></span>
+			<span class="darkgrey">6664</span>
+		
+	</div>
+
+
+	    </div>
+    </a>
+</div>
+
+</div>
+		        </div><div>
+		            <div id="id76561198323411853" class="">
+
+<div class="ym-g1220-4 ym-gl omega playerSlot">
+    <a target="_blank" href="/profile/76561198323411853">
+	    <img class="slotIconInner avatar" src="https://avatars.steamstatic.com/304748194d1990966dfd68112547e345512b7426.jpg"/>
+	    <div class="details">
+	        <span class="name">
+	        	
+	        	
+	        	
+	        	<i>1-800 HELP</i>
+	        </span>
+	        
+
+	<div class="statsContainer">
+		
+		
+			<span class="icons stats small lobbies darkgrey"></span>
+			<span class="darkgrey">547</span>
+		
+		
+			<span class="icons stats small hours darkgrey"></span>
+			<span class="darkgrey">8462</span>
+		
+	</div>
+
+
+	    </div>
+    </a>
+</div>
+
+</div>
+		        </div><div>
+		            <div id="id76561198395987423" class="">
+
+<div class="ym-g1220-4 ym-gl omega playerSlot">
+    <a target="_blank" href="/profile/76561198395987423">
+	    <img class="slotIconInner avatar" src="https://avatars.steamstatic.com/94dede0b087a84444ecc1b8b1b39b14dbe6b7512.jpg"/>
+	    <div class="details">
+	        <span class="name">
+	        	
+	        	
+	        	
+	        	<i>Itchy and Greasy</i>
+	        </span>
+	        
+
+	<div class="statsContainer">
+		
+		
+			<span class="icons stats small lobbies darkgrey"></span>
+			<span class="darkgrey">737</span>
+		
+		
+			<span class="icons stats small hours darkgrey"></span>
+			<span class="darkgrey">2388</span>
+		
+	</div>
+
+
+	    </div>
+    </a>
+</div>
+
+</div>
+		        </div><div>
+		            <div id="id76561198417116497" class="">
+
+<div class="ym-g1220-4 ym-gl omega playerSlot">
+    <a target="_blank" href="/profile/76561198417116497">
+	    <img class="slotIconInner avatar" src="https://avatars.steamstatic.com/9ed1c775df05fddeaf089d48f44561abbd385fd4.jpg"/>
+	    <div class="details">
+	        <span class="name">
+	        	
+	        	
+	        	
+	        	<i>fraftti</i>
+	        </span>
+	        
+
+	<div class="statsContainer">
+		
+		
+			<span class="icons stats small lobbies darkgrey"></span>
+			<span class="darkgrey">511</span>
+		
+		
+			<span class="icons stats small hours darkgrey"></span>
+			<span class="darkgrey">4329</span>
+		
+	</div>
+
+
+	    </div>
+    </a>
+</div>
+
+</div>
+		        </div><div>
+		            <div id="id76561199015973136" class="">
+
+<div class="ym-g1220-4 ym-gl omega playerSlot">
+    <a target="_blank" href="/profile/76561199015973136">
+	    <img class="slotIconInner avatar" src="https://avatars.steamstatic.com/b48d5b5352c3fa81ad7394974fbfb7fdedce282b.jpg"/>
+	    <div class="details">
+	        <span class="name">
+	        	
+	        	
+	        	
+	        	<i>toast</i>
+	        </span>
+	        
+
+	<div class="statsContainer">
+		
+		
+			<span class="icons stats small lobbies darkgrey"></span>
+			<span class="darkgrey">79</span>
+		
+		
+			<span class="icons stats small hours darkgrey"></span>
+			<span class="darkgrey">1094</span>
+		
+	</div>
+
+
+	    </div>
+    </a>
+</div>
+
+</div>
+		        </div><div>
+		            <div id="id76561198811639784" class="">
+
+<div class="ym-g1220-4 ym-gl omega playerSlot">
+    <a target="_blank" href="/profile/76561198811639784">
+	    <img class="slotIconInner avatar" src="https://avatars.steamstatic.com/fd15565185fcfc4fdd73501e88d2ad0f7ea0f8fa.jpg"/>
+	    <div class="details">
+	        <span class="name">
+	        	
+	        	
+	        	
+	        	<i>h4ri</i>
+	        </span>
+	        
+
+	<div class="statsContainer">
+		
+		
+			<span class="icons stats small lobbies darkgrey"></span>
+			<span class="darkgrey">176</span>
+		
+		
+			<span class="icons stats small hours darkgrey"></span>
+			<span class="darkgrey">1728</span>
+		
+	</div>
+
+
+	    </div>
+    </a>
+</div>
+
+</div>
+		        </div><div>
+		            <div id="id76561198261386193" class="">
+
+<div class="ym-g1220-4 ym-gl omega playerSlot">
+    <a target="_blank" href="/profile/76561198261386193">
+	    <img class="slotIconInner avatar" src="https://avatars.steamstatic.com/92d4e8202c044aadb494d32a2df6625dcbc3df57.jpg"/>
+	    <div class="details">
+	        <span class="name">
+	        	
+	        	
+	        	
+	        	<i>spooky</i>
+	        </span>
+	        
+
+	<div class="statsContainer">
+		
+		
+			<span class="icons stats small lobbies darkgrey"></span>
+			<span class="darkgrey">39</span>
+		
+		
+			<span class="icons stats small hours darkgrey"></span>
+			<span class="darkgrey">5412</span>
+		
+	</div>
+
+
+	    </div>
+    </a>
+</div>
+
+</div>
+		        </div><div>
+		            <div id="id76561198058824478" class="">
+
+<div class="ym-g1220-4 ym-gl omega playerSlot">
+    <a target="_blank" href="/profile/76561198058824478">
+	    <img class="slotIconInner avatar" src="https://avatars.steamstatic.com/8005964d6fef6e196dd68de6d9dfcf4f8e4d8b17.jpg"/>
+	    <div class="details">
+	        <span class="name">
+	        	
+	        	
+	        	
+	        	<i>Fish12 Swipr</i>
+	        </span>
+	        
+
+	<div class="statsContainer">
+		
+		
+			<span class="icons stats small lobbies darkgrey"></span>
+			<span class="darkgrey">1149</span>
+		
+		
+			<span class="icons stats small hours darkgrey"></span>
+			<span class="darkgrey">2928</span>
+		
+	</div>
+
+
+	    </div>
+    </a>
+</div>
+
+</div>
+		        </div><div>
+		            <div id="id76561198106563151" class="me me">
+
+<div class="ym-g1220-4 ym-gl omega playerSlot">
+    <a target="_blank" href="/profile/76561198106563151">
+	    <img class="slotIconInner avatar" src="https://avatars.steamstatic.com/3bb259b60b9b2f91a24c7bff1e2a0f352d3a74e0.jpg"/>
+	    <div class="details">
+	        <span class="name me">
+	        	
+	        	
+	        	
+	        	<i>narcissus</i>
+	        </span>
+	        
+
+	<div class="statsContainer">
+		
+		
+			<span class="icons stats small lobbies darkgrey"></span>
+			<span class="darkgrey">1607</span>
+		
+		
+			<span class="icons stats small hours darkgrey"></span>
+			<span class="darkgrey">4417</span>
+		
+	</div>
+
+
+	    </div>
+    </a>
+</div>
+
+</div>
+		        </div>
+		    </div>
+	    </div>
+    </div>
+    
+</div>
+
+</div>
+	    		</div>
+    		</div>
+    		
+<script type="text/javascript">
+/*<![CDATA[*/
+
+	toggleChatSize();
+
+/*]]>*/
+</script>
+    	
+				</div>
+		        <div class="footerPush"></div>
+	        </div>	
+	    </div>
+		<footer>
+    <div class="ym-wrapper">
+        <div class="ym-grid">
+            <div class="ym-g1220-4 ym-gl footerLogo">
+                <a href="../lobbies"><img src="../assets/images/tf2center_logo_footer.png" height="32" alt="TF2Center"/></a>
+                <div class="footerSlogan">From public to competitive</div>
+                <div class="footerYear">&copy; 2023 ScrapTF, LLC</div>
+            </div>
+            <div class="ym-g1220-4 ym-gl footerPlayer">
+                
+	                <img width="32" height="32" alt="" src="https://avatars.steamstatic.com/3bb259b60b9b2f91a24c7bff1e2a0f352d3a74e0.jpg"/>
+	                <div class="footerPlayerName">narcissus</div>
+	                <ul>
+	                    <li><a href="/logout">Logout</a></li>
+	                    <li><a href="/profile/76561198106563151">Profile</a></li>
+	                </ul>
+                
+            </div>
+            <div class="ym-g1220-8 ym-gl footerMenu">
+                <a href="../lobbies">Lobbies</a>
+                <a target="_blank" href="../faq">FAQ</a>
+                <a target="_blank" href="../changelog">Changelog</a>
+                <a target="_blank" href="../rules">Rules</a>
+                <a target="_blank" href="../about">Team</a>
+                <a target="_blank" href="../donate">Donate</a>
+                <a target="_blank" href="../privacy">Privacy Policy</a>
+                <a><span data-ccpa-link="1"></span></a>
+            </div>
+            <div class="ym-g1220-4 ym-gl omega footerSupport">
+                <div class="footerSupportHeader">Support</div>
+                <a href="http://forums.tf2center.com/forum/14-bug-reports/" target="_blank">Report bug</a><br />
+                <a href="http://forums.tf2center.com/forum/5-requests-suggestions/" target="_blank">Suggest Idea</a>
+                <a class="footerLollychop" href="http://steamcommunity.com/groups/tf2-center" target="_blank">&nbsp;</a>
+            </div>
+        </div>
+    </div>
+</footer>
+		<!-- hack to prevent the browser from closing the websocket -->
+		<iframe style="display: none" id="iframe"></iframe>
+	</body>
+	<!-- <span>JMS-NODE: PROD1</span> -->
+	<div id="id181" style="display:none">
+	
+</div>
+	<div id="id182" style="display:none">
+	
+</div>
+</html>
