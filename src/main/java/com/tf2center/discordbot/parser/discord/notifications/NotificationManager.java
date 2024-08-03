@@ -41,22 +41,29 @@ public class NotificationManager {
         Map<String, List<String>> subscribersSteamDiscordChatIds = CSVActions.readSubscribers();
 
         List<SlotDTO> allPlayersInLobby = new ArrayList<>();
-//        allPlayersInLobby.add(SlotDTO.of("narcissus","76561198106563151",false, TF2Team.BLU));
+        //Optional[/profile/76561198042755731]
+        //allPlayersInLobby.add(SlotDTO.of("narcissus","/profile/76561198106563151",false, TF2Team.BLU, false));
 
-        lobbies.stream()
+        List<LobbyDTO> list = lobbies.stream()
             .map(e -> (LobbyDTO) e)
             .filter(LobbyDTO::isReady)
-            .forEach(lobby -> lobby.getTeams().values().forEach(allPlayersInLobby::addAll));
+            .toList();
+
+//        if (!list.isEmpty()){
+//            System.out.println();
+//        }
+
+        list.forEach(lobby -> lobby.getTeams().values().forEach(allPlayersInLobby::addAll));
 
         if (allPlayersInLobby.isEmpty()) return;
 
         allPlayersInLobby.stream()
-            .filter(slotDTO -> slotDTO.getSteamId().isPresent()) //will throw an exception without this. WORKS
+            .filter(slotDTO -> slotDTO.getSteamId().isPresent()) //will throw an exception without this
             //If subscribed
             .filter(slotDTO -> subscribersSteamDiscordChatIds.containsKey(
                     slotDTO.getSteamId().get().substring(9)
                 )
-            )//WORKS
+            )
             //If an individual has not pressed Ready! yet
             .filter(slotDTO -> !slotDTO.getPersonIsReady().get())
             //If not notified via Discord yet
@@ -65,7 +72,7 @@ public class NotificationManager {
             )
             .forEach(player -> {
                 client.getChannelById(Snowflake.of(
-                        subscribersSteamDiscordChatIds.get(player.getSteamId().get()).get(1)
+                        subscribersSteamDiscordChatIds.get(player.getSteamId().get().substring(9)).get(1) //does not work Cannot invoke "java.util.List.get(int)" because the return value of "java.util.Map.get(Object)" is null
                     ))
                     .ofType(MessageChannel.class)
                     .flatMap(channel -> channel.createMessage("Your lobby is ready❗"))
