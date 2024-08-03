@@ -15,12 +15,7 @@ public class NotifiedPlayerDestructor{
         Thread sleep = new Thread(() -> {
             try {
                 //Defines for how long a person will not be getting another notification
-
                 Thread.sleep(30_000);
-//                Exception in thread "Thread-6" java.lang.IllegalMonitorStateException: current thread is not owner
-//                at java.base/java.lang.Object.wait(Native Method)
-//                at com.tf2center.discordbot.parser.discord.notifications.NotifiedPlayerDestructor.lambda$new$0(NotifiedPlayerDestructor.java:18)
-//                at java.base/java.lang.Thread.run(Thread.java:840)
                 ownList.remove(this);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
