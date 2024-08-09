@@ -1,0 +1,642 @@
+<!doctype html>
+<html>
+ <head>
+  <script type="text/javascript" src="./wicket/resource/org.apache.wicket.resource.JQueryResourceReference/jquery/jquery-1.10.1.min-ver-33D85132F0154466FC017DD05111873D.js"></script>
+  <script type="text/javascript" src="./wicket/resource/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/res/js/wicket-event-jquery.min-ver-7CAD6BF2722869D1E7ABE327EA2BCB30.js"></script>
+  <script type="text/javascript" id="subsToDisplay">
+/*<![CDATA[*/
+var maxSubsToDisplay=4
+/*]]>*/
+</script>
+  <script type="text/javascript" src="./wicket/resource/org.apache.wicket.ajax.AbstractDefaultAjaxBehavior/res/js/wicket-ajax-jquery.min-ver-FABC28B4BE0DA912EFAC52C869A18D35.js"></script>
+  <script type="text/javascript" src="./wicket/resource/org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow/res/modal.min-ver-817E55A61A8BA95CAED6316959B50EED.js"></script>
+  <link rel="stylesheet" type="text/css" href="./wicket/resource/org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow/res/modal.min-ver-78F168E51786694AF792949CE008D5D1.css">
+  <script type="text/javascript" id="wicket-ajax-base-url">
+/*<![CDATA[*/
+Wicket.Ajax.baseUrl="lobbies";
+/*]]>*/
+</script>
+  <title>TF2Center - lobbies</title>
+  <meta http-equiv="Content-Type" content="text/html;	charset=UTF-8">
+  <link rel="stylesheet" href="assets/yaml/core/base.css" type="text/css">
+  <link rel="stylesheet" href="assets/css/jquery.jgrowl.min.css">
+  <script type="text/javascript" src="assets/javascript/jscrollpane/jquery.jscrollpane.min.js"></script>
+  <script type="text/javascript" src="assets/javascript/jscrollpane/jquery.mousewheel.js"></script>
+  <script type="text/javascript" src="assets/javascript/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="assets/javascript/jquery.jgrowl.min.js"></script>
+  <script type="text/javascript" src="assets/javascript/jquery.titlealert.min.js"></script>
+  <script type="text/javascript" src="assets/javascript/jquery.jgrowl.min.js"></script>
+  <script type="text/javascript" src="assets/javascript/jquery.titlealert.min.js"></script>
+  <script type="text/javascript" src="assets/javascript/fancyform-v1.4.1/jquery.fancyform.min.js"></script>
+  <script type="text/javascript" src="assets/javascript/jquery.cookie.js"></script>
+  <script type="text/javascript" src="assets/javascript/countdown.js"></script>
+  <script type="text/javascript" src="assets/javascript/bxslider/jquery.bxslider.min.js"></script>
+  <script type="text/javascript" src="assets/javascript/calendar/jquery.pickmeup.min.js"></script>
+  <script type="text/javascript" src="assets/javascript/js.cookie-2.1.1.min.js"></script>
+  <script type="text/javascript" src="assets/javascript/desktop-notify-min.js" charset="utf-8"></script>
+  <script type="text/javascript">
+const friendsJsonStr='[]';
+const canOverrideRestrictedSlots=false;
+const mySteamId='';
+const myTotalHoursPlayed=0;
+const myLobbiesPlayed=0;
+const myRegion='';
+const noAds=false;
+const notificationsJsonStr='[{"id":586334831,"created":1718058704199,"dateDay":"11","dateMonth":"JUN","level":"REGULAR","title":"Newbie Weekend","message":"This weekend, we will invite new players via scrap.tf. Please be there, be friendly and help integrate them into the community. \\r\\nAlso it is now possible to open 2 HL and 3 6v6 lobbies at the same time. Please use this sparingly so lobbies can still fill.\\r\\nRegards, ZakMcRofl","author":"TF2Center"},{"id":279887702,"created":1445688707744,"dateDay":"24","dateMonth":"OCT","level":"REGULAR","title":"Rules updated!","message":"Hi guys,\\r\\n&lt;br&gt;&lt;br&gt;\\r\\nWe have worked hard on a more specific set of rules. Take a look: &lt;a href=&quot;http:\\/\\/tf2center.com\\/rules&quot; target=&quot;_blank&quot;&gt;Updated rules&lt;\\/a&gt;","author":"TF2Center"},{"id":277367562,"created":1444995949164,"dateDay":"16","dateMonth":"OCT","level":"REGULAR","title":"forums migrated","message":"Hi guys,\\r\\n&lt;br&gt;&lt;br&gt;\\r\\nDue to some hardware failure, we had to move our &lt;a href=&quot;http:\\/\\/forums.tf2center.com&quot; target=&quot;_blank&quot;&gt;forums&lt;\\/a&gt; over to another server. The IP has changed, so your DNS may take longer to update. If you&amp;#39;re having trouble reaching our forums, try &lt;a href=&quot;http:\\/\\/forums2.tf2center.com&quot; target=&quot;_blank&quot;&gt;forum2.tf2center.com&lt;\\/a&gt;","author":"TF2Center"},{"id":276354995,"created":1444680672092,"dateDay":"12","dateMonth":"OCT","level":"REGULAR","title":"DDOS issues fixed!","message":"Hi guys,\\r\\n&lt;br&gt;&lt;br&gt;\\r\\nJust letting you guys know the DDOS issues are &lt;a href=&quot;http:\\/\\/steamcommunity.com\\/groups\\/tf2-center#announcements\\/detail\\/106190694891794470&quot; target=&quot;_blank&quot;&gt;fixed&lt;\\/a&gt; and with the &lt;a href=&quot;https:\\/\\/tf2center.com\\/changelog#2015-09-25&quot; target=&quot;_blank&quot;&gt;new updating system&lt;\\/a&gt;, we&amp;#39;re running smoother than ever!","author":"TF2Center"},{"id":263298164,"created":1441382905578,"dateDay":"04","dateMonth":"SEP","level":"REGULAR","title":"Forums fixed!","message":"Hi guys!&lt;br&gt;&lt;br&gt;\\r\\n\\r\\nThere have been some problems logging in for the last few days, that&amp;#39;s &lt;a href=&quot;http:\\/\\/forums.tf2center.com\\/topic\\/6743-forums-successfully-migrated\\/&quot; target=&quot;_blank&quot;&gt;fixed now!&lt;\\/a&gt;","author":"TF2Center"},{"id":253818842,"created":1439356219119,"dateDay":"12","dateMonth":"AUG","level":"REGULAR","title":"Medic reviews!","message":"Hi to all medics!&lt;br&gt;&lt;br&gt;\\r\\n \\r\\nWe have a gold main medic offering his help on improving your game! Make sure to upload some of your demos...\\r\\n&amp;nbsp;&amp;nbsp;&amp;nbsp;\\r\\n&lt;a href=&quot;http:\\/\\/forums.tf2center.com\\/topic\\/6495-medic-reviews\\/&quot; target=&quot;_blank&quot;&gt;More info&lt;\\/a&gt;","author":"TF2Center"},{"id":234291236,"created":1435493311157,"dateDay":"28","dateMonth":"JUN","level":"REGULAR","title":"AL manual qualifications","message":"For those of you wanting in on &lt;a href=&quot;\\/al&quot; target=&quot;_blank&quot;&gt;Advanced Lobbies&lt;\\/a&gt; and not being on the whitelist, fill out a manual application and find out if you can participate soon ;-)\\r\\n&lt;br&gt;&lt;br&gt;\\r\\n&lt;a href=&quot;http:\\/\\/forums.tf2center.com\\/topic\\/5719-superthread-advanced-lobby-manual-qualification-issues\\/&quot; target=&quot;_blank&quot;&gt;More details about manual applications&lt;\\/a&gt;","author":"TF2Center"},{"id":229762762,"created":1434667439261,"dateDay":"19","dateMonth":"JUN","level":"REGULAR","title":"AL show matches","message":"Hi guys,\\r\\n&lt;br&gt;&lt;br&gt;\\r\\nHere&amp;#39;s the latest info regarding Advanced Lobbies:\\r\\n&lt;br&gt;&lt;br&gt;\\r\\n&lt;a href=&quot;http:\\/\\/forums.tf2center.com\\/topic\\/5398-advanced-lobbies-launch\\/&quot; target=&quot;_blank&quot;&gt;Advanced Lobbies Launch&lt;\\/a&gt;","author":"TF2Center"},{"id":227762568,"created":1434228338981,"dateDay":"13","dateMonth":"JUN","level":"REGULAR","title":"Advanced Lobbies","message":"Hi folks! Check out &lt;a href=&quot;\\/al&quot; target=&quot;_blank&quot;&gt;Advanced Lobbies&lt;\\/a&gt; now!\\r\\n&lt;br&gt;&lt;br&gt;\\r\\nAlso, the first 4 Advanced Lobbies will be casted by TeamFortress.tv next Saturday; after that it will be available for everyone who signed up!","author":"TF2Center"},{"id":217625295,"created":1432302194852,"dateDay":"22","dateMonth":"MAY","level":"REGULAR","title":"TF2C update","message":"Check our &lt;a href=&quot;http:\\/\\/tf2center.com\\/changelog#2015-05-22&quot; target=&quot;_blank&quot;&gt;latest update&lt;\\/a&gt; ;-)","author":"TF2Center"},{"id":215018968,"created":1431803466889,"dateDay":"16","dateMonth":"MAY","level":"REGULAR","title":"TF2C survey","message":"Hi guys! Wanna help us out and get a chance of &lt;b style=&quot;color: #155d6f&quot;&gt;winning a year free donator status&lt;\\/b&gt;? Tell us what you think of our services. It&amp;#39;s &lt;b style=&quot;color: #155d6f&quot;&gt;completely anonymous&lt;\\/b&gt;, so feel free to say anything that&amp;#39;s on your mind ;-)\\r\\n&lt;br&gt;&lt;br&gt;\\r\\n&lt;a href=&quot;https:\\/\\/tf2center.typeform.com\\/to\\/WRwSWe&quot; target=&quot;_blank&quot;&gt;Survey&lt;\\/a&gt;","author":"TF2Center"},{"id":203242357,"created":1429355400017,"dateDay":"18","dateMonth":"APR","level":"REGULAR","title":"Looking for new devs!","message":"In order to extend our activities we&amp;#39;re looking for new meat in our dev team. You think you have what it takes?\\r\\n&lt;br&gt;&lt;br&gt;\\r\\n&lt;a href=&quot;http:\\/\\/forums.tf2center.com\\/topic\\/4556-tf2c-is-looking-for-new-devs\\/&quot; target=&quot;_blank&quot;&gt;Read more&lt;\\/a&gt;","author":"TF2Center"},{"id":195357464,"created":1427731209041,"dateDay":"30","dateMonth":"MAR","level":"REGULAR","title":"Update","message":"Check out TF2C&amp;#39;s latest &lt;a href=&quot;http:\\/\\/tf2center.com\\/changelog#2015-03-30&quot; target=&quot;_blank&quot;&gt;update&lt;\\/a&gt;...","author":"TF2Center"},{"id":152764560,"created":1419241256058,"dateDay":"22","dateMonth":"DEC","level":"REGULAR","title":"Notifications added","message":"As of today we will be able to message you all when important events happen, such as a new update, a tournament, etc...\\r\\n\\r\\n&lt;br&gt;&lt;br&gt;\\r\\n\\r\\nIf you haven&amp;#39;t noticed yet, we have a &lt;a href=&quot;http:\\/\\/forums.tf2center.com&quot; target=&quot;_blank&quot;&gt;forum&lt;\\/a&gt; to manage community feedback. Go take a look! ;-)","author":"TF2Center"}]';
+const hasJustStarted=false;
+const permissions='[]';
+const advancedLobbiesReleased=true;
+const stripePublicKey='pk_live_fx8E6L0sra9yAket3Zm66SQb';
+</script>
+  <script type="text/javascript">
+var notificationLastRead=-1;
+</script>
+  <script type="text/javascript">
+/*<![CDATA[*/
+try {Wicket.Window.unloadConfirmation = false;} catch(e){}
+/*]]>*/
+</script><!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-58172687-1"></script>
+  <script>
+/*<![CDATA[*/
+
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+
+			gtag('config', 'UA-58172687-1');
+
+/*]]>*/
+</script>
+  <script data-cfasync="false">
+/*<![CDATA[*/
+window.nitroAds=window.nitroAds||{createAd:function(){return new Promise(e=>{window.nitroAds.queue.push(["createAd",arguments,e])})},addUserToken:function(){window.nitroAds.queue.push(["addUserToken",arguments])},queue:[]};
+/*]]>*/
+</script>
+  <script data-cfasync="false" async src="https://s.nitropay.com/ads-1354.js"></script>
+  <script type="text/javascript" src="assets/javascript/advert.js"></script>
+  <link rel="stylesheet" type="text/css" href="assets/css/style.min.css?ts=20231106-210658">
+  <script type="text/javascript" src="assets/javascript/script.min.js?ts=20231106-210658"></script>
+  <script type="text/javascript">
+/*<![CDATA[*/
+Wicket.Event.add(window, "domready", function(event) {
+$(document).trigger("tf2center.overview.refresh-substitutes", {"data":[]});;
+$(document).trigger("tf2center.refresh-players-online", {"data":[{"steamId":"76561198916649534","playerName":"wiz"},{"steamId":"76561198119167317","playerName":"jpopfan"},{"steamId":"76561199104872130","playerName":"Sweet Dreams"},{"steamId":"76561197961186188","playerName":"ZakMcRofl"},{"steamId":"76561198063450882","playerName":"FunguzBunguz"},{"steamId":"76561198414226377","playerName":":3"},{"steamId":"76561198994622883","playerName":"gokhan"},{"steamId":"76561198241901284","playerName":"hupa"},{"steamId":"76561198090146457","playerName":"Disorderly Noise"},{"steamId":"76561198832001187","playerName":"Swinger"},{"steamId":"76561198304471896","playerName":"ImABush"},{"steamId":"76561197970852048","playerName":"Adrenaline"},{"steamId":"76561198043820228","playerName":"Dr.Disrespect"},{"steamId":"76561199127271263","playerName":"noor al deen al yemeni"},{"steamId":"76561199074560199","playerName":"outcast"},{"steamId":"76561198239974294","playerName":"n3"},{"steamId":"76561198046508636","playerName":"Slice"},{"steamId":"76561198307037169","playerName":"nebuden"},{"steamId":"76561198065838527","playerName":"SOAP08"},{"steamId":"76561198077756206","playerName":"Brian"},{"steamId":"76561198059047300","playerName":"Sigatiner"},{"steamId":"76561198117580379","playerName":"Bobson"},{"steamId":"76561198261787284","playerName":"symbioza machen"},{"steamId":"76561199074285139","playerName":"♥ Elisio ♥"},{"steamId":"76561198411842147","playerName":"spicy (on break)"},{"steamId":"76561198043938997","playerName":"Kelesch"},{"steamId":"76561198119371683","playerName":"sup3rfr3ddy."},{"steamId":"76561198153751829","playerName":"Dalibor"},{"steamId":"76561198041763546","playerName":"TaV"},{"steamId":"76561198137786817","playerName":"cartier"},{"steamId":"76561198279024247","playerName":"Justice"},{"steamId":"76561198283989089","playerName":"rozumiesz po polsku? polaku?"},{"steamId":"76561198046214898","playerName":"miknando"},{"steamId":"76561199107861983","playerName":"umbayumba"},{"steamId":"76561198253716395","playerName":"white"},{"steamId":"76561198033605800","playerName":"xs"},{"steamId":"76561198279087082","playerName":"猫マンチック"},{"steamId":"76561198026597437","playerName":"It's fine"},{"steamId":"76561198124543312","playerName":"Grzyv"},{"steamId":"76561197982427900","playerName":"TheMasterOfDisaster"},{"steamId":"76561198227232564","playerName":"uberunderpantz"},{"steamId":"76561198323411853","playerName":"In my restless dreams"},{"steamId":"76561198042134766","playerName":"grand roger"},{"steamId":"76561198164806677","playerName":"｡✧ 3ㄴ¥∆ㅜARMENIANXNIPE"},{"steamId":"76561198156359783","playerName":"kiwi"},{"steamId":"76561198124412042","playerName":"trakker"},{"steamId":"76561198162623456","playerName":"bosse"},{"steamId":"76561198025253748","playerName":"omrish"},{"steamId":"76561198379257083","playerName":"Polooid"},{"steamId":"76561198421131192","playerName":"Nistor"},{"steamId":"76561198296378198","playerName":"izak #fixTF2"},{"steamId":"76561198091707089","playerName":"aleha_666"},{"steamId":"76561198047874808","playerName":"SVBER"},{"steamId":"76561198192966155","playerName":"hg"},{"steamId":"76561198034442999","playerName":"willo"},{"steamId":"76561198115326040","playerName":"şamesö"},{"steamId":"76561198326324739","playerName":"Malte"},{"steamId":"76561198143529110","playerName":"DeFRaG"},{"steamId":"76561198032871139","playerName":"yanyul"},{"steamId":"76561198092422131","playerName":"CL! Meterora"},{"steamId":"76561198061714753","playerName":"Charon"},{"steamId":"76561198044824504","playerName":"opped"},{"steamId":"76561198000792700","playerName":"Vasilis"},{"steamId":"76561199108971599","playerName":"Max27"},{"steamId":"76561198338185850","playerName":"BBL Drizzy"},{"steamId":"76561198118412910","playerName":"fifty seven"},{"steamId":"76561198259868405","playerName":"brev"},{"steamId":"76561198449852071","playerName":"otan osaa"},{"steamId":"76561199435854673","playerName":"galaa"},{"steamId":"76561198238126246","playerName":"12345jenna"},{"steamId":"76561198861788312","playerName":"grønnsaker"},{"steamId":"76561198331414207","playerName":"mgemiketyson"},{"steamId":"76561199510464777","playerName":"cloud"},{"steamId":"76561198342253732","playerName":"RICHARD D JAMES"},{"steamId":"76561198095365841","playerName":"mora"},{"steamId":"76561198441327338","playerName":"Komur"},{"steamId":"76561198409744393","playerName":"ben"},{"steamId":"76561198963599425","playerName":"shirtokiya"},{"steamId":"76561198088550312","playerName":".LightBurn"},{"steamId":"76561199070968487","playerName":"Antonom"},{"steamId":"76561198088729165","playerName":"Cαrnαgε"},{"steamId":"76561198118868022","playerName":"Pers Cain"},{"steamId":"76561198188608817","playerName":"john fortress (2)"},{"steamId":"76561198317147357","playerName":"kuba"},{"steamId":"76561199271935963","playerName":"halestoner"},{"steamId":"76561197986083582","playerName":"KeithStone"},{"steamId":"76561199044823962","playerName":"не терпи"},{"steamId":"76561198255909503","playerName":"Kyzo"},{"steamId":"76561198150455900","playerName":"numij"},{"steamId":"76561199046667189","playerName":"yan"},{"steamId":"76561198109583337","playerName":"Arelelele"},{"steamId":"76561198804210516","playerName":"Big D Randy"},{"steamId":"76561198294431910","playerName":"slamm"},{"steamId":"76561198107199266","playerName":"nicki mirage"},{"steamId":"76561199074883856","playerName":"Clowny"},{"steamId":"76561198062247888","playerName":"wG auto"},{"steamId":"76561199467299571","playerName":"MAJOR"},{"steamId":"76561198271936950","playerName":"relax"},{"steamId":"76561198358379587","playerName":"DXD Tech"},{"steamId":"76561198103010992","playerName":"miw."},{"steamId":"76561198079948125","playerName":"Quaddeln"},{"steamId":"76561198047915503","playerName":"SONDER"},{"steamId":"76561198832112629","playerName":"cinny"},{"steamId":"76561198353652829","playerName":"Adaszek ツ"},{"steamId":"76561198961611936","playerName":"🍩 Lino 🍩"},{"steamId":"76561198193208861","playerName":"mysteriu"},{"steamId":"76561198196523766","playerName":"Spongy"},{"steamId":"76561198011423111","playerName":"purple horse"},{"steamId":"76561199095560872","playerName":"Tele2"},{"steamId":"76561198091242337","playerName":"astrya"},{"steamId":"76561198040423618","playerName":"ICXC NIKA"},{"steamId":"76561198048250715","playerName":"₲Ɏ₳₮₮ ₥₳₵Ⱨł₦Ɇ"},{"steamId":"76561198162873354","playerName":"biohazard"},{"steamId":"76561198028991659","playerName":"yakalelo"},{"steamId":"76561198104385842","playerName":"Redox"},{"steamId":"76561198148599811","playerName":"NICKOMODE999"},{"steamId":"76561198151170983","playerName":"Luka Enderman"},{"steamId":"76561199111660517","playerName":"CZ"},{"steamId":"76561198107934426","playerName":"oTg"},{"steamId":"76561198147078303","playerName":"Un4given"},{"steamId":"76561198866623948","playerName":"Drackk with ADHD"},{"steamId":"76561198209562236","playerName":"your home boi"},{"steamId":"76561198056761901","playerName":"UZBEK_DEMON228"},{"steamId":"76561198312899842","playerName":"NQbIe"},{"steamId":"76561199015973136","playerName":"toast :]"},{"steamId":"76561198112482099","playerName":"Trash"},{"steamId":"76561198276681691","playerName":"stun"},{"steamId":"76561197980320517","playerName":"Harps"},{"steamId":"76561198139476358","playerName":"240hz boiii"},{"steamId":"76561198394345037","playerName":"tuna"},{"steamId":"76561198273681447","playerName":"berwick"},{"steamId":"76561198315156235","playerName":"hey gringo!"},{"steamId":"76561198106563151","playerName":"narcissus"},{"steamId":"76561198819934552","playerName":"Hate"},{"steamId":"76561198346454188","playerName":"veljamiloje123"},{"steamId":"76561198966851427","playerName":"SOSISKA BLYAT"},{"steamId":"76561198807837935","playerName":"Mellisa"},{"steamId":"76561198173345453","playerName":"Haveiyk"},{"steamId":"76561199265289808","playerName":"save.tf #FixTf2"},{"steamId":"76561198337798173","playerName":"Kuzya (real)"},{"steamId":"76561198143819941","playerName":"Cassiopeia"}]});;
+Wicket.Ajax.ajax({"c":"filterBtn","u":"./lobbies;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0?0-1.IBehaviorListener.0-header-filterBtnContainer-filterToggleBtn","e":"click"});;
+Wicket.Ajax.ajax({"c":"id1","u":"./lobbies;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0?0-1.IBehaviorListener.0-header-filterPreferencesLink","e":"click"});;
+Wicket.Ajax.ajax({"c":"id1","u":"./lobbies;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0?0-1.IBehaviorListener.1-header-filterPreferencesLink","e":"mouseup"});;
+Wicket.Ajax.ajax({"c":"id2","u":"./lobbies;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0?0-1.IBehaviorListener.0-header-lobbySortLocationBtn","e":"click"});;
+Wicket.Ajax.ajax({"c":"id3","u":"./lobbies;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0?0-1.IBehaviorListener.0-header-lobbySortMapBtn","e":"click"});;
+Wicket.Ajax.ajax({"c":"id4","u":"./lobbies;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0?0-1.IBehaviorListener.0-header-lobbySortGameTypeBtn","e":"click"});;
+Wicket.Ajax.ajax({"c":"id5","u":"./lobbies;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0?0-1.IBehaviorListener.0-header-lobbySortRestrictionBtn","e":"click"});;
+window.settings = getSettings();
+;});
+/*]]>*/
+</script>
+ </head>
+ <body>
+  <a href="./faq#adblock" target="_blank">
+   <div class="youShallNotPass">
+    AdBlocker plugins detected. TF2Center may not function correctly.
+   </div></a>
+  <div class="contentWrapper youShallNotPassEnabled">
+   <div class="contentWrapper">
+    <div>
+     <div id="nav-bar">
+      <div class="ym-wrapper">
+       <div class="ym-grid">
+        <div class="ym-g1220-4 ym-gl logoTop">
+         <a href="./lobbies;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><img src="assets/images/tf2center_logo.png" height="32" alt="TF2Center"></a>
+         <div class="notificationButton enabled">
+          <div id="notificationUnreadCounter" class="icons notify red">
+           0
+          </div>
+         </div>
+        </div>
+        <div class="ym-g1220-4 ym-gl playerTopMenu">
+         <a href="https://steamcommunity.com/openid/login?openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&amp;openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&amp;openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&amp;openid.return_to=https%3A%2F%2Ftf2center.com%2Fopenid&amp;openid.realm=https%3A%2F%2Ftf2center.com%2Fopenid&amp;openid.mode=checkid_setup"><img class="sits" src="/assets/images/sits_small.png"></a>
+        </div>
+        <div class="ym-g1220-11 ym-gl omega siteTopMenu">
+         <ul>
+          <li><a href="./lobbies;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0" class="current">Lobbies</a></li>
+          <li><a target="_blank" href="https://discord.tf2center.com">Discord</a></li>
+          <li id="wrap_menu1"><a href="" id="trigg_menu1">About
+            <div class="icons carrot micro down"></div></a>
+           <div id="drop_menu1" class="ym-g1220-4 ym-gl dropdownMenu">
+            <ul>
+             <li><a href="/" target="_blank">Getting Started</a></li>
+             <li><a target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0">Advanced Lobbies</a></li>
+             <li><a target="_blank" href="./rules;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0">Rules</a></li>
+             <li><a target="_blank" href="./faq;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0">FAQ</a></li>
+             <li><a target="_blank" href="./about;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0">TF2C Team</a></li>
+             <li><a target="_blank" href="./changelog;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0">Changelog</a></li>
+             <li><a target="_blank" href="./privacy;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0">Privacy Policy</a></li>
+            </ul>
+           </div></li>
+          <li><a target="_blank" href="./halloffame;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0">Hall of Fame</a></li>
+          <li><a target="_blank" class="newMenuItem" href="./freemium;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0">Freemium<i class="icons news"></i></a></li>
+          <li><a target="_blank" href="./donate;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0">Donate</a></li>
+         </ul>
+        </div>
+        <div class="ym-g1220-1 ym-gr omega">
+         <a class="getQuickHelp" href="/">&nbsp;?</a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <header>
+     <div id="id6" style="display:none">
+     </div><!-- modal window must be wrapped in a different form, to avoid	nested form	submissions	-->
+     <form style="margin-bottom:	0px;">
+      <div id="id7" style="display:none">
+      </div>
+     </form>
+     <form style="margin-bottom:	0px;">
+      <div id="id8" style="display:none">
+       <div id="id9" style="display:none"></div>
+      </div>
+     </form>
+     <div id="mainHeader">
+      <div class="backgroundLeft"></div>
+      <div class="ym-wrapper">
+       <div class="ym-grid	mainHeaderContainer">
+        <div class="backgroundMain"></div>
+        <div class="classImage heavy"></div>
+        <div class="ym-g1220-8 ym-gl">
+         <div class="speechBubble">
+          <div class="speechBubbleText">
+           Seeing weird stuff happening in your browser? Your browser may not be supported and tested. We currently support the latest Chrome and FireFox releases, but let us know any issues you see in your browser of choice
+          </div>
+          <div class="notificationCalendar"></div>
+          <div class="notificationToday">
+           <a href="#">Today</a>
+          </div>
+         </div>
+        </div>
+        <div class="notificationClose icons cross white" style="display: none"></div><!-- template used by notifications.js -->
+        <div class="notificationBox" id="notificationTemplate" style="display: none">
+         <span class="id" style="display: none"></span>
+         <div class="ym-g1220-1 ym-gl notificationDateBox">
+          <div class="date"></div>
+          <div class="month"></div>
+         </div>
+         <div class="ym-g1220-9 ym-gl omega notificationHeader">
+          <h1></h1>
+         </div>
+         <div class="ym-clearfix"></div>
+         <div class="ym-g1220-10	ym-gl omega	notificationText"></div>
+        </div>
+        <div class="ym-g1220-12	ym-gl" id="notificationSlider"></div>
+        <div class="ym-g1220-6 ym-gl lobbyVoteCreate">
+         <h1>TF2C Lobbies</h1>
+         <h3>Join, vote or create lobby to begin</h3>
+         <div class="buttonContainer">
+          <!-- <button style="visibility:	hidden"	class="btn size169x45 voteLobby">
+								<div class="iconContainer"><div	class="icons features vote"></div></div>
+								<span class="label">Vote</span>
+							</button> -->
+         </div>
+        </div>
+        <div class="ym-g1220-4 ym-gr mostVotedMaps" style="height: 177px;">
+         <div id="tftvStreamContainer" style="display:none"></div><!-- Voting	not	included currently -->
+         <div class="filterButtons" style="position:	absolute; bottom: 0;">
+          <div class="filterSwitch off" id="ida">
+           <button id="filterBtn" class="btn size32x32	grey">
+            <div class="icons	grips vertical"></div></button>
+           <div class="filterSign">
+            Filter OFF
+           </div>
+          </div><button class="btn size108x32	grey" id="id1">Filter</button>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div id="info-bar">
+      <div class="ym-wrapper">
+       <ul class="ym-grid">
+        <li class="ym-g1220-4 ym-gl	omega playersOnline	hideable infoPanel active"><span>Players</span> <span class="counter" id="playersOnline" title="Guests: 5">145</span> <span class="playersRegion">
+          <div>
+           <i id="euPlayersOnline" title="Potential: 111 | 111 (M) | 43 (AL)">134</i> EU
+          </div>
+          <div>
+           <i id="naPlayersOnline" title="Potential: 9 | 9 (M) | 2 (AL)">9</i> NA
+          </div></span> <span class="playersRegion">
+          <div>
+           <i id="auPlayersOnline" title="Potential: 0 | 0 (M) | 0 (AL)">0</i> AU
+          </div>
+          <div>
+           <i id="otherPlayersOnline">2</i> Others
+          </div></span>
+         <div class="icons carrot grey up"></div></li>
+        <li class="ym-g1220-4 ym-gl	omega friendsOnline	infoPanel"><span>Friends online</span> <span id="friendsOnline" class="counter">0</span></li>
+        <li class="ym-g1220-1 ym-gl omega lobbyRegion lobbySort" id="id2">
+         <div class="icons globe"></div>
+         <div class="icons carrot micro down"></div></li>
+        <li class="ym-g1220-5 ym-gl	omega lobbyMap lobbySort" id="id3"><span>Map</span>
+         <div class="icons carrot micro down"></div></li>
+        <li class="ym-g1220-2 ym-gl omega gameType	lobbySort" id="id4"><span>Game type</span>
+         <div class="icons carrot micro down"></div></li>
+        <li class="ym-g1220-4 ym-gl	omega lobbyRequirements	lobbySort" id="id5"><span>Min requirements</span>
+         <div class="icons carrot micro down"></div></li>
+       </ul>
+      </div>
+     </div>
+    </header>
+    <div id="mainContent" class="ym-wrapper">
+     <div class="_containerVer">
+      <div id="overview-left"></div>
+      <script>
+/*<![CDATA[*/
+
+						window['nitroAds'].createAd('overview-left', {
+							"refreshLimit": 10,
+							"refreshTime": 30,
+							"renderVisibleOnly": true,
+							"refreshVisibleOnly": true,
+							"sizes": [
+								["160","600"]
+							],
+							"report": {
+								"enabled": true,
+								"icon": true,
+								"wording": "Report Ad",
+								"position": "bottom-left"
+							}
+						});
+
+/*]]>*/
+</script>
+     </div>
+     <div class="_containerVerRight">
+      <div id="overview-right"></div>
+      <script>
+/*<![CDATA[*/
+
+						window['nitroAds'].createAd('overview-right', {
+							"refreshLimit": 10,
+							"refreshTime": 30,
+							"renderVisibleOnly": true,
+							"refreshVisibleOnly": true,
+							"sizes": [
+								["160","600"]
+							],
+							"report": {
+								"enabled": true,
+								"icon": true,
+								"wording": "Report Ad",
+								"position": "bottom-right"
+							}
+						});
+
+/*]]>*/
+</script>
+     </div>
+     <div id="content-holder" class="ym-grid">
+      <div class="ym-g1220-8 ym-gl alpha">
+       <div class="singleSpectatorRow templateHolder" style="display:none">
+        <div class="friend-row friend-in-lobby">
+         <div class="playerPanel">
+          <div class="friendname">
+           <span class="indented"> <a class="profileLink" target="_blank"> <i class="friend-icon icons person"></i> <span class="name"></span> </a> </span>
+          </div>
+         </div>
+         <div class="ym-clearfix"></div>
+        </div>
+       </div>
+       <div id="players-online">
+        <div class="mainbox ym-gbox ym-inner-grid">
+         <div class="header-row">
+          <div class="ym-g1220-8 ym-gl header alpha" id="playersonline">
+           <span class="indented">Players online</span>
+          </div><!-- <div class="ym-g1220-5 ym-gl header omega"><span>Active lobbies</span></div> -->
+          <div class="ym-clearfix"></div>
+         </div>
+         <div class="playerScrollContainerLoading">
+          <img src="assets/images/loader.gif">
+         </div>
+         <div class="playerScrollContainer scrollable ym-g1220-8 ym-gl alpha hidden"></div>
+        </div>
+       </div>
+       <div id="chat" class="chatPanel">
+        <div class="chatScrollContainer scrollable">
+         <ul class="chatContainer">
+          <li><span class="date">17:47:24</span> <a class="author" target="_blank" href="/profile/76561198838613718"> <span class="icons person"></span> <span class="name">tuli_pan</span>: </a> <span class="message">highlander?</span></li>
+          <li><span class="date">18:06:56</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198145059367"> <span class="icons person"></span> <span class="name">Ѧnti Gravity LFT</span>: </a> <span class="message">where 6s?</span></li>
+          <li><span class="date">19:19:14</span> <a class="author" target="_blank" href="/profile/76561198414226377"> <span class="icons person"></span> <span class="name">:3</span>: </a> <span class="message">guys join pls</span></li>
+          <li><span class="date">19:19:46</span> <a class="author" target="_blank" href="/profile/76561198414226377"> <span class="icons person"></span> <span class="name">:3</span>: </a> <span class="message">highlander</span></li>
+          <li><span class="date">19:36:51</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198117580379"> <span class="icons person"></span> <span class="name">Bobson</span>: </a> <span class="message">create Eu product </span></li>
+          <li><span class="date">19:37:58</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198091242337"> <span class="icons person"></span> <span class="name">astrya</span>: </a> <span class="message">pyro sub, not started</span></li>
+          <li><span class="date">19:59:49</span> <a class="author" target="_blank" href="/profile/76561198432937497"> <span class="icons person"></span> <span class="name">twitch.tv/ziksterziki</span>: </a> <span class="message">where are the eu hl lobbies @zack</span></li>
+          <li><span class="date">20:03:48</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">you want another koth_proplant_v8_nnb</span></li>
+          <li><span class="date">20:03:53</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">if you missed the world premiere</span></li>
+          <li><span class="date">20:28:03</span> <a class="author" target="_blank" href="/profile/76561199243182194"> <span class="icons person"></span> <span class="name">ezequieleximfarrando</span>: </a> <span class="message">THERE IS NO ONE in s-a?</span></li>
+          <li><span class="date">20:28:16</span> <a class="author" target="_blank" href="/profile/76561199243182194"> <span class="icons person"></span> <span class="name">ezequieleximfarrando</span>: </a> <span class="message">i think im gonna go 6s</span></li>
+          <li><span class="date">20:28:48</span> <a class="author" target="_blank" href="/profile/76561198414226377"> <span class="icons person"></span> <span class="name">:3</span>: </a> <span class="message">someone be sigma and mak elobby</span></li>
+          <li><span class="date">21:04:59</span> <a class="author" target="_blank" href="/profile/76561199243182194"> <span class="icons person"></span> <span class="name">ezequieleximfarrando</span>: </a> <span class="message">yo someone highlander?</span></li>
+          <li><span class="date">21:05:04</span> <a class="author" target="_blank" href="/profile/76561199243182194"> <span class="icons person"></span> <span class="name">ezequieleximfarrando</span>: </a> <span class="message">pls</span></li>
+          <li><span class="date">21:06:29</span> <a class="author" target="_blank" href="/profile/76561199243182194"> <span class="icons person"></span> <span class="name">ezequieleximfarrando</span>: </a> <span class="message">someone highlandeeer</span></li>
+          <li><span class="date">22:51:10</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">This weekend, we will invite new players via scrap.tf. Please be there, be friendly and help integrate them into our community. </span></li>
+          <li><span class="date">00:49:42</span> <a class="author" target="_blank" href="/profile/76561198044766573"> <span class="icons person"></span> <span class="name">hauntscr7</span>: </a> <span class="message">why did i get banned</span></li>
+          <li><span class="date">00:49:50</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198051283300"> <span class="icons person"></span> <span class="name">pizzi</span>: </a> <span class="message">man this is cringe</span></li>
+          <li><span class="date">00:51:20</span> <a class="author" target="_blank" href="/profile/76561198112482099"> <span class="icons person"></span> <span class="name">Trash</span>: </a> <span class="message">wtf ?</span></li>
+          <li><span class="date">00:51:25</span> <a class="author" target="_blank" href="/profile/76561198044766573"> <span class="icons person"></span> <span class="name">hauntscr7</span>: </a> <span class="message">@zakmcrofl speak ip</span></li>
+          <li><span class="date">00:51:26</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198038748489"> <span class="icons person"></span> <span class="name">vamos</span>: </a> <span class="message">))))))))))))))</span></li>
+          <li><span class="date">00:51:27</span> <a class="author" target="_blank" href="/profile/76561198044766573"> <span class="icons person"></span> <span class="name">hauntscr7</span>: </a> <span class="message">up</span></li>
+          <li><span class="date">00:51:44</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197970852048"> <span class="icons person"></span> <span class="name">Adrenaline</span>: </a> <span class="message">don't ask</span></li>
+          <li><span class="date">00:51:47</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">don't advertise lobbies in other lobbies, its tacky</span></li>
+          <li><span class="date">00:51:51</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197970852048"> <span class="icons person"></span> <span class="name">Adrenaline</span>: </a> <span class="message">join 6s</span></li>
+          <li><span class="date">00:52:13</span> <a class="author" target="_blank" href="/profile/76561198044766573"> <span class="icons person"></span> <span class="name">hauntscr7</span>: </a> <span class="message">fair</span></li>
+          <li><span class="date">00:52:22</span> <a class="author" target="_blank" href="/profile/76561198869666452"> <span class="icons person"></span> <span class="name">gabi</span>: </a> <span class="message">change.org/save_our_lobby</span></li>
+          <li><span class="date">00:52:28</span> <a class="author" target="_blank" href="/profile/76561198112482099"> <span class="icons person"></span> <span class="name">Trash</span>: </a> <span class="message">bruh...</span></li>
+          <li><span class="date">00:52:33</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198051283300"> <span class="icons person"></span> <span class="name">pizzi</span>: </a> <span class="message">is there a rule for that?</span></li>
+          <li><span class="date">00:53:01</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198277024404"> <span class="icons person"></span> <span class="name">elvonás</span>: </a> <span class="message">you literally do the same zac what are you even saying LMAO</span></li>
+          <li><span class="date">00:53:18</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198277024404"> <span class="icons person"></span> <span class="name">elvonás</span>: </a> <span class="message">you literally link mumble lobbys in other lobbys</span></li>
+          <li><span class="date">00:53:27</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198277024404"> <span class="icons person"></span> <span class="name">elvonás</span>: </a> <span class="message">ironic a bit isnt it</span></li>
+          <li><span class="date">00:53:34</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">show me</span></li>
+          <li><span class="date">00:53:49</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">i never do that</span></li>
+          <li><span class="date">00:54:18</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198277024404"> <span class="icons person"></span> <span class="name">elvonás</span>: </a> <span class="message">show you? do you see a mumble lobby rn?</span></li>
+          <li><span class="date">00:54:27</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198277024404"> <span class="icons person"></span> <span class="name">elvonás</span>: </a> <span class="message">you did it literally a week ago </span></li>
+          <li><span class="date">00:54:30</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">screenshot it if do it</span></li>
+          <li><span class="date">00:54:32</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198051283300"> <span class="icons person"></span> <span class="name">pizzi</span>: </a> <span class="message">zak where is the rule to not advertise lobbies</span></li>
+          <li><span class="date">00:54:47</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198146234744"> <span class="icons person"></span> <span class="name">azr</span>: </a> <span class="message">This weekend, we will invite new players via scrap.tf. Please be there, be friendly and help integrate them into our community.</span></li>
+          <li><span class="date">00:55:15</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">same logic as closing a 2nd lobby at 2 am, it disrupts the site</span></li>
+          <li><span class="date">00:55:29</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197970852048"> <span class="icons person"></span> <span class="name">Adrenaline</span>: </a> <span class="message">i told you</span></li>
+          <li><span class="date">00:55:40</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197970852048"> <span class="icons person"></span> <span class="name">Adrenaline</span>: </a> <span class="message">i opened the 2nd because i saw just one medic left</span></li>
+          <li><span class="date">00:55:46</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197970852048"> <span class="icons person"></span> <span class="name">Adrenaline</span>: </a> <span class="message">on the other one</span></li>
+          <li><span class="date">00:55:56</span> <a class="author" target="_blank" href="/profile/76561198048250715"> <span class="icons person"></span> <span class="name">₲Ɏ₳₮₮ ₥₳₵Ⱨł₦Ɇ</span>: </a> <span class="message">writing the rules as we speak</span></li>
+          <li><span class="date">00:56:34</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197970852048"> <span class="icons person"></span> <span class="name">Adrenaline</span>: </a> <span class="message">and i closed this because you banned two of us </span></li>
+          <li><span class="date">00:56:38</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">how does that make the 1st lobby fill faster?</span></li>
+          <li><span class="date">00:56:51</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">how does opening a 2nd lobby make the first fill faster?</span></li>
+          <li><span class="date">00:56:56</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198239974294"> <span class="icons person"></span> <span class="name">n3</span>: </a> <span class="message">GOOOOOOOO PLAYYYYYYYYYYYYYYYYY</span></li>
+          <li><span class="date">00:57:03</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197970852048"> <span class="icons person"></span> <span class="name">Adrenaline</span>: </a> <span class="message">it doesn't</span></li>
+          <li><span class="date">00:57:05</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198832112629"> <span class="icons person"></span> <span class="name">cinny</span>: </a> <span class="message">zak everyone advertises other lobbies, it's not the first time and you do it too</span></li>
+          <li><span class="date">00:57:10</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198832112629"> <span class="icons person"></span> <span class="name">cinny</span>: </a> <span class="message">so why is a problem now?</span></li>
+          <li><span class="date">00:57:22</span> <a class="author" target="_blank" href="/profile/76561198112482099"> <span class="icons person"></span> <span class="name">Trash</span>: </a> <span class="message">bro be power trippin </span></li>
+          <li><span class="date">00:57:25</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">i should have just closed the 2nd lobby, you're right</span></li>
+          <li><span class="date">00:57:28</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">next time i will</span></li>
+          <li><span class="date">00:57:34</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">my bad</span></li>
+          <li><span class="date">00:57:34</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198277024404"> <span class="icons person"></span> <span class="name">elvonás</span>: </a> <span class="message">shiver me timbers</span></li>
+          <li><span class="date">00:57:45</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198832112629"> <span class="icons person"></span> <span class="name">cinny</span>: </a> <span class="message">that's not the point of what im saying </span></li>
+          <li><span class="date">00:58:14</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197970852048"> <span class="icons person"></span> <span class="name">Adrenaline</span>: </a> <span class="message">i meant that usually if just one medic is missing, it doesn't matter if you create another game, because people don't reallt want to play medic </span></li>
+          <li><span class="date">00:58:15</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">if you need 1 player ask for that class, that's ok, but saying "shit map play the other" just kills both lobbies if it were to happen in bot</span></li>
+          <li><span class="date">00:58:34</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197970852048"> <span class="icons person"></span> <span class="name">Adrenaline</span>: </a> <span class="message">that was a joke </span></li>
+          <li><span class="date">00:58:36</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197970852048"> <span class="icons person"></span> <span class="name">Adrenaline</span>: </a> <span class="message">ofc</span></li>
+          <li><span class="date">00:58:51</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197970852048"> <span class="icons person"></span> <span class="name">Adrenaline</span>: </a> <span class="message">if people are stupid to left an almost full lobby</span></li>
+          <li><span class="date">00:58:56</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197970852048"> <span class="icons person"></span> <span class="name">Adrenaline</span>: </a> <span class="message">what can we do ahaha</span></li>
+          <li><span class="date">00:58:58</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">its just rude and border harassment</span></li>
+          <li><span class="date">00:59:13</span> <a class="author" target="_blank" href="/profile/76561198112482099"> <span class="icons person"></span> <span class="name">Trash</span>: </a> <span class="message">...</span></li>
+          <li><span class="date">00:59:17</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198277024404"> <span class="icons person"></span> <span class="name">elvonás</span>: </a> <span class="message">harassment? bro what LMAO</span></li>
+          <li><span class="date">00:59:21</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197970852048"> <span class="icons person"></span> <span class="name">Adrenaline</span>: </a> <span class="message">there wasn't intention believe me </span></li>
+          <li><span class="date">00:59:26</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">read the lobby text</span></li>
+          <li><span class="date">00:59:33</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">"nobody wants to play with these guys trust me"</span></li>
+          <li><span class="date">00:59:37</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198832112629"> <span class="icons person"></span> <span class="name">cinny</span>: </a> <span class="message">harrasment?</span></li>
+          <li><span class="date">00:59:48</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197970852048"> <span class="icons person"></span> <span class="name">Adrenaline</span>: </a> <span class="message">yeah but it was a joke zak</span></li>
+          <li><span class="date">00:59:50</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198277024404"> <span class="icons person"></span> <span class="name">elvonás</span>: </a> <span class="message">you cant take a joke?</span></li>
+          <li><span class="date">00:59:57</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197970852048"> <span class="icons person"></span> <span class="name">Adrenaline</span>: </a> <span class="message">i mean, do you really think people believe that?</span></li>
+          <li><span class="date">00:59:59</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198051283300"> <span class="icons person"></span> <span class="name">pizzi</span>: </a> <span class="message">zak what are you even sayng bro</span></li>
+          <li><span class="date">00:59:59</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197970852048"> <span class="icons person"></span> <span class="name">Adrenaline</span>: </a> <span class="message">cmon</span></li>
+          <li><span class="date">01:00:01</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198051283300"> <span class="icons person"></span> <span class="name">pizzi</span>: </a> <span class="message">be real</span></li>
+          <li><span class="date">01:00:10</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197970852048"> <span class="icons person"></span> <span class="name">Adrenaline</span>: </a> <span class="message">anyway i closed it so no problem</span></li>
+          <li><span class="date">01:00:43</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">yep</span></li>
+          <li><span class="date">06:37:27</span> <a class="author" target="_blank" href="/profile/76561199146446082"> <span class="icons person"></span> <span class="name">stain</span>: </a> <span class="message">another lobby</span></li>
+          <li><span class="date">06:37:27</span> <a class="author" target="_blank" href="/profile/76561199146446082"> <span class="icons person"></span> <span class="name">stain</span>: </a> <span class="message">?</span></li>
+          <li><span class="date">07:23:46</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198044391172"> <span class="icons person"></span> <span class="name">schorsch</span>: </a> <span class="message">5 ppl online</span></li>
+          <li><span class="date">09:05:50</span> <a class="author" target="_blank" href="/profile/76561198085724299"> <span class="icons person"></span> <span class="name">☢POPEL☢</span>: </a> <span class="message">Guys join the BBALL</span></li>
+          <li><span class="date">10:07:20</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198091242337"> <span class="icons person"></span> <span class="name">astrya</span>: </a> <span class="message">medic soldier process</span></li>
+          <li><span class="date">10:07:24</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198091242337"> <span class="icons person"></span> <span class="name">astrya</span>: </a> <span class="message">not started</span></li>
+          <li><span class="date">14:59:12</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198279087082"> <span class="icons person"></span> <span class="name">猫マンチック</span>: </a> <span class="message">seems like !rep command does not work</span></li>
+          <li><span class="date">15:35:04</span> <a class="author" target="_blank" href="/profile/76561198010698274"> <span class="icons person"></span> <span class="name">Qba`th'Invinc!ble</span>: </a> <span class="message">noticed that too and reported this as a bug</span></li>
+          <li><span class="date">15:51:17</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198117580379"> <span class="icons person"></span> <span class="name">Bobson</span>: </a> <span class="message">Zak, we nedd AL today </span></li>
+          <li><span class="date">16:07:06</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198119371683"> <span class="icons person"></span> <span class="name">sup3rfr3ddy.</span>: </a> <span class="message">yesss</span></li>
+          <li><span class="date">16:18:45</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">Absolutely</span></li>
+          <li><span class="date">16:18:50</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">what map would youl like</span></li>
+          <li><span class="date">16:18:57</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">start with product?</span></li>
+          <li><span class="date">16:26:35</span> <a class="author" target="_blank" href="/profile/76561198261787284"> <span class="icons person"></span> <span class="name">symbioza machen</span>: </a> <span class="message">giv adv please</span></li>
+          <li><span class="date">16:26:39</span> <a class="author" target="_blank" href="/profile/76561198261787284"> <span class="icons person"></span> <span class="name">symbioza machen</span>: </a> <span class="message">poor family</span></li>
+          <li><span class="date">16:27:00</span> <a class="author" target="_blank" href="/profile/76561198261787284"> <span class="icons person"></span> <span class="name">symbioza machen</span>: </a> <span class="message"><a href="https://etf2l.org/forum/user/136442/" target="_blank">https://etf2l.org/forum/user/136442/</a></span></li>
+          <li><span class="date">16:27:04</span> <a class="author" target="_blank" href="/profile/76561198261787284"> <span class="icons person"></span> <span class="name">symbioza machen</span>: </a> <span class="message">very advanced playa</span></li>
+          <li><span class="date">16:27:56</span> <a class="author" target="_blank" href="/profile/76561199011844067"> <span class="icons person"></span> <span class="name">DeviateR</span>: </a> <span class="message">hey i just played my first lobby in tf2center and it still says 0 lobbies played</span></li>
+          <li><span class="date">16:30:21</span> <a class="author" target="_blank" href="/profile/76561197987691269"> <span class="icons person"></span> <span class="name">Nady</span>: </a> <span class="message">zak brother from other mother give me adv :pray:</span></li>
+          <li><span class="date">16:31:19</span> <a class="author" target="_blank" href="/profile/76561198261787284"> <span class="icons person"></span> <span class="name">symbioza machen</span>: </a> <span class="message">i am supa dupa enge</span></li>
+          <li><span class="date">16:31:21</span> <a class="author" target="_blank" href="/profile/76561198261787284"> <span class="icons person"></span> <span class="name">symbioza machen</span>: </a> <span class="message">javol</span></li>
+          <li><span class="date">16:31:25</span> <a class="author" target="_blank" href="/profile/76561198261787284"> <span class="icons person"></span> <span class="name">symbioza machen</span>: </a> <span class="message">ich liebie deutchland</span></li>
+          <li><span class="date">16:32:22</span> <a class="author" target="_blank" href="/profile/76561198043938997"> <span class="icons person"></span> <span class="name">Kelesch</span>: </a> <span class="message">zak can I get adv? I played heavy in mid</span></li>
+          <li><span class="date">16:32:51</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">Nady done</span></li>
+          <li><span class="date">16:33:01</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">Kelesch done</span></li>
+          <li><span class="date">16:33:11</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">take the pledge on <a href="https://tf2center.com/al" target="_blank">https://tf2center.com/al</a></span></li>
+          <li><span class="date">16:33:31</span> <a class="author" target="_blank" href="/profile/76561198228941832"> <span class="icons person"></span> <span class="name">yh€ / ł</span>: </a> <span class="message">give adv mid demo</span></li>
+          <li><span class="date">16:33:43</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">symbioza done</span></li>
+          <li><span class="date">16:34:09</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198261787284"> <span class="icons person"></span> <span class="name">symbioza machen</span>: </a> <span class="message">yiiipi</span></li>
+          <li><span class="date">16:34:13</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198261787284"> <span class="icons person"></span> <span class="name">symbioza machen</span>: </a> <span class="message">thank you</span></li>
+          <li><span class="date">16:36:13</span> <a class="author" target="_blank" href="/profile/76561198142501902"> <span class="icons person"></span> <span class="name">Neon~</span>: </a> <span class="message">can i get advanced lobby so i can play with my pookies? :D</span></li>
+          <li><span class="date">16:38:00</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">do you have any league exp</span></li>
+          <li><span class="date">16:38:17</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">nvm seen it</span></li>
+          <li><span class="date">16:39:21</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">done</span></li>
+          <li><span class="date">16:42:28</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561198142501902"> <span class="icons person"></span> <span class="name">Neon~</span>: </a> <span class="message">ty</span></li>
+          <li><span class="date">16:43:22</span> <a class="author" target="_blank" href="/profile/76561198059047300"> <span class="icons person"></span> <span class="name">Sigatiner</span>: </a> <span class="message">Zak</span></li>
+          <li><span class="date">16:43:59</span> <a class="author" target="_blank" href="/profile/76561198059047300"> <span class="icons person"></span> <span class="name">Sigatiner</span>: </a> <span class="message">@ZakMcRofl</span></li>
+          <li><span class="date">16:47:43</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">what?</span></li>
+          <li><span class="date">16:47:58</span> <a class="author" target="_blank" href="/profile/76561198059047300"> <span class="icons person"></span> <span class="name">Sigatiner</span>: </a> <span class="message">can you add me</span></li>
+          <li><span class="date">16:48:47</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197970852048"> <span class="icons person"></span> <span class="name">Adrenaline</span>: </a> <span class="message">yeah add him he has a lot of experience on trolling lobbies</span></li>
+          <li><span class="date">16:49:00</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197970852048"> <span class="icons person"></span> <span class="name">Adrenaline</span>: </a> <span class="message">joking (maybe)</span></li>
+          <li><span class="date">16:50:25</span> <a class="author" target="_blank" href="/profile/76561198059047300"> <span class="icons person"></span> <span class="name">Sigatiner</span>: </a> <span class="message">Give me the ADV lobbies</span></li>
+          <li><span class="date">16:50:32</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">you have 12 lobbies mate</span></li>
+          <li><span class="date">16:50:37</span> <a class="author" target="_blank" href="/profile/76561198059047300"> <span class="icons person"></span> <span class="name">Sigatiner</span>: </a> <span class="message">But im good</span></li>
+          <li><span class="date">16:50:42</span> <a class="author" target="_blank" href="/profile/76561198059047300"> <span class="icons person"></span> <span class="name">Sigatiner</span>: </a> <span class="message">adrenaline vouches for me</span></li>
+          <li><span class="date">16:50:48</span> <a class="author" target="_blank" href="/profile/76561198059047300"> <span class="icons person"></span> <span class="name">Sigatiner</span>: </a> <span class="message">he mentor me</span></li>
+          <li><span class="date">16:51:04</span> <a class="author" target="_blank" href="/profile/76561198059047300"> <span class="icons person"></span> <span class="name">Sigatiner</span>: </a> <span class="message">i only play demo</span></li>
+          <li><span class="date">16:51:29</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">i'll ask him</span></li>
+          <li><span class="date">16:54:23</span> <a class="author" target="_blank" href="/profile/76561198059047300"> <span class="icons person"></span> <span class="name">Sigatiner</span>: </a> <span class="message">s</span></li>
+          <li><span class="date">16:55:56</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">get some more lobbies under your belt, ideally with comms (mumble)</span></li>
+          <li><span class="date">16:56:05</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">i will make some later today</span></li>
+          <li><span class="date">16:56:10</span> <a class="author" target="_blank" href="/profile/76561198414226377"> <span class="icons person"></span> <span class="name">:3</span>: </a> <span class="message">ZAAAAAAAAAAAAAAAAAAAAAAAK</span></li>
+          <li><span class="date">16:56:12</span> <a class="author" target="_blank" href="/profile/76561198059047300"> <span class="icons person"></span> <span class="name">Sigatiner</span>: </a> <span class="message">i think im the goat tbh</span></li>
+          <li><span class="date">16:56:25</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">thats good but overconfidence is not everything :)</span></li>
+          <li><span class="date">16:56:56</span> <a class="author" target="_blank" href="/profile/76561198059047300"> <span class="icons person"></span> <span class="name">Sigatiner</span>: </a> <span class="message">im fineeee</span></li>
+          <li><span class="date">16:57:03</span> <a class="author" target="_blank" href="/profile/76561198059047300"> <span class="icons person"></span> <span class="name">Sigatiner</span>: </a> <span class="message">create lobby with comms</span></li>
+          <li><span class="date">16:58:05</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">once upward fills</span></li>
+          <li><span class="date">16:58:20</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">ask adrenaline to make them, he has enough lobbies</span></li>
+          <li><span class="date">16:58:28</span> <a class="author" target="_blank" href="/profile/76561198059047300"> <span class="icons person"></span> <span class="name">Sigatiner</span>: </a> <span class="message">when i do</span></li>
+          <li><span class="date">16:58:30</span> <a class="author" target="_blank" href="/profile/76561198059047300"> <span class="icons person"></span> <span class="name">Sigatiner</span>: </a> <span class="message">verify mumble</span></li>
+          <li><span class="date">16:58:35</span> <a class="author" target="_blank" href="/profile/76561198059047300"> <span class="icons person"></span> <span class="name">Sigatiner</span>: </a> <span class="message">i get connected to the tf2c mumble</span></li>
+          <li><span class="date">16:58:40</span> <a class="author" target="_blank" href="/profile/76561198059047300"> <span class="icons person"></span> <span class="name">Sigatiner</span>: </a> <span class="message">but i dont get verified</span></li>
+          <li><span class="date">16:59:08</span> <a class="author" target="_blank" href="/profile/76561198059047300"> <span class="icons person"></span> <span class="name">Sigatiner</span>: </a> <span class="message">nvm done</span></li>
+          <li><span class="date">16:59:10</span> <a class="author" target="_blank" href="/profile/76561198059047300"> <span class="icons person"></span> <span class="name">Sigatiner</span>: </a> <span class="message">it work</span></li>
+          <li><span class="date">17:00:06</span> <a class="author" target="_blank" href="/profile/76561198059047300"> <span class="icons person"></span> <span class="name">Sigatiner</span>: </a> <span class="message">could you give me a shot on pyro?</span></li>
+          <li><span class="date">17:01:44</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">can someone try to !rep themselves in a lobby please</span></li>
+          <li><span class="date">17:02:17</span> <a class="author" target="_blank" href="/profile/76561198059047300"> <span class="icons person"></span> <span class="name">Sigatiner</span>: </a> <span class="message">Zak could i please be able to play this one lobby ill show you im competent</span></li>
+          <li><span class="date">17:02:52</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">if i have to revoke it, it would likely be permanent for technical reasons</span></li>
+          <li><span class="date">17:02:58</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">pretty sure you don't want that</span></li>
+          <li><span class="date">17:04:40</span> <a class="author" target="_blank" href="/profile/76561198059047300"> <span class="icons person"></span> <span class="name">Sigatiner</span>: </a> <span class="message">It's</span></li>
+          <li><span class="date">17:04:42</span> <a class="author" target="_blank" href="/profile/76561198059047300"> <span class="icons person"></span> <span class="name">Sigatiner</span>: </a> <span class="message">fine</span></li>
+          <li><span class="date">17:04:44</span> <a class="author" target="_blank" href="/profile/76561198059047300"> <span class="icons person"></span> <span class="name">Sigatiner</span>: </a> <span class="message">let me play i will show you</span></li>
+          <li><span class="date">17:08:09</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">he said maybe you won't troll</span></li>
+          <li><span class="date">17:08:15</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197961186188"> <span class="icons person"></span> <span class="name">ZakMcRofl</span>: </a> <span class="message">thats not exactly a vote of confidence</span></li>
+          <li><span class="date">17:08:39</span> <a class="author" target="_blank" href="/profile/76561198059047300"> <span class="icons person"></span> <span class="name">Sigatiner</span>: </a> <span class="message">I wont you can revoke it forever if im bad.</span></li>
+          <li><span class="date">17:08:39</span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="author" target="_blank" href="/profile/76561197970852048"> <span class="icons person"></span> <span class="name">Adrenaline</span>: </a> <span class="message">and it's a very stretch maybe</span></li>
+          <li><span class="date">17:08:42</span> <a class="author" target="_blank" href="/profile/76561198059047300"> <span class="icons person"></span> <span class="name">Sigatiner</span>: </a> <span class="message">but im not</span></li>
+          <li><span class="date">17:08:56</span> <a class="author" target="_blank" href="/profile/76561198124543312"> <span class="icons person"></span> <span class="name">Grzyv</span>: </a> <span class="message">Can I have access to adv lobbys zak?</span></li>
+         </ul>
+         <ul class="chatLinePanel templateHolder" style="display: none" id="chatLinePanel">
+          <li><span class="date"></span> <a class="advancedLink" target="_blank" href="./al;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons playerRank blue"></span></a> <a class="donateLink" target="_blank" href="./donate;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons donator"></span></a> <a class="freemiumLink" target="_blank" href="./freemium;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><span class="icons freemium"></span></a> <a class="author" target="_blank" href="/profile/"> <span class="icons person"></span> <span class="name"></span>: </a> <span class="message"></span></li>
+         </ul>
+        </div><textarea id="chatInput" class="chatInput" maxlength="450"></textarea>
+        <div class="ym-g1220-2 ym-gl chatButtons">
+         <button id="chatSayBtn" class="btn size108x32 blue"> <span class="label">Say It Loud</span> </button>
+        </div>
+        <div class="ym-g1220-3 ym-gl chatButtons">
+         <a target="_blank" href="https://forums.tf2center.com/forum/14-bug-reports/"><button class="btn size32x32 red" title="Report a bug in our forums"><span class="icons bug"></span></button></a> <a target="_blank" href="https://forums.tf2center.com/forum/5-requests-suggestions/"><button class="btn size32x32 green" title="Suggest an idea or new feature in our forums"><span class="icons idea"></span></button></a> <a target="_blank" href="./faq;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><button class="btn size32x32 ochre" title="Need help? Visit the FAQ"><span class="icons help"></span></button></a>
+        </div>
+       </div>
+      </div>
+      <div class="ym-g1220-12 ym-gl omega">
+       <div class="_containerHor">
+        <div id="overview-banner"></div>
+        <script>
+/*<![CDATA[*/
+
+								window['nitroAds'].createAd('overview-banner', {
+									"refreshLimit": 10,
+									"refreshTime": 30,
+									"renderVisibleOnly": true,
+									"refreshVisibleOnly": true,
+									"sizes": [
+										["728","90"]
+									],
+									"report": {
+										"enabled": true,
+										"icon": true,
+										"wording": "Report Ad",
+										"position": "bottom-left"
+									}
+								});
+
+/*]]>*/
+</script>
+       </div>
+       <div id="idb">
+        <div id="substituteRequests"></div>
+       </div>
+       <div id="idc">
+        <div style="display: none">
+         <div class="classSlot templateHolder" style="display: none">
+          <div class="classIcon">
+           <a target="_blank" class="link"><span class="icons classes"></span></a>
+          </div>
+         </div>
+         <div class="lobby templateHolder" style="display: none">
+          <div class="ym-grid lobbyOverviewPanel">
+           <a target="_blank" class="lobbyLink">
+            <div class="ym-g1220-1 ym-gl omega">
+             <div class="lobbyID">
+              LOBBYID
+             </div>
+             <div class="icons flags large"></div>
+            </div>
+            <div class="ym-g1220-2 ym-gl mapThumb">
+             <img width="112" height="75" alt="">
+             <div class="joinLobbyOverlay">
+              <button class="btn joinLobby"> <span class="icons lobby join orange"></span> <span class="label">Join</span> </button>
+             </div>
+            </div>
+            <div class="ym-g1220-9 ym-gr omega lobbyOverviewHeader">
+             <div class="ym-grid">
+              <div class="ym-g1220-3 ym-gl col mapName">
+               MAP
+              </div>
+              <div class="ym-g1220-2 ym-gl col gameType">
+               GAMETYPE
+              </div>
+              <div class="ym-g1220-4 ym-gl omega col">
+               <span class="restrictionText"></span>
+              </div>
+              <div class="iconContainer">
+               <div class="icons mumbleReq" title="You are expected to join mumble for this lobby"></div>
+               <div class="icons balanced" title="Players in a class slot will be automatically assigned to a team after everyone readies up by using a balancing algorithm"></div>
+              </div>
+             </div>
+            </div>
+            <div class="ym-g1220-7 ym-gl omega lobbyClassContainer">
+            </div>
+            <div class="ym-g1220-2 ym-gr omega lobbyExtraInfo">
+             <button class="btn expandLobby"> <span class="label lobbyPlayerCount">??</span> <span class="icons carrot blue down"></span> </button> <span class="lobbySize">??</span>
+             <div class="lobbyReady icons checkbox checked green" title="This lobby is almost ready to start"></div>
+            </div></a>
+          </div>
+         </div>
+        </div>
+        <div style="disply: none">
+         <div class="substituteRequest templateHolder" style="display: none;">
+          <div class="ym-grid lobbySubPanel">
+           <a class="joinLink" target="_blank">
+            <div class="ym-g1220-1 ym-gl omega lobbyRegion">
+             <span class="icons flags large"></span>
+            </div>
+            <div class="ym-g1220-2 ym-gl omega lobbySubClass">
+             <div class="subName">
+              <span class="icons classes"></span> <span class="displayName">Soldier</span>
+             </div>
+             <div class="joinSubOverlay">
+              <button class="btn joinSub"> <span class="icons lobby join"></span> <span class="label">Join sub</span> </button>
+             </div>
+            </div>
+            <div class="ym-g1220-9 ym-gr omega lobbySubHeader">
+             <div class="ym-grid">
+              <div class="ym-g1220-3 ym-gl col mapName">
+               koth_viaduct
+              </div>
+              <div class="ym-g1220-2 ym-gl col gameType"></div>
+              <div class="ym-g1220-3 ym-gl requirements">
+               No Requirements
+              </div>
+             </div>
+            </div>
+            <div class="icons mumbleReq"></div></a>
+          </div>
+         </div>
+        </div>
+        <div id="lobbyContainer"></div>
+        <script type="text/javascript">replaceAllLobbies([{"no":1270537,"leaderSteamId":"76561198449852071","region":"EU","mumbleRequired":false,"gameType":"6v6","inReadyUpMode":false,"map":"cp_snakewater_final1","thumbnailUrl":"/assets/images/maps/cp_snakewater.jpg","playersInLobby":3,"playersForGame":12,"restrictionsText":"None","regionLock":false,"useBalancer":false,"advanced":false,"slots":[{"tf2Class":"scout","availableSlots":[{"team":"red","reserved":false,"restrictions":{}},{"team":"red","reserved":false,"restrictions":{}},{"team":"blue","reserved":true,"restrictions":{}}],"availableReservedSlots":[{"team":"blue","reserved":true,"restrictions":{}}]},{"tf2Class":"roamer","availableSlots":[{"team":"red","reserved":false,"restrictions":{}}],"availableReservedSlots":[]},{"tf2Class":"pocket","availableSlots":[{"team":"red","reserved":false,"restrictions":{}},{"team":"blue","reserved":false,"restrictions":{}}],"availableReservedSlots":[]},{"tf2Class":"demo","availableSlots":[{"team":"red","reserved":false,"restrictions":{}}],"availableReservedSlots":[]},{"tf2Class":"med","availableSlots":[{"team":"red","reserved":false,"restrictions":{"games":10}},{"team":"blue","reserved":false,"restrictions":{"games":10}}],"availableReservedSlots":[]}]},{"no":1270536,"leaderSteamId":"76561198861788312","region":"EU","mumbleRequired":false,"gameType":"6v6","inReadyUpMode":false,"map":"cp_process_f12","thumbnailUrl":"/assets/images/maps/cp_process.jpg","playersInLobby":9,"playersForGame":12,"restrictionsText":"None","regionLock":true,"useBalancer":false,"advanced":false,"slots":[{"tf2Class":"scout","availableSlots":[],"availableReservedSlots":[]},{"tf2Class":"roamer","availableSlots":[{"team":"red","reserved":false,"restrictions":{}},{"team":"blue","reserved":false,"restrictions":{}}],"availableReservedSlots":[]},{"tf2Class":"pocket","availableSlots":[{"team":"red","reserved":false,"restrictions":{}}],"availableReservedSlots":[]},{"tf2Class":"demo","availableSlots":[],"availableReservedSlots":[]},{"tf2Class":"med","availableSlots":[],"availableReservedSlots":[]}]},{"no":1270535,"leaderSteamId":"76561197961186188","region":"EU","mumbleRequired":true,"gameType":"Highlander","inReadyUpMode":false,"map":"koth_product_final","thumbnailUrl":"/assets/images/maps/koth_pro_viaduct.jpg","playersInLobby":17,"playersForGame":18,"restrictionsText":"None","regionLock":false,"useBalancer":true,"advanced":true,"slots":[{"tf2Class":"scout","availableSlots":[],"availableReservedSlots":[]},{"tf2Class":"solly","availableSlots":[],"availableReservedSlots":[]},{"tf2Class":"pyro","availableSlots":[],"availableReservedSlots":[]},{"tf2Class":"demo","availableSlots":[],"availableReservedSlots":[]},{"tf2Class":"heavy","availableSlots":[{"team":"blue","reserved":false,"restrictions":{}}],"availableReservedSlots":[]},{"tf2Class":"engie","availableSlots":[],"availableReservedSlots":[]},{"tf2Class":"med","availableSlots":[],"availableReservedSlots":[]},{"tf2Class":"sniper","availableSlots":[],"availableReservedSlots":[]},{"tf2Class":"spy","availableSlots":[],"availableReservedSlots":[]}]},{"no":1270531,"leaderSteamId":"76561198043820228","region":"EU","mumbleRequired":false,"gameType":"Highlander","inReadyUpMode":false,"map":"pl_upward_f10","thumbnailUrl":"/assets/images/maps/pl_upward.jpg","playersInLobby":9,"playersForGame":18,"restrictionsText":"None","regionLock":false,"useBalancer":false,"advanced":false,"slots":[{"tf2Class":"scout","availableSlots":[{"team":"blue","reserved":false,"restrictions":{}}],"availableReservedSlots":[]},{"tf2Class":"solly","availableSlots":[{"team":"red","reserved":false,"restrictions":{}}],"availableReservedSlots":[]},{"tf2Class":"pyro","availableSlots":[],"availableReservedSlots":[]},{"tf2Class":"demo","availableSlots":[{"team":"red","reserved":false,"restrictions":{}}],"availableReservedSlots":[]},{"tf2Class":"heavy","availableSlots":[{"team":"red","reserved":false,"restrictions":{}},{"team":"blue","reserved":false,"restrictions":{}}],"availableReservedSlots":[]},{"tf2Class":"engie","availableSlots":[{"team":"blue","reserved":false,"restrictions":{}}],"availableReservedSlots":[]},{"tf2Class":"med","availableSlots":[{"team":"red","reserved":false,"restrictions":{"games":10}}],"availableReservedSlots":[]},{"tf2Class":"sniper","availableSlots":[],"availableReservedSlots":[]},{"tf2Class":"spy","availableSlots":[{"team":"red","reserved":false,"restrictions":{}},{"team":"blue","reserved":false,"restrictions":{}}],"availableReservedSlots":[]}]}]);</script>
+       </div>
+      </div>
+     </div>
+     <div class="clear"></div>
+    </div>
+    <div class="footerPush"></div>
+   </div>
+  </div>
+  <footer>
+   <div class="ym-wrapper">
+    <div class="ym-grid">
+     <div class="ym-g1220-4 ym-gl footerLogo">
+      <a href="./lobbies;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0"><img src="assets/images/tf2center_logo_footer.png" height="32" alt="TF2Center"></a>
+      <div class="footerSlogan">
+       From public to competitive
+      </div>
+      <div class="footerYear">
+       © 2023 ScrapTF, LLC
+      </div>
+     </div>
+     <div class="ym-g1220-4 ym-gl footerPlayer">
+     </div>
+     <div class="ym-g1220-8 ym-gl footerMenu">
+      <a href="./lobbies;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0">Lobbies</a> <a target="_blank" href="./faq;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0">FAQ</a> <a target="_blank" href="./changelog;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0">Changelog</a> <a target="_blank" href="./rules;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0">Rules</a> <a target="_blank" href="./about;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0">Team</a> <a target="_blank" href="./donate;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0">Donate</a> <a target="_blank" href="./privacy;jsessionid=node0gjh9a0as0ju9jo0wppknf2xu809.node0">Privacy Policy</a> <a><span data-ccpa-link="1"></span></a>
+     </div>
+     <div class="ym-g1220-4 ym-gl omega footerSupport">
+      <div class="footerSupportHeader">
+       Support
+      </div><a href="http://forums.tf2center.com/forum/14-bug-reports/" target="_blank">Report bug</a>
+      <br><a href="http://forums.tf2center.com/forum/5-requests-suggestions/" target="_blank">Suggest Idea</a> <a class="footerLollychop" href="http://steamcommunity.com/groups/tf2-center" target="_blank">&nbsp;</a>
+     </div>
+    </div>
+   </div>
+  </footer><!-- hack to prevent the browser from closing the websocket --> <iframe style="display: none" id="iframe"></iframe>
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon="{&quot;rayId&quot;:&quot;893b98526fbb3656&quot;,&quot;b&quot;:1,&quot;version&quot;:&quot;2024.4.1&quot;,&quot;token&quot;:&quot;3d983bba27314c50b23c598e6a813dde&quot;}" crossorigin="anonymous"></script><!-- <span>JMS-NODE: PROD1</span> -->
+  <div id="idd" style="display:none">
+  </div>
+  <div id="ide" style="display:none">
+  </div>
+ </body>
+</html>

@@ -12,7 +12,7 @@ public class SteamApiCaller {
     private static final OkHttpClient CLIENT = new OkHttpClient();
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private static final String STEAM_API_KEY = System.getenv("STEAM_API_KEY");
-    private static String url = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + STEAM_API_KEY + "&steamids=";
+    private static final String url = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + STEAM_API_KEY + "&steamids=";
 
     public static String getPlayerAvatar(long steamId) {
         String json = null;
@@ -23,7 +23,7 @@ public class SteamApiCaller {
             json = json.substring(0, json.length() - 3);
             avatarUrl = OBJECT_MAPPER.readTree(json).path("avatarfull").asText();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("STEAM_API exception!",e);
         }
         return avatarUrl;
     }

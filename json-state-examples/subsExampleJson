@@ -1,0 +1,57 @@
+{
+  "data": [
+    {
+      "lobbyNo": 1252577,
+      "region": "EU",
+      "mumbleRequired": false,
+      "map": "cp_process_f10",
+      "team": "blue",
+      "tf2Class": "roamer",
+      "className": "Soldier",
+      "joinLink": "/join/lobby/1252577/blue/soldier_roamer",
+      "gameType": "6v6",
+      "regionLock": false,
+      "advanced": false,
+      "restrictions": {}
+    },
+    {
+      "lobbyNo": 1252577,
+      "region": "EU",
+      "mumbleRequired": false,
+      "map": "cp_process_f10",
+      "team": "blue",
+      "tf2Class": "med",
+      "className": "Medic",
+      "joinLink": "/join/lobby/1252577/blue/medic",
+      "gameType": "6v6",
+      "regionLock": false,
+      "advanced": false,
+      "restrictions": {
+        "lobbies": 10
+      }
+    }
+  ]
+}
+
+
+$(document).trigger("tf2center.overview.refresh-substitutes", {"data":[{"lobbyNo":1252577,"region":"EU","mumbleRequired":false,"map":"cp_process_f10","team":"blue","tf2Class":"roamer","className":"Soldier","joinLink":"/join/lobby/1252577/blue/soldier_roamer","gameType":"6v6","regionLock":false,"advanced":false,"restrictions":{}},{"lobbyNo":1252577,"region":"EU","mumbleRequired":false,"map":"cp_process_f10","team":"blue","tf2Class":"med","className":"Medic","joinLink":"/join/lobby/1252577/blue/medic","gameType":"6v6","regionLock":false,"advanced":false,"restrictions":{"lobbies":10}}]});;
+
+
+
+
+<script type="text/javascript">
+/*<![CDATA[*/
+Wicket.Event.add(window, "domready", function(event) { 
+$(document).trigger("tf2center.overview.refresh-substitutes", {"data":[]});;
+$(document).trigger("tf2center.refresh-players-online", {"data":[{"steamId":"76561198089478290","playerName":"LikeAMattress"},{"steamId":"76561198091360047","playerName":"ry4n"},{"steamId":"76561198009818412","playerName":"TF2C | fac"},{"steamId":"76561198046336318","playerName":"ketek"},{"steamId":"76561198055438173","playerName":"Mojo Jojo"},{"steamId":"76561198291778493","playerName":"Y$$$"},{"steamId":"76561198072886956","playerName":"lardox"},{"steamId":"76561198213982408","playerName":"<GNGWD> CrocAsaurus"},{"steamId":"76561198070505129","playerName":"Yxxo"},{"steamId":"76561198150379526","playerName":"D-Kay"},{"steamId":"76561198157040951","playerName":"1176x664"},{"steamId":"76561198807837935","playerName":"O-J`ays"},{"steamId":"76561199236525199","playerName":"Toji"},{"steamId":"76561198121400010","playerName":"sandvich but at what cost..."},{"steamId":"76561198316538980","playerName":"kool"},{"steamId":"76561198015118904","playerName":"rea"},{"steamId":"76561198140403068","playerName":"wwwonder"},{"steamId":"76561199015973136","playerName":"toast"},{"steamId":"76561199427693989","playerName":"sleep addict"},{"steamId":"76561198053886680","playerName":"Purps"},{"steamId":"76561198056805238","playerName":"LuckyOne"},{"steamId":"76561198089970643","playerName":"matatakakiban"},{"steamId":"76561198179470854","playerName":"Tasty cake"},{"steamId":"76561198300431215","playerName":"Steezus"},{"steamId":"76561198213775115","playerName":"Saul Goodman"},{"steamId":"76561198094568502","playerName":"Padevan †"},{"steamId":"76561198005032746","playerName":"Cave"},{"steamId":"76561198380183009","playerName":"funny how?"},{"steamId":"76561198046552984","playerName":"-k1x"},{"steamId":"76561198106563151","playerName":"narcissus"},{"steamId":"76561198123878798","playerName":"spinarnie"},{"steamId":"76561198024038653","playerName":"mudskipper claus"},{"steamId":"76561198257748589","playerName":"MOUZ"},{"steamId":"76561198134002929","playerName":"welp"},{"steamId":"76561198154952759","playerName":"Exe_Red (chad 450 fps gaming)"},{"steamId":"76561198326967767","playerName":"5:57"},{"steamId":"76561198294431910","playerName":"Slamm"},{"steamId":"76561198260123770","playerName":"EHPAD' PATROUILLE"},{"steamId":"76561199062818404","playerName":"¿¿¿"},{"steamId":"76561198109247682","playerName":"last to spake"},{"steamId":"76561198130017335","playerName":"lit.fam"},{"steamId":"76561198016642281","playerName":"✘˵ ˡ ◡ ˡ ˶✘"},{"steamId":"76561198025569815","playerName":"corqo"},{"steamId":"76561198245429438","playerName":"Ciam"},{"steamId":"76561198989078420","playerName":"Fwan(Im on 6 hours of sleep)"},{"steamId":"76561197982427900","playerName":"TheMasterOfDisaster"}]});;
+Wicket.Ajax.ajax({"c":"filterBtn","u":"./lobbies;jsessionid=node01my0keojf53rewh929wpltecf1330672.node0?0-1.IBehaviorListener.0-header-filterBtnContainer-filterToggleBtn","e":"click"});;
+Wicket.Ajax.ajax({"c":"id1","u":"./lobbies;jsessionid=node01my0keojf53rewh929wpltecf1330672.node0?0-1.IBehaviorListener.0-header-filterPreferencesLink","e":"click"});;
+Wicket.Ajax.ajax({"c":"id1","u":"./lobbies;jsessionid=node01my0keojf53rewh929wpltecf1330672.node0?0-1.IBehaviorListener.1-header-filterPreferencesLink","e":"mouseup"});;
+Wicket.Ajax.ajax({"c":"id2","u":"./lobbies;jsessionid=node01my0keojf53rewh929wpltecf1330672.node0?0-1.IBehaviorListener.0-header-lobbySortLocationBtn","e":"click"});;
+Wicket.Ajax.ajax({"c":"id3","u":"./lobbies;jsessionid=node01my0keojf53rewh929wpltecf1330672.node0?0-1.IBehaviorListener.0-header-lobbySortMapBtn","e":"click"});;
+Wicket.Ajax.ajax({"c":"id4","u":"./lobbies;jsessionid=node01my0keojf53rewh929wpltecf1330672.node0?0-1.IBehaviorListener.0-header-lobbySortGameTypeBtn","e":"click"});;
+Wicket.Ajax.ajax({"c":"id5","u":"./lobbies;jsessionid=node01my0keojf53rewh929wpltecf1330672.node0?0-1.IBehaviorListener.0-header-lobbySortRestrictionBtn","e":"click"});;
+window.settings = getSettings();
+;});
+/*]]>*/
+</script>

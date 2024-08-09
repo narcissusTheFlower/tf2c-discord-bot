@@ -2,7 +2,7 @@
 <configuration scan="true">
 
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
-    <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
     <!-- Logs we care about -->
     <logger name="io.netty" level="INFO"/>
@@ -13,13 +13,13 @@
     <logger name="discord4j.gateway" level="INFO"/>
     <logger name="discord4j.gateway.client" level="INFO"/>
 
-    <!-- Appenders -->
-    <!--Used only for development or debuggin-->
-    <!--            <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">-->
-<!--        <encoder>-->
-    <!--                    <pattern>%d{HH:mm:ss.SS} [%thread]  %-5level %logger{36} - %msg%n</pattern>-->
-<!--        </encoder>-->
-<!--    </appender>-->
+    Appenders
+    Used only for development or debuggin
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
 
     <appender name="FILE-ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/tf2cfetch.log.log</file>
@@ -41,7 +41,7 @@
 
     <!-- Assigning default appenders -->
     <root level="INFO">
-        <!--                        <appender-ref ref="CONSOLE"/>-->
-        <appender-ref ref="FILE-ROLLING"/>
+        <appender-ref ref="CONSOLE"/>
+        <!--        <appender-ref ref="FILE-ROLLING"/>-->
     </root>
 </configuration>

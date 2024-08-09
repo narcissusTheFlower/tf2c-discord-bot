@@ -30,4 +30,5 @@ public class DiscordBotApplication {
 	public RestClient discordRestClient(GatewayDiscordClient client) {
 		return client.getRestClient();
 	}
+
 }

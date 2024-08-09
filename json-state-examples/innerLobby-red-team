@@ -1,0 +1,118 @@
+<div class="red-team">
+ <div class="ym-gl playerSlot header">
+  <div class="counter" id="id20">
+   3
+  </div>
+ </div>
+ <div id="id21">
+  <div class="ym-gl playerSlot lobbySlot restricted unavailable" id="ida">
+   <span class="slotIconInner icons slot unavailable"></span>
+   <div class="details text-red">
+    <div class="statsContainer">
+     <span class="red"></span> <span></span>
+    </div>
+   </div>
+  </div>
+ </div>
+ <div id="id22">
+  <div class="ym-gl playerSlot lobbySlot restricted unavailable" id="idb">
+   <span class="slotIconInner icons slot unavailable"></span>
+   <div class="details text-red">
+    <div class="statsContainer">
+     <span class="red"></span> <span></span>
+    </div>
+   </div>
+  </div>
+ </div>
+ <div id="id23">
+  <div class="ym-gl playerSlot lobbySlot filled">
+   <a target="_blank" href="/profile/76561198139457456"><img class="slotIconInner avatar" src="https://avatars.steamstatic.com/387dbd4b887dd02fd5f14163c3efa3e653ea5fad.jpg"></a>
+   <div class="details">
+    <a target="_blank" href="/profile/76561198139457456"> <span class="name"> <i> Watermelun </i> </span> </a>
+    <div class="statsContainer">
+     <span class="icons stats small lobbies darkgrey"></span> <span class="darkgrey">443</span> <span class="icons stats small hours darkgrey"></span> <span class="darkgrey">2319</span>
+    </div>
+   </div>
+   <div class="showOnHover">
+   </div>
+   <div class="showAlways">
+    <div id="id24">
+    </div>
+   </div>
+  </div>
+ </div>
+ <div id="id25">
+  <div class="ym-gl playerSlot lobbySlot filled">
+   <a target="_blank" href="/profile/76561198147277460"><img class="slotIconInner avatar" src="https://avatars.steamstatic.com/f2b2304ff884fda97d258c88579edcecde00f330.jpg"></a>
+   <div class="details">
+    <a target="_blank" href="/profile/76561198147277460"> <span class="name"> <i> fukuma mizushi </i> </span> </a>
+    <div class="statsContainer">
+     <span class="icons stats small lobbies darkgrey"></span> <span class="darkgrey">366</span> <span class="icons stats small hours darkgrey"></span> <span class="darkgrey">8724</span>
+    </div>
+   </div>
+   <div class="showOnHover">
+   </div>
+   <div class="showAlways">
+    <div id="id26">
+    </div>
+   </div>
+  </div>
+ </div>
+ <div id="id27">
+  <div class="ym-gl playerSlot lobbySlot restricted unavailable" id="idc">
+   <span class="slotIconInner icons slot unavailable"></span>
+   <div class="details text-red">
+    <div class="statsContainer">
+     <span class="red"></span> <span></span>
+    </div>
+   </div>
+  </div>
+ </div>
+ <div id="id28">
+  <div class="ym-gl playerSlot lobbySlot restricted unavailable" id="idd">
+   <span class="slotIconInner icons slot unavailable"></span>
+   <div class="details text-red">
+    <div class="statsContainer">
+     <span class="red"></span> <span></span>
+    </div>
+   </div>
+  </div>
+ </div>
+ <div id="id29">
+  <div class="ym-gl playerSlot lobbySlot restricted unavailable" id="ide">
+   <span class="slotIconInner icons slot unavailable"></span>
+   <div class="details text-red">
+    <div class="statsContainer">
+     <span class="red"></span> <span></span>
+    </div>
+   </div>
+  </div>
+ </div>
+ <div id="id2a">
+  <div class="ym-gl playerSlot lobbySlot filled">
+   <a target="_blank" href="/profile/76561198965637366"><img class="slotIconInner avatar" src="https://avatars.steamstatic.com/b2514e62028e149e9e2106faba1c7f6cc6219fe5.jpg"></a>
+   <div class="details">
+    <a target="_blank" href="/profile/76561198965637366"> <span class="name"> <i> вечность </i> </span> </a>
+    <div class="statsContainer">
+     <span class="icons stats small lobbies darkgrey"></span> <span class="darkgrey">3</span> <span class="icons stats small hours darkgrey"></span> <span class="darkgrey">3810</span>
+    </div>
+   </div>
+   <div class="showOnHover">
+   </div>
+   <div class="showAlways">
+    <div id="id2b">
+    </div>
+   </div>
+  </div>
+ </div>
+ <div id="id2c">
+  <div class="ym-gl playerSlot lobbySlot restricted unavailable" id="idf">
+   <span class="slotIconInner icons slot unavailable"></span>
+   <div class="details text-red">
+    <div class="statsContainer">
+     <span class="red"></span> <span></span>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
