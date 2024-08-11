@@ -1,6 +1,6 @@
 package com.tf2center.discordbot.parser.discord.listeners;
 
-import com.tf2center.discordbot.parser.discord.notifications.CSVActions;
+import com.tf2center.discordbot.parser.discord.notifications.csv.CSVActions;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.channel.MessageChannel;
@@ -22,7 +22,6 @@ public class NotificationsSwitchListener {
     }
 
     public Mono<Void> handle(MessageCreateEvent event) {
-        System.out.println();
         if (
             event.getMessage().getContent().toLowerCase().contains("notifs on") &&
                 !event.getClient().getSelf().block().getId().equals(THIS_BOT_ID)

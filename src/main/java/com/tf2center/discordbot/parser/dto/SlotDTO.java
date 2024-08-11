@@ -1,6 +1,7 @@
 package com.tf2center.discordbot.parser.dto;
 
 import com.tf2center.discordbot.parser.dto.tf2classes.TF2Class;
+import com.tf2center.discordbot.parser.exceptions.TF2CDTOException;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -39,24 +40,37 @@ public class SlotDTO {
         return new SlotDTO(isEmpty, team);
     }
 
-    public Optional<String> getPlayerName() {
-        return playerName;
+    public String getPlayerName() {
+        return playerName.orElse("");
     }
 
-    public Optional<String> getSteamId() {
-        return steamId;
+    public String getSteamId() {
+        if (steamId.isPresent()) {
+            return steamId.get().substring(9);
+        } else {
+            throw new TF2CDTOException("Missing steamId.");
+        }
     }
 
     public boolean isEmpty() {
         return isEmpty;
     }
 
-    public Optional<TF2Class> getTf2Class() {
-        return tf2Class;
+    public TF2Class getTf2Class() {
+        return tf2Class.get();
     }
 
-    public Optional<TF2Team> getTeam() {
-        return team;
+    public TF2Team getTeam() {
+        return team.get();
+    }
+
+    public boolean getPersonIsReady() {
+        //Somehow optional is null idk, not fixing it rn, too tired
+        if (personIsReady == null) {
+            return !isEmpty();
+        } else {
+            return personIsReady.get();
+        }
     }
 
     public void setTf2Class(Optional<TF2Class> tf2Class) {
@@ -79,12 +93,20 @@ public class SlotDTO {
         this.team = team;
     }
 
-    public Optional<Boolean> getPersonIsReady() {
-        return personIsReady;
-    }
-
     public void setPersonIsReady(Optional<Boolean> personIsReady) {
         this.personIsReady = personIsReady;
+    }
+
+    @Override
+    public String toString() {
+        return "SlotDTO{" +
+            "playerName=" + playerName +
+            ", steamId=" + steamId +
+            ", isEmpty=" + isEmpty +
+            ", tf2Class=" + tf2Class +
+            ", team=" + team +
+            ", personIsReady=" + personIsReady +
+            '}';
     }
 
     @Override

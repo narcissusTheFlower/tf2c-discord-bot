@@ -15,7 +15,7 @@ public class NotifiedPlayerDestructor{
         Thread sleep = new Thread(() -> {
             try {
                 //Defines for how long a person will not be getting another notification
-                Thread.sleep(30_000);
+                Thread.sleep(15_000);
                 ownList.remove(this);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);

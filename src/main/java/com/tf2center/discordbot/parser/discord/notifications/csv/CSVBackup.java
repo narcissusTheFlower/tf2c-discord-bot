@@ -1,4 +1,4 @@
-package com.tf2center.discordbot.parser.discord.notifications;
+package com.tf2center.discordbot.parser.discord.notifications.csv;
 //
 //import org.springframework.scheduling.annotation.EnableScheduling;
 //import org.springframework.scheduling.annotation.Scheduled;

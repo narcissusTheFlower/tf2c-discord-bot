@@ -1,4 +1,4 @@
-package com.tf2center.discordbot.parser.discord.notifications;
+package com.tf2center.discordbot.parser.discord.notifications.csv;
 
 import com.tf2center.discordbot.parser.exceptions.TF2CCSVException;
 import discord4j.common.util.Snowflake;
@@ -16,22 +16,24 @@ import java.util.Objects;
 
 public class CSVActions {
 
-    private static final Path SUBSCRIBERS = Path.of(System.getenv("SUBSCRIBERS_CSV"));
-    private static final Path ALL_PLAYERS = Path.of(System.getenv("ALL_PLAYERS_CSV"));
+
+    private static final Path SUBSCRIBERS = CSVFileInitializer.getSubscribersCSV();
+    private static final Path ALL_PLAYERS = CSVFileInitializer.getAllPlayersCSV();
+
 
     private CSVActions() {
     }
 
-    static synchronized Map<String, List<String>> readSubscribers() {
+    public static synchronized Map<String, List<String>> readSubscribers() {
         Map<String, List<String>> steamDiscordIds = new HashMap<>();
         try (
-                Reader reader = Files.newBufferedReader(SUBSCRIBERS);
-                CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
+            Reader reader = Files.newBufferedReader(SUBSCRIBERS);
+            CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
         ) {
             csvParser.getRecords().stream().skip(1).forEach(e -> {
                 steamDiscordIds.put(
-                        e.get(0),
-                        List.of(e.get(1), e.get(2))
+                    e.get(0),
+                    List.of(e.get(1), e.get(2))
                 );
             });
         } catch (IOException e) {
@@ -48,13 +50,13 @@ public class CSVActions {
 
             String steamID = getKeyByValue(AllPlayersSteamDiscordIds, discordUserId.asString());
             SubscribersSteamDiscordIds.put(
-                    steamID,
-                    List.of(discordUserId.asString(), chatId.asString())
+                steamID,
+                List.of(discordUserId.asString(), chatId.asString())
             );
 
             BufferedWriter writer = Files.newBufferedWriter(SUBSCRIBERS);
             CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT
-                    .withHeader("SteamID", "DiscordId", "ChatId"));
+                .withHeader("SteamID", "DiscordId", "ChatId"));
 
             SubscribersSteamDiscordIds.forEach((steamId, list) -> {
                 try {
@@ -79,7 +81,7 @@ public class CSVActions {
 
             BufferedWriter writer = Files.newBufferedWriter(SUBSCRIBERS);
             CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT
-                    .withHeader("SteamID", "DiscordId", "ChatId"));
+                .withHeader("SteamID", "DiscordId", "ChatId"));
 
             steamDiscordIds.forEach((steamId, list) -> {
                 try {
@@ -96,11 +98,11 @@ public class CSVActions {
         }
     }
 
-    static synchronized Map<String, String> readAll() {
+    public static synchronized Map<String, String> readAll() {
         Map<String, String> steamDiscordIds = new HashMap<>();
         try (
-                Reader reader = Files.newBufferedReader(ALL_PLAYERS);
-                CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
+            Reader reader = Files.newBufferedReader(ALL_PLAYERS);
+            CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
         ) {
             csvParser.getRecords().stream().skip(1).forEach(e -> {
                 steamDiscordIds.put(e.get(0), e.get(1));
@@ -111,7 +113,7 @@ public class CSVActions {
         return steamDiscordIds;
     }
 
-    static synchronized void appendToAll(String steamId, String discordId) {
+    public static synchronized void appendToAll(String steamId, String discordId) {
         try {
             Map<String, String> allSteamDiscordIds = readAll();
             emptyCSV(ALL_PLAYERS);
@@ -119,7 +121,7 @@ public class CSVActions {
 
             BufferedWriter writer = Files.newBufferedWriter(ALL_PLAYERS);
             CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT
-                    .withHeader("SteamID", "DiscordId"));
+                .withHeader("SteamID", "DiscordId"));
 
             allSteamDiscordIds.forEach((k, v) -> {
                 try {
@@ -149,10 +151,10 @@ public class CSVActions {
 
     private static <T, E> T getKeyByValue(Map<T, E> map, E value) {
         return map.entrySet()
-                .stream()
-                .filter(entry -> Objects.equals(entry.getValue(), value))
-                .map(Map.Entry::getKey)
-                .findAny().get();
+            .stream()
+            .filter(entry -> Objects.equals(entry.getValue(), value))
+            .map(Map.Entry::getKey)
+            .findAny().get();
     }
 
 }

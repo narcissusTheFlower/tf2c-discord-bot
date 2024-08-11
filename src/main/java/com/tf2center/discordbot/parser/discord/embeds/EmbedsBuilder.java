@@ -105,8 +105,8 @@ public class EmbedsBuilder {
         List<EmbedCreateFields.Field> tempBLU = new ArrayList<>();
         slots.get("Blu").forEach(bluSlot -> tempBLU.add(
                 EmbedCreateFields.Field.of(
-                    bluSlot.getTf2Class().get().getDiscordClassValue(),
-                    bluSlot.isEmpty() ? buildLobbyJoinLink(String.valueOf(lobbyDTO.getId()), bluSlot) : bluSlot.getPlayerName().get(),
+                    bluSlot.getTf2Class().getDiscordClassValue(),
+                    bluSlot.isEmpty() ? buildLobbyJoinLink(String.valueOf(lobbyDTO.getId()), bluSlot) : bluSlot.getPlayerName(),
                     true)
         ));
 
@@ -122,8 +122,8 @@ public class EmbedsBuilder {
         List<EmbedCreateFields.Field> tempRED = new ArrayList<>();
         slots.get("Red").forEach(redSlot -> tempRED.add(
                 EmbedCreateFields.Field.of(
-                    redSlot.getTf2Class().get().getDiscordClassValue(),
-                    redSlot.isEmpty() ? buildLobbyJoinLink(String.valueOf(lobbyDTO.getId()), redSlot) : redSlot.getPlayerName().get(),
+                    redSlot.getTf2Class().getDiscordClassValue(),
+                    redSlot.isEmpty() ? buildLobbyJoinLink(String.valueOf(lobbyDTO.getId()), redSlot) : redSlot.getPlayerName(),
                     true)
         ));
 
@@ -136,12 +136,12 @@ public class EmbedsBuilder {
     }
 
     private String buildLobbyJoinLink(String lobbyId, SlotDTO bluSlot) {
-        TF2Class tf2Class = bluSlot.getTf2Class().get();
+        TF2Class tf2Class = bluSlot.getTf2Class();
         return new StringBuilder()
             .append("[Join](https://tf2center.com/join/lobby/")
             .append(lobbyId)
             .append("/")
-            .append(bluSlot.getTeam().get().getTeamString())
+            .append(bluSlot.getTeam().getTeamString())
             .append("/")
             .append(tf2Class.getDiscordClassKey())
             .append(")")

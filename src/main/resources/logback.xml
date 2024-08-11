@@ -16,13 +16,14 @@
     Appenders
     Used only for development or debuggin
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+
         <encoder>
             <pattern>%d{HH:mm:ss.SS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
     <appender name="FILE-ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/tf2cfetch.log.log</file>
+        <file>logs/tf2cfetch.log</file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>logs/archived/tf2cfetchrolling.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
@@ -42,6 +43,7 @@
     <!-- Assigning default appenders -->
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
-        <!--        <appender-ref ref="FILE-ROLLING"/>-->
+        <appender-ref ref="FILE-ROLLING"/>
     </root>
+
 </configuration>

@@ -1,6 +1,6 @@
 package com.tf2center.discordbot.parser.discord.listeners.commands;
 
-import com.tf2center.discordbot.parser.discord.notifications.CSVActions;
+import com.tf2center.discordbot.parser.discord.notifications.csv.CSVActions;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import org.slf4j.Logger;
@@ -28,7 +28,9 @@ public class NotificationsOffCommand implements SlashCommand {
 
     @Override
     public Mono<Void> handle(ChatInputInteractionEvent event) {
+        logger.info("Person trying to UNsubscribe: " + event.getInteraction().getUser().getGlobalName().get());
         CSVActions.deleteFromSubscribers(event.getInteraction().getUser().getId());
+        logger.info("Person successfully UNsubbed");
         return event.reply()
             .withContent("Notifications are OFF.")
                 .withEphemeral(false);
