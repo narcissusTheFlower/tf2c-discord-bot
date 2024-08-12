@@ -42,12 +42,11 @@ public class Scheduler {
         Map<String, Collection<MainPageObject>> mainPageObjects = MainPageParser.getInstance().parse();
         Map<String, Set<EmbedCreateSpec>> embeds = EmbedsBuilder.getInstance().build(mainPageObjects);
         embedsPublisher.run(embeds);
-        notificationManager.manage(mainPageObjects.get("Lobbies"));
+        notificationManager.manageWithLobbies(mainPageObjects.get("Lobbies"));
         logger.info("Scheduler updated with {} lobbies, {} substitution slots",
             mainPageObjects.get("Lobbies").size(),
             mainPageObjects.get("Subs").size()
         );
-        //logger.info(LobbiesLogger.of(mainPageObjects).toString());
     }
 
 

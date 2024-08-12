@@ -29,7 +29,7 @@ public class NotificationsOffCommand implements SlashCommand {
     @Override
     public Mono<Void> handle(ChatInputInteractionEvent event) {
         logger.info("Person trying to UNsubscribe: " + event.getInteraction().getUser().getGlobalName().get());
-        CSVActions.deleteFromSubscribers(event.getInteraction().getUser().getId());
+        CSVActions.getInstance().deleteFromSubscribers(event.getInteraction().getUser().getId());
         logger.info("Person successfully UNsubbed");
         return event.reply()
             .withContent("Notifications are OFF.")

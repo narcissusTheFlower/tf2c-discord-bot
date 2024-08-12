@@ -7,6 +7,9 @@ import okhttp3.Response;
 
 import java.io.IOException;
 
+/**
+ * Steam API class
+ */
 public class SteamApiCaller {
 
     private static final OkHttpClient CLIENT = new OkHttpClient();

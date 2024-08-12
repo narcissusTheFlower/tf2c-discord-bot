@@ -1,31 +1,34 @@
 package com.tf2center.discordbot.parser.discord.notifications;
 
 import java.util.Objects;
-import java.util.Set;
 
-public class NotifiedPlayerDestructor{
-    private String steamId;
+public class NotifiedPlayerDestructor {
+    private final String steamId;
+    private long epochSeconds;
+
+    private NotifiedPlayerDestructor(String steamId, long epochSeconds) {
+        this.steamId = steamId;
+        this.epochSeconds = epochSeconds;
+    }
+
+    private NotifiedPlayerDestructor(String steamId) {
+        this.steamId = steamId;
+    }
+
+    public static NotifiedPlayerDestructor of(String steamId, long epochSeconds) {
+        return new NotifiedPlayerDestructor(steamId, epochSeconds);
+    }
+
+    public static NotifiedPlayerDestructor of(String steamId) {
+        return new NotifiedPlayerDestructor(steamId);
+    }
+
     public String getSteamId() {
         return steamId;
     }
 
-    NotifiedPlayerDestructor(String steamId, Set<NotifiedPlayerDestructor> ownList){
-        this.steamId = steamId;
-
-        Thread sleep = new Thread(() -> {
-            try {
-                //Defines for how long a person will not be getting another notification
-                Thread.sleep(15_000);
-                ownList.remove(this);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        });
-        sleep.start();
-    }
-
-    NotifiedPlayerDestructor(String steamId) {
-        this.steamId = steamId;
+    public long getEpochSeconds() {
+        return epochSeconds;
     }
 
     @Override

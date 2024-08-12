@@ -29,7 +29,7 @@ public class NotificationsOnCommand implements SlashCommand {
     @Override
     public Mono<Void> handle(ChatInputInteractionEvent event) {
         logger.info("Person trying to subscribe: " + event.getInteraction().getUser().getGlobalName().get());
-        CSVActions.appendToSubscribers(
+        CSVActions.getInstance().appendToSubscribers(
             event.getInteraction().getUser().getId(),
             event.getInteraction().getChannelId()
         );

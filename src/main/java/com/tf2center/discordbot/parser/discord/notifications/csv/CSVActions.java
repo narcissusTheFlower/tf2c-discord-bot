@@ -14,17 +14,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Singleton class responsible for working with csv files with the help of apache-commons-csv
+ */
 public class CSVActions {
-
 
     private static final Path SUBSCRIBERS = CSVFileInitializer.getSubscribersCSV();
     private static final Path ALL_PLAYERS = CSVFileInitializer.getAllPlayersCSV();
-
+    private static final CSVActions INSTANCE = new CSVActions();
 
     private CSVActions() {
+        throw new AssertionError();
     }
 
-    public static synchronized Map<String, List<String>> readSubscribers() {
+    public static CSVActions getInstance() {
+        return INSTANCE;
+    }
+
+    /**
+     * @return a Map of Steam ID as a key and a collection with first 2 elements being Discord user ID and Discord chat ID.
+     */
+    public synchronized Map<String, List<String>> readSubscribers() {
         Map<String, List<String>> steamDiscordIds = new HashMap<>();
         try (
             Reader reader = Files.newBufferedReader(SUBSCRIBERS);
@@ -42,7 +52,12 @@ public class CSVActions {
         return steamDiscordIds;
     }
 
-    public static synchronized void appendToSubscribers(Snowflake discordUserId, Snowflake chatId) {
+    /**
+     * Append new subscriber to the .csv file.
+     * @param discordUserId Discord snowflake of discord user ID
+     * @param chatId Discord snowflake of discord user <b>chat</b> ID
+     */
+    public synchronized void appendToSubscribers(Snowflake discordUserId, Snowflake chatId) {
         try {
             Map<String, List<String>> SubscribersSteamDiscordIds = readSubscribers();
             Map<String, String> AllPlayersSteamDiscordIds = readAll();
@@ -73,7 +88,11 @@ public class CSVActions {
         }
     }
 
-    public static synchronized void deleteFromSubscribers(Snowflake discordId) {
+    /**
+     * Delete a subscriber from the .csv file.
+     * @param discordId Discord snowflake of discord user ID
+     */
+    public synchronized void deleteFromSubscribers(Snowflake discordId) {
         try {
             Map<String, List<String>> steamDiscordIds = readSubscribers();
             emptyCSV(SUBSCRIBERS);
@@ -98,7 +117,11 @@ public class CSVActions {
         }
     }
 
-    public static synchronized Map<String, String> readAll() {
+    /**
+     * Get every Discord user from .csv file.
+     * @return Map of Steam ID to Discord user ID
+     */
+    public synchronized Map<String, String> readAll() {
         Map<String, String> steamDiscordIds = new HashMap<>();
         try (
             Reader reader = Files.newBufferedReader(ALL_PLAYERS);
@@ -113,7 +136,12 @@ public class CSVActions {
         return steamDiscordIds;
     }
 
-    public static synchronized void appendToAll(String steamId, String discordId) {
+    /**
+     * Append new Discord user to the .csv file.
+     * @param steamId
+     * @param discordId
+     */
+    public synchronized void appendToAll(String steamId, String discordId) {
         try {
             Map<String, String> allSteamDiscordIds = readAll();
             emptyCSV(ALL_PLAYERS);
@@ -139,7 +167,10 @@ public class CSVActions {
         }
     }
 
-    static private void emptyCSV(Path csvFile) {
+    /**
+     * Clear a .csv file. Given csv file will be empty when this method returns.
+     */
+    private void emptyCSV(Path csvFile) {
         File csv = new File(csvFile.toString());
         try (FileWriter fileWriter = new FileWriter(csv)) {
             String blank = "";
@@ -149,7 +180,10 @@ public class CSVActions {
         }
     }
 
-    private static <T, E> T getKeyByValue(Map<T, E> map, E value) {
+    /**
+     * Utility method for getting key from the map by value.
+     */
+    private <T, E> T getKeyByValue(Map<T, E> map, E value) {
         return map.entrySet()
             .stream()
             .filter(entry -> Objects.equals(entry.getValue(), value))

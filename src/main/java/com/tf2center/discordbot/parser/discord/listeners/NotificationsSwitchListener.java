@@ -27,7 +27,7 @@ public class NotificationsSwitchListener {
                 !event.getClient().getSelf().block().getId().equals(THIS_BOT_ID)
         ) {
 
-            CSVActions.appendToSubscribers(
+            CSVActions.getInstance().appendToSubscribers(
                 event.getMessage().getAuthor().get().getId(),
                 event.getMessage().getChannelId()
             );
@@ -40,7 +40,7 @@ public class NotificationsSwitchListener {
             event.getMessage().getContent().toLowerCase().contains("notifs off") &&
                 !event.getClient().getSelf().block().getId().equals(THIS_BOT_ID)
         ) {
-            CSVActions.deleteFromSubscribers(event.getMessage().getAuthor().get().getId());
+            CSVActions.getInstance().deleteFromSubscribers(event.getMessage().getAuthor().get().getId());
             client.getChannelById(event.getMessage().getChannelId())
                 .ofType(MessageChannel.class)
                 .flatMap(channel -> channel.createMessage("You are unsubscribed from notifications ❗"))
