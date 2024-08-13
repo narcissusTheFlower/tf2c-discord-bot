@@ -40,10 +40,13 @@ public class Scheduler {
     @Scheduled(fixedRate = 6_000)
     private void runCycle() {
         Map<String, Collection<MainPageObject>> mainPageObjects = MainPageParser.getInstance().parse();
-        logger.info("Scheduler updated with {} lobbies, {} substitution slots", mainPageObjects.get("Lobbies").size(), mainPageObjects.get("Subs").size());
         Map<String, Set<EmbedCreateSpec>> embeds = EmbedsBuilder.getInstance().build(mainPageObjects);
         embedsPublisher.run(embeds);
-        notificationManager.manage(mainPageObjects.get("Lobbies"));
+        notificationManager.manageWithLobbies(mainPageObjects.get("Lobbies"));
+        logger.info("Scheduler updated with {} lobbies, {} substitution slots",
+            mainPageObjects.get("Lobbies").size(),
+            mainPageObjects.get("Subs").size()
+        );
     }
 
 

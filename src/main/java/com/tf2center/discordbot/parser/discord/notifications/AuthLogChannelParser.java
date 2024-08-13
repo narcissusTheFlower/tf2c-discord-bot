@@ -1,53 +1,54 @@
 package com.tf2center.discordbot.parser.discord.notifications;
 
+import com.tf2center.discordbot.parser.discord.notifications.csv.CSVActions;
 import discord4j.common.util.Snowflake;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.object.Embed;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.channel.Channel;
 import discord4j.core.object.entity.channel.GuildMessageChannel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
-//@Component
-//@Scope("singleton")
+@Component
+@Scope("singleton")
 public class AuthLogChannelParser {
 
     private final Mono<Channel> textChannel;
 
-//    @Autowired
+    @Autowired
     public AuthLogChannelParser(GatewayDiscordClient client) {
         textChannel = client.getChannelById(
             Snowflake.of(Long.parseLong(System.getenv("TF2CAUTH")))
         );
     }
 
-    //    @Scheduled(fixedRate = 30_000)
+    @Scheduled(fixedRate = 10_000)
     public void parseLogChannel() {
-//        List<Message> messages = textChannel.ofType(GuildMessageChannel.class)
-//            .map(channel -> channel.getMessagesBefore(Snowflake.of(Instant.now()))
-//                .take(5)
-//                .collectList()
-//                .block()
-//            ).block();
 
-        Map<String, String> steamDiscordIds = parseIds(
-            textChannel.ofType(GuildMessageChannel.class)
+        List<Message> messages = textChannel.ofType(GuildMessageChannel.class)
                 .map(channel -> channel.getMessagesBefore(Snowflake.of(Instant.now()))
                     .take(5)
                     .collectList()
                     .block()
-                ).block()
-        );
-        Map<String, String> steamDiscordIdsFromCSV = CSVActions.readAll();
+                ).block();
+
+        Map<String, String> steamDiscordIds = parseIds(Objects.requireNonNull(messages));
+
+        Map<String, String> steamDiscordIdsFromCSV = CSVActions.getInstance().readAll();
 
         steamDiscordIds.forEach((steamId, discordId) -> {
             if (steamDiscordIdsFromCSV.containsKey(steamId)) {
-                CSVActions.appendToAll(steamId, discordId);
+                CSVActions.getInstance().appendToAll(steamId, discordId);
             }
         });
     }

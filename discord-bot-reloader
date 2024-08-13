@@ -2,6 +2,6 @@
 
 
 pkill -f tf2c-parser
-sleep 2
-bash -c "exec -a tf2c-parser java -jar /home/discord/bots/tf2c-discord-lobby-parser-1.1.2.jar"
+sleep 1
+bash -c "exec -a tf2c-parser java -jar /home/discord/bots/tf2c-discord-lobby-parser-2.0.0.jar"
 

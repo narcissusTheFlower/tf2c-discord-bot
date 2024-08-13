@@ -1,4 +1,4 @@
-package com.tf2center.discordbot.parser.discord.notifications;
+package com.tf2center.discordbot.parser.discord.notifications.csv;
 
 import com.tf2center.discordbot.parser.exceptions.TF2CCSVException;
 import discord4j.common.util.Snowflake;
@@ -14,24 +14,36 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Singleton class responsible for working with csv files with the help of apache-commons-csv
+ */
 public class CSVActions {
 
-    private static final Path SUBSCRIBERS = Path.of(System.getenv("SUBSCRIBERS_CSV"));
-    private static final Path ALL_PLAYERS = Path.of(System.getenv("ALL_PLAYERS_CSV"));
+    private static final Path SUBSCRIBERS = CSVFileInitializer.getSubscribersCSV();
+    private static final Path ALL_PLAYERS = CSVFileInitializer.getAllPlayersCSV();
+    private static final CSVActions INSTANCE = new CSVActions();
 
     private CSVActions() {
+        throw new AssertionError();
     }
 
-    static synchronized Map<String, List<String>> readSubscribers() {
+    public static CSVActions getInstance() {
+        return INSTANCE;
+    }
+
+    /**
+     * @return a Map of Steam ID as a key and a collection with first 2 elements being Discord user ID and Discord chat ID.
+     */
+    public synchronized Map<String, List<String>> readSubscribers() {
         Map<String, List<String>> steamDiscordIds = new HashMap<>();
         try (
-                Reader reader = Files.newBufferedReader(SUBSCRIBERS);
-                CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
+            Reader reader = Files.newBufferedReader(SUBSCRIBERS);
+            CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
         ) {
             csvParser.getRecords().stream().skip(1).forEach(e -> {
                 steamDiscordIds.put(
-                        e.get(0),
-                        List.of(e.get(1), e.get(2))
+                    e.get(0),
+                    List.of(e.get(1), e.get(2))
                 );
             });
         } catch (IOException e) {
@@ -40,7 +52,12 @@ public class CSVActions {
         return steamDiscordIds;
     }
 
-    public static synchronized void appendToSubscribers(Snowflake discordUserId, Snowflake chatId) {
+    /**
+     * Append new subscriber to the .csv file.
+     * @param discordUserId Discord snowflake of discord user ID
+     * @param chatId Discord snowflake of discord user <b>chat</b> ID
+     */
+    public synchronized void appendToSubscribers(Snowflake discordUserId, Snowflake chatId) {
         try {
             Map<String, List<String>> SubscribersSteamDiscordIds = readSubscribers();
             Map<String, String> AllPlayersSteamDiscordIds = readAll();
@@ -48,13 +65,13 @@ public class CSVActions {
 
             String steamID = getKeyByValue(AllPlayersSteamDiscordIds, discordUserId.asString());
             SubscribersSteamDiscordIds.put(
-                    steamID,
-                    List.of(discordUserId.asString(), chatId.asString())
+                steamID,
+                List.of(discordUserId.asString(), chatId.asString())
             );
 
             BufferedWriter writer = Files.newBufferedWriter(SUBSCRIBERS);
             CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT
-                    .withHeader("SteamID", "DiscordId", "ChatId"));
+                .withHeader("SteamID", "DiscordId", "ChatId"));
 
             SubscribersSteamDiscordIds.forEach((steamId, list) -> {
                 try {
@@ -71,7 +88,11 @@ public class CSVActions {
         }
     }
 
-    public static synchronized void deleteFromSubscribers(Snowflake discordId) {
+    /**
+     * Delete a subscriber from the .csv file.
+     * @param discordId Discord snowflake of discord user ID
+     */
+    public synchronized void deleteFromSubscribers(Snowflake discordId) {
         try {
             Map<String, List<String>> steamDiscordIds = readSubscribers();
             emptyCSV(SUBSCRIBERS);
@@ -79,7 +100,7 @@ public class CSVActions {
 
             BufferedWriter writer = Files.newBufferedWriter(SUBSCRIBERS);
             CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT
-                    .withHeader("SteamID", "DiscordId", "ChatId"));
+                .withHeader("SteamID", "DiscordId", "ChatId"));
 
             steamDiscordIds.forEach((steamId, list) -> {
                 try {
@@ -96,11 +117,15 @@ public class CSVActions {
         }
     }
 
-    static synchronized Map<String, String> readAll() {
+    /**
+     * Get every Discord user from .csv file.
+     * @return Map of Steam ID to Discord user ID
+     */
+    public synchronized Map<String, String> readAll() {
         Map<String, String> steamDiscordIds = new HashMap<>();
         try (
-                Reader reader = Files.newBufferedReader(ALL_PLAYERS);
-                CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
+            Reader reader = Files.newBufferedReader(ALL_PLAYERS);
+            CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
         ) {
             csvParser.getRecords().stream().skip(1).forEach(e -> {
                 steamDiscordIds.put(e.get(0), e.get(1));
@@ -111,7 +136,12 @@ public class CSVActions {
         return steamDiscordIds;
     }
 
-    static synchronized void appendToAll(String steamId, String discordId) {
+    /**
+     * Append new Discord user to the .csv file.
+     * @param steamId
+     * @param discordId
+     */
+    public synchronized void appendToAll(String steamId, String discordId) {
         try {
             Map<String, String> allSteamDiscordIds = readAll();
             emptyCSV(ALL_PLAYERS);
@@ -119,7 +149,7 @@ public class CSVActions {
 
             BufferedWriter writer = Files.newBufferedWriter(ALL_PLAYERS);
             CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT
-                    .withHeader("SteamID", "DiscordId"));
+                .withHeader("SteamID", "DiscordId"));
 
             allSteamDiscordIds.forEach((k, v) -> {
                 try {
@@ -137,7 +167,10 @@ public class CSVActions {
         }
     }
 
-    static private void emptyCSV(Path csvFile) {
+    /**
+     * Clear a .csv file. Given csv file will be empty when this method returns.
+     */
+    private void emptyCSV(Path csvFile) {
         File csv = new File(csvFile.toString());
         try (FileWriter fileWriter = new FileWriter(csv)) {
             String blank = "";
@@ -147,12 +180,15 @@ public class CSVActions {
         }
     }
 
-    private static <T, E> T getKeyByValue(Map<T, E> map, E value) {
+    /**
+     * Utility method for getting key from the map by value.
+     */
+    private <T, E> T getKeyByValue(Map<T, E> map, E value) {
         return map.entrySet()
-                .stream()
-                .filter(entry -> Objects.equals(entry.getValue(), value))
-                .map(Map.Entry::getKey)
-                .findAny().get();
+            .stream()
+            .filter(entry -> Objects.equals(entry.getValue(), value))
+            .map(Map.Entry::getKey)
+            .findAny().get();
     }
 
 }

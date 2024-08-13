@@ -17,19 +17,20 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Purpose of this class is to create DTOs that represent TF2Center entities, like lobbies and substitutes slots
+ * Purpose of this singleton class is to create DTOs that represent TF2Center entities, like lobbies and substitutes slots
  * by crawling through HTML and parsing it.
  */
 public class MainPageParser {
 
     private static final Logger logger = LoggerFactory.getLogger(MainPageParser.class);
     private static final String TF2C_URL = "https://tf2center.com/lobbies";
-
+    private static final MainPageParser INSTANCE = new MainPageParser();
     private MainPageParser() {
+        throw new AssertionError();
     }
 
     public static MainPageParser getInstance() {
-        return new MainPageParser();
+        return INSTANCE;
     }
 
     //Where each node is a sub spot

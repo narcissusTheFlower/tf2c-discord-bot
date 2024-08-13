@@ -157,28 +157,28 @@ public class LobbyDTO implements MainPageObject {
 
     @Override
     public String toString() {
-        return "LobbyDTO{" +
-            "id=" + id +
-            ", leaderSteamId=" + leaderSteamId +
-            ", region='" + region + '\'' +
-            ", vcRequired=" + vcRequired +
-            ", gameType=" + gameType +
-            ", isReady=" + isReady +
-            ", map='" + map + '\'' +
-            ", thumbnailURL='" + thumbnailURL + '\'' +
-            ", playersInLobby=" + playersInLobby +
-            ", playersForGame=" + playersForGame +
-            ", restrictionsText='" + restrictionsText + '\'' +
-            ", regionLock=" + regionLock +
-            ", balancedLobby=" + balancedLobby +
-            ", advanced=" + advanced +
-            ", teams=" + teams +
-//            ", playerSlotList=" + playerSlotList +
-            ", offclassingAllowed=" + offclassingAllowed +
-            ", config='" + config + '\'' +
-            ", server='" + server + '\'' +
-            ", leaderName='" + leaderName + '\'' +
-            ", timeOpened='" + timeOpened + '\'' +
+        return "LobbyDTO{" + '\n' +
+            "id=" + id + '\n' +
+            ", leaderSteamId=" + leaderSteamId + '\n' +
+            ", region='" + region + '\'' + '\n' +
+            ", vcRequired=" + vcRequired + '\n' +
+            ", gameType=" + gameType + '\n' +
+            ", isReady=" + isReady + '\n' +
+            ", map='" + map + '\'' + '\n' +
+            ", thumbnailURL='" + thumbnailURL + '\'' + '\n' +
+            ", playersInLobby=" + playersInLobby + '\n' +
+            ", playersForGame=" + playersForGame + '\n' +
+            ", restrictionsText='" + restrictionsText + '\'' + '\n' +
+            ", regionLock=" + regionLock + '\n' +
+            ", balancedLobby=" + balancedLobby + '\n' +
+            ", advanced=" + advanced + '\n' +
+            ", teams=" + teams + '\n' +
+//            ", playerSlotList=" + playerSlotList + '\n'+
+            ", offclassingAllowed=" + offclassingAllowed + '\n' +
+            ", config='" + config + '\'' + '\n' +
+            ", server='" + server + '\'' + '\n' +
+            ", leaderName='" + leaderName + '\'' + '\n' +
+            ", timeOpened='" + timeOpened + '\'' + '\n' +
             '}';
     }
 
